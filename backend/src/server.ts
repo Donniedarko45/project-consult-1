@@ -47,6 +47,14 @@ app.get('/health', (_req: Request, res: Response) => {
     });
 });
 
+app.get('/api/health', (_req: Request, res: Response) => {
+    res.json({
+        success: true,
+        message: 'Stock Course Backend API is running',
+        timestamp: new Date().toISOString(),
+    });
+});
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
