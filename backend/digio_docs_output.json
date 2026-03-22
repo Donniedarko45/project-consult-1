@@ -1,0 +1,18 @@
+{
+  "blocks": [
+    "{\n  \"customer_identifier\": \"someone@gmail.in\",\n  \"customer_name\": \"Abhishek\",\n  \"template_name\": \"FACEMATCH-VERIFY\",\n  \"notify_customer\": true,\n  \"expire_in_days\": 10,\n  \"generate_access_token\": true,\n  \"reference_id\": \"1234\",\n  \"transaction_id\": \"ABCW233\",\n  \"generate_deeplink_info\": true\n}",
+    "curl -X POST \"https://api.digio.in/client/kyc/v2/request/with_template\" \\\n -H 'accept: application/json'\\\n -H 'content-type: application/json' \\\n -d '{\"customer_identifier\":\"someone@gmail.in\",\"customer_name\":\"Abhishek\",\"template_name\":\"FACEMATCH-VERIFY\",\"notify_customer\":true,\"expire_in_days\":10,\"generate_access_token\":true,\"reference_id\":\"1234\",\"transaction_id\":\"ABCW233\",\"generate_deeplink_info\":true}' "
+  ],
+  "urls": [
+    "Request Body Params (application/json)",
+    "\n      \n      \n      \n        \n         Create Request\n        \n             \n              post \n              {BASE_URL}/client/kyc/v2/request/with_template\n            \n          \n        \n       Create a new request in DigiStudio from a standard or custom template\n\n      \n      \n           \n          \n          \n              \n              \n                \n                   HTTP Basic \n                \n                \n                  \n                  \n                    \n                      \n                            \n                              Requires\n                              Base 64 encoded clientId:clientSecret in Authorization header\n                              \n                            \n                  \n                \n              \n            \n        \n      \n      \n    \n      \n      \n      \n         \n\n        \n\n         \n      \n    ",
+    " Create Request"
+  ],
+  "codeBlocks": [
+    "Authorization",
+    "header",
+    "Basic",
+    "username:password",
+    "curl -X POST \"https://api.digio.in/client/kyc/v2/request/with_template\" \\\n -H 'accept: application/json'\\\n -H 'content-type: application/json' \\\n -d '{\"customer_identifier\":\"someone@gmail.in\",\"customer_name\":\"Abhishek\",\"template_name\":\"FACEMATCH-VERIFY\",\"notify_customer\":true,\"expire_in_days\":10,\"generate_access_token\":true,\"reference_id\":\"1234\",\"transaction_id\":\"ABCW233\",\"generate_deeplink_info\":true}' "
+  ]
+}
