@@ -40,6 +40,21 @@ const getEnvVar = (key: string, defaultValue?: string): string => {
     return value;
 };
 
+const getEnvVarFromKeys = (keys: string[], defaultValue?: string): string => {
+    for (const key of keys) {
+        const value = process.env[key];
+        if (value !== undefined && value !== '') {
+            return value;
+        }
+    }
+
+    if (defaultValue !== undefined) {
+        return defaultValue;
+    }
+
+    throw new Error(`Missing required environment variable. Expected one of: ${keys.join(', ')}`);
+};
+
 export const config: Config = {
     port: parseInt(getEnvVar('PORT', '3000'), 10),
     nodeEnv: getEnvVar('NODE_ENV', 'development'),
@@ -50,7 +65,7 @@ export const config: Config = {
     twilio: {
         accountSid: getEnvVar('TWILIO_ACCOUNT_SID'),
         authToken: getEnvVar('TWILIO_AUTH_TOKEN'),
-        phoneNumber: getEnvVar('TWILIO_PHONE_NUMBER'),
+        phoneNumber: getEnvVarFromKeys(['TWILIO_PHONE_NUMBER', 'TWILIO_WHATSAPP_NUMBER']),
         otpTemplateSid: getEnvVar('TWILIO_OTP_TEMPLATE_SID', ''),
     },
     cashfree: {

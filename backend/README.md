@@ -51,7 +51,7 @@ Required variables:
 - `JWT_SECRET` - Secret for JWT signing
 - `TWILIO_ACCOUNT_SID` - Twilio account SID
 - `TWILIO_AUTH_TOKEN` - Twilio auth token
-- `TWILIO_WHATSAPP_NUMBER` - Twilio WhatsApp number
+- `TWILIO_PHONE_NUMBER` - Twilio sender number (or `TWILIO_WHATSAPP_NUMBER` as alias)
 - `CASHFREE_CLIENT_ID` - Cashfree client ID
 - `CASHFREE_CLIENT_SECRET` - Cashfree client secret
 
