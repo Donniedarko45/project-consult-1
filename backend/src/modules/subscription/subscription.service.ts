@@ -57,9 +57,11 @@ export const initSubscription = async (
             throw ApiError.conflict('You already have an active subscription');
         }
         if (existingSubscription.status === SubscriptionStatus.PENDING) {
-            throw ApiError.conflict(
-                'You have a pending subscription. Please complete the payment.'
-            );
+            // Return the existing pending subscription so the user can complete payment
+            return {
+                subscription: existingSubscription,
+                message: 'You have a pending subscription. Please proceed to payment.',
+            };
         }
     }
 
