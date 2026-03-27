@@ -1,4 +1,4 @@
-export const BASE_URL = "https://project-consult-1.onrender.com";
+export const BASE_URL = "https://api.ashwinisdresearch.com";
 
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -33,8 +33,9 @@ async function request<T>(
   body?: any,
   customHeaders: Record<string, string> = {},
 ): Promise<T> {
-  const url = `${BASE_URL}${endpoint.startsWith("/") ? endpoint : "/" + endpoint
-    }`;
+  const url = `${BASE_URL}${
+    endpoint.startsWith("/") ? endpoint : "/" + endpoint
+  }`;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
