@@ -65,7 +65,7 @@ async function request<T>(
   }
 }
 
-// Auth API - OTP-based WhatsApp authentication
+// Auth API - OTP-based WhatsApp authentications
 export const AuthApi = {
   // Send OTP to user's WhatsApp number
   sendOTP: (phone: string) => request("/api/auth/send-otp", "POST", { phone }),
