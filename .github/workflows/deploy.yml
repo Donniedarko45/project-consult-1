@@ -33,6 +33,33 @@ jobs:
             REPO_URL="https://github.com/${{ github.repository }}.git"
             BRANCH="main"
 
+            # Fail fast with clear messaging if required secrets are missing.
+            DATABASE_URL_VALUE="${{ secrets.DATABASE_URL }}"
+            JWT_SECRET_VALUE="${{ secrets.JWT_SECRET }}"
+            TWILIO_ACCOUNT_SID_VALUE="${{ secrets.TWILIO_ACCOUNT_SID }}"
+            TWILIO_AUTH_TOKEN_VALUE="${{ secrets.TWILIO_AUTH_TOKEN }}"
+            CASHFREE_CLIENT_ID_VALUE="${{ secrets.CASHFREE_CLIENT_ID }}"
+            CASHFREE_CLIENT_SECRET_VALUE="${{ secrets.CASHFREE_CLIENT_SECRET }}"
+            CASHFREE_ENV_VALUE="${{ secrets.CASHFREE_ENV }}"
+
+            if [ -z "$DATABASE_URL_VALUE" ]; then echo "Missing required GitHub secret: DATABASE_URL"; exit 1; fi
+            if [ -z "$JWT_SECRET_VALUE" ]; then echo "Missing required GitHub secret: JWT_SECRET"; exit 1; fi
+            if [ -z "$TWILIO_ACCOUNT_SID_VALUE" ]; then echo "Missing required GitHub secret: TWILIO_ACCOUNT_SID"; exit 1; fi
+            if [ -z "$TWILIO_AUTH_TOKEN_VALUE" ]; then echo "Missing required GitHub secret: TWILIO_AUTH_TOKEN"; exit 1; fi
+            if [ -z "$CASHFREE_CLIENT_ID_VALUE" ]; then echo "Missing required GitHub secret: CASHFREE_CLIENT_ID"; exit 1; fi
+            if [ -z "$CASHFREE_CLIENT_SECRET_VALUE" ]; then echo "Missing required GitHub secret: CASHFREE_CLIENT_SECRET"; exit 1; fi
+            if [ -z "$CASHFREE_ENV_VALUE" ]; then echo "Missing required GitHub secret: CASHFREE_ENV"; exit 1; fi
+
+            TWILIO_PHONE_VALUE="${{ secrets.TWILIO_PHONE_NUMBER }}"
+            TWILIO_WHATSAPP_VALUE="${{ secrets.TWILIO_WHATSAPP_NUMBER }}"
+            if [ -z "$TWILIO_PHONE_VALUE" ] && [ -z "$TWILIO_WHATSAPP_VALUE" ]; then
+              echo "Missing Twilio phone secret. Set TWILIO_PHONE_NUMBER or TWILIO_WHATSAPP_NUMBER."
+              exit 1
+            fi
+            if [ -z "$TWILIO_PHONE_VALUE" ]; then
+              TWILIO_PHONE_VALUE="$TWILIO_WHATSAPP_VALUE"
+            fi
+
             echo "==> Pulling latest code..."
             cd $APP_DIR
 
@@ -57,7 +84,8 @@ jobs:
             JWT_EXPIRES_IN=7d
             TWILIO_ACCOUNT_SID=${{ secrets.TWILIO_ACCOUNT_SID }}
             TWILIO_AUTH_TOKEN=${{ secrets.TWILIO_AUTH_TOKEN }}
-            TWILIO_PHONE_NUMBER=${{ secrets.TWILIO_PHONE_NUMBER }}
+            TWILIO_PHONE_NUMBER=__TWILIO_PHONE_NUMBER__
+            TWILIO_WHATSAPP_NUMBER=__TWILIO_WHATSAPP_NUMBER__
             CASHFREE_CLIENT_ID=${{ secrets.CASHFREE_CLIENT_ID }}
             CASHFREE_CLIENT_SECRET=${{ secrets.CASHFREE_CLIENT_SECRET }}
             CASHFREE_ENV=${{ secrets.CASHFREE_ENV }}
@@ -67,6 +95,8 @@ jobs:
             ENVEOF
             # Remove leading whitespace from heredoc
             sed -i 's/^[[:space:]]*//' backend/.env
+            sed -i "s|__TWILIO_PHONE_NUMBER__|$TWILIO_PHONE_VALUE|g" backend/.env
+            sed -i "s|__TWILIO_WHATSAPP_NUMBER__|$TWILIO_WHATSAPP_VALUE|g" backend/.env
 
             echo "==> Building and deploying containers..."
             export NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
@@ -74,6 +104,33 @@ jobs:
             docker compose down --remove-orphans
             docker rm -f app-certbot app-backend app-frontend app-nginx 2>/dev/null || true
             docker compose build --no-cache
+
+            # Start backend first and wait for health before bringing up dependents.
+            docker compose up -d backend
+            echo "==> Waiting for backend health..."
+            attempts=0
+            max_attempts=50
+            while [ "$attempts" -lt "$max_attempts" ]; do
+              status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}no-healthcheck{{end}}' app-backend 2>/dev/null || echo "missing")
+              if [ "$status" = "healthy" ]; then
+                echo "==> Backend is healthy."
+                break
+              fi
+              if [ "$status" = "unhealthy" ]; then
+                echo "==> Backend became unhealthy during startup."
+                docker compose logs --no-color --tail=200 backend
+                exit 1
+              fi
+              attempts=$((attempts + 1))
+              sleep 3
+            done
+
+            if [ "$status" != "healthy" ]; then
+              echo "==> Timed out waiting for backend health."
+              docker compose logs --no-color --tail=200 backend
+              exit 1
+            fi
+
             docker compose up -d --remove-orphans
 
             echo "==> Cleaning up old Docker images..."
