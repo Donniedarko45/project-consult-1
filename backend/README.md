@@ -47,6 +47,7 @@ cp .env.example .env
 ```
 
 Required variables:
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `JWT_SECRET` - Secret for JWT signing
 - `TWILIO_ACCOUNT_SID` - Twilio account SID
@@ -83,39 +84,39 @@ npm start
 
 ### Authentication
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/send-otp` | Send WhatsApp OTP |
-| POST | `/api/auth/verify-otp` | Verify OTP & get JWT |
+| Method | Endpoint               | Description          |
+| ------ | ---------------------- | -------------------- |
+| POST   | `/api/auth/send-otp`   | Send WhatsApp OTP    |
+| POST   | `/api/auth/verify-otp` | Verify OTP & get JWT |
 
 ### User
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/user/me` | Yes | Get current user |
-| POST | `/api/user/profile` | Yes | Update profile |
+| Method | Endpoint            | Auth | Description      |
+| ------ | ------------------- | ---- | ---------------- |
+| GET    | `/api/user/me`      | Yes  | Get current user |
+| POST   | `/api/user/profile` | Yes  | Update profile   |
 
 ### Plans
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/plans` | List all plans |
+| Method | Endpoint     | Description    |
+| ------ | ------------ | -------------- |
+| GET    | `/api/plans` | List all plans |
 
 ### Subscriptions
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/subscriptions/init` | Yes | Initialize subscription |
-| GET | `/api/subscriptions/current` | Yes | Get current subscription |
+| Method | Endpoint                     | Auth | Description              |
+| ------ | ---------------------------- | ---- | ------------------------ |
+| POST   | `/api/subscriptions/init`    | Yes  | Initialize subscription  |
+| GET    | `/api/subscriptions/current` | Yes  | Get current subscription |
 
 ### Payments
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/payments/create-order` | Yes | Create Cashfree order |
-| POST | `/api/webhooks/cashfree` | No* | Payment webhook |
+| Method | Endpoint                     | Auth | Description           |
+| ------ | ---------------------------- | ---- | --------------------- |
+| POST   | `/api/payments/create-order` | Yes  | Create Cashfree order |
+| POST   | `/api/webhooks/cashfree`     | No\* | Payment webhook       |
 
-*Webhook is verified using Cashfree signature
+\*Webhook is verified using Cashfree signature
 
 ## API Examples
 
