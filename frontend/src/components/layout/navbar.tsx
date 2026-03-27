@@ -142,8 +142,10 @@ export function Navbar() {
               target="_blank"
               className="hidden lg:flex items-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-all hover:scale-105 shadow-md shadow-blue-500/20"
             >
-              <Send className="w-4 h-4" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Free Channel</span>
+              <Send className="w-3 h-3" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">
+                Free Channel
+              </span>
             </a>
             <ThemeToggle />
             <div className="hidden sm:flex items-center gap-3">
@@ -295,4 +297,3 @@ export function Navbar() {
     </header>
   );
 }
-
