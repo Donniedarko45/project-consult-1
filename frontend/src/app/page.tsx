@@ -11,18 +11,16 @@ import { TestimonialsSection } from "@/components/sections/testimonials-section"
 import { FAQSection } from "@/components/sections/faq-section";
 import { CTASection } from "@/components/sections/cta-section";
 import { Footer } from "@/components/layout/footer";
+import { UrgencyStrip } from "@/components/sections/urgency-strip";
 import { FloatingIcons } from "@/components/ui/floating-icons";
 import { WorkshopsSection } from "@/components/sections/workshops-section";
-import { FadeIn } from "@/components/ui/fade-in";
-import { Video, Calendar, Users, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <FloatingIcons />
       <HeroSection />
+      <UrgencyStrip />
       <TrustStrip />
       <TelegramPromo />
       <AboutSection />
@@ -36,6 +34,7 @@ export default function Home() {
       <ProcessSection />
       <TestimonialsSection />
       <FAQSection />
+      
       <CTASection />
       <Footer />
     </main>
