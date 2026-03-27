@@ -48,13 +48,23 @@ jobs:
             exit 1
           fi
 
+          # Prefer IPv4 for GitHub-hosted runners where IPv6 routing may be unavailable.
+          TARGET_HOST="$HOST"
+          IPV4_HOST=$(getent ahostsv4 "$HOST" | awk 'NR==1 {print $1}')
+          if [ -n "$IPV4_HOST" ]; then
+            TARGET_HOST="$IPV4_HOST"
+            echo "Using IPv4 address for SSH: ${TARGET_HOST}"
+          else
+            echo "No IPv4 address found for host; trying hostname directly."
+          fi
+
           SELECTED_PORT=""
-          echo "Checking TCP connectivity to ${HOST}:${PREFERRED_PORT}..."
-          if can_connect "$HOST" "$PREFERRED_PORT"; then
+          echo "Checking TCP connectivity to ${TARGET_HOST}:${PREFERRED_PORT}..."
+          if can_connect "$TARGET_HOST" "$PREFERRED_PORT"; then
             SELECTED_PORT="$PREFERRED_PORT"
           elif [ "$PREFERRED_PORT" != "22" ]; then
             echo "Configured port ${PREFERRED_PORT} is unreachable. Trying fallback port 22..."
-            if can_connect "$HOST" "22"; then
+            if can_connect "$TARGET_HOST" "22"; then
               SELECTED_PORT="22"
               echo "Using fallback SSH port 22 for this run."
             fi
@@ -67,13 +77,14 @@ jobs:
             exit 1
           fi
 
-          echo "SSH endpoint is reachable on port ${SELECTED_PORT}."
+          echo "SSH endpoint is reachable at ${TARGET_HOST}:${SELECTED_PORT}."
+          echo "host=${TARGET_HOST}" >> "$GITHUB_OUTPUT"
           echo "port=${SELECTED_PORT}" >> "$GITHUB_OUTPUT"
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.VPS_HOST }}
+          host: ${{ steps.ssh_preflight.outputs.host }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ steps.ssh_preflight.outputs.port }}
