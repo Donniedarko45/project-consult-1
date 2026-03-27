@@ -50,6 +50,16 @@ export const initSubscription = async (
                 in: [SubscriptionStatus.ACTIVE, SubscriptionStatus.PENDING],
             },
         },
+        include: {
+            plan: {
+                select: {
+                    id: true,
+                    name: true,
+                    durationMonths: true,
+                    price: true,
+                },
+            },
+        },
     });
 
     if (existingSubscription) {
