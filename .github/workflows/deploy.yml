@@ -20,20 +20,27 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Preflight SSH connectivity
+        id: ssh_preflight
         shell: bash
         run: |
           set -e
           HOST="${{ secrets.VPS_HOST }}"
-          PORT="${{ secrets.VPS_PORT }}"
+          PREFERRED_PORT="${{ secrets.VPS_PORT }}"
 
           if [ -z "$HOST" ]; then
             echo "Missing required GitHub secret: VPS_HOST"
             exit 1
           fi
 
-          if [ -z "$PORT" ]; then
-            PORT="22"
+          if [ -z "$PREFERRED_PORT" ]; then
+            PREFERRED_PORT="22"
           fi
+
+          can_connect() {
+            local host="$1"
+            local port="$2"
+            timeout 10 bash -c "</dev/tcp/${host}/${port}" >/dev/null 2>&1
+          }
 
           echo "Checking DNS resolution for SSH host..."
           if ! getent hosts "$HOST"; then
@@ -41,14 +48,27 @@ jobs:
             exit 1
           fi
 
-          echo "Checking TCP connectivity to ${HOST}:${PORT}..."
-          if ! timeout 15 bash -c "</dev/tcp/${HOST}/${PORT}"; then
+          SELECTED_PORT=""
+          echo "Checking TCP connectivity to ${HOST}:${PREFERRED_PORT}..."
+          if can_connect "$HOST" "$PREFERRED_PORT"; then
+            SELECTED_PORT="$PREFERRED_PORT"
+          elif [ "$PREFERRED_PORT" != "22" ]; then
+            echo "Configured port ${PREFERRED_PORT} is unreachable. Trying fallback port 22..."
+            if can_connect "$HOST" "22"; then
+              SELECTED_PORT="22"
+              echo "Using fallback SSH port 22 for this run."
+            fi
+          fi
+
+          if [ -z "$SELECTED_PORT" ]; then
             echo "Cannot reach SSH endpoint from GitHub runner (timeout/refused)."
+            echo "Checked ports: ${PREFERRED_PORT} and 22"
             echo "Verify VPS_HOST/VPS_PORT, cloud firewall, and UFW/iptables rules."
             exit 1
           fi
 
-          echo "SSH endpoint is reachable from the runner."
+          echo "SSH endpoint is reachable on port ${SELECTED_PORT}."
+          echo "port=${SELECTED_PORT}" >> "$GITHUB_OUTPUT"
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.2.0
@@ -56,7 +76,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT && secrets.VPS_PORT || '22' }}
+          port: ${{ steps.ssh_preflight.outputs.port }}
           timeout: 60s
           script_stop: true
           script: |
