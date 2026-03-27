@@ -1,33 +1,33 @@
 "use client";
 
-import { Target, Clock, Users, Award } from "lucide-react";
+import { LineChart, HeartHandshake, ShieldCheck, Cpu } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 
 const features = [
   {
-    icon: Target,
-    title: "Proven Accuracy",
+    icon: LineChart,
+    title: "Data-Driven Research",
     description:
-      "Our research is backed by rigorous backtesting and real-time market validation.",
+      "Our research is backed by rigorous backtesting and real-time market validation with advanced analytics.",
   },
   {
-    icon: Clock,
-    title: "Timely Updates",
+    icon: HeartHandshake,
+    title: "Client-Centric Approach",
     description:
-      "Get real-time alerts via Telegram, SMS, and our mobile app to never miss a move.",
+      "We prioritize your financial goals with personalized attention and dedicated support systems.",
   },
   {
-    icon: Users,
-    title: "Community Support",
+    icon: ShieldCheck,
+    title: "Strategic Risk Management",
     description:
-      "Join a vibrant community of traders to discuss ideas and grow together.",
+      "Comprehensive risk-reward analysis designed to protect your capital and ensure sustainable growth.",
   },
   {
-    icon: Award,
-    title: "SEBI Compliant",
+    icon: Cpu,
+    title: "Technology & Innovation",
     description:
-      "Peace of mind knowing you are following advice from a registered professional.",
+      "Leveraging cutting-edge AI and automation to deliver high-precision insights and seamless execution.",
   },
 ];
 
@@ -53,10 +53,10 @@ export function WhyChooseUs() {
                 <FadeIn
                   key={index}
                   delay={index * 0.1}
-                  className="space-y-3 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors border border-transparent hover:border-gray-100 dark:hover:border-gray-800"
+                  className="group space-y-3 p-6 rounded-2xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 dark:border-gray-800"
                 >
-                  <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center">
-                    <feature.icon className="w-6 h-6 text-primary dark:text-blue-400" />
+                  <div className="w-14 h-14 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <feature.icon className="w-7 h-7 text-primary dark:text-blue-400 group-hover:text-white" />
                   </div>
                   <h3 className="font-bold text-foreground">{feature.title}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">

@@ -12,104 +12,88 @@ import { PlansApi } from "@/app/Api/Api";
 
 const mockPlans = [
   {
-    planName: "Basic Equity",
+    planName: "Equity Cash",
     price: "₹5,999",
-    duration: "1 Month",
+    originalPrice: "₹7,999",
+    discount: "25%",
+    duration: "Monthly",
     servicesIncluded: [
-      "Intraday Equity Calls",
-      "Daily Market Outlook",
-      "Basic Email Support",
-      "Entry & Exit Levels",
+      "Intraday Cash Calls",
+      "Short-term Swing Ideas",
+      "Large Cap Focus",
+      "Dedicated WhatsApp Support",
     ],
     deliveryMode: "WhatsApp",
-    riskDisclaimer: "Standard equity market risks apply.",
   },
   {
-    planName: "Silver Investment",
+    planName: "Index F&O",
     price: "₹14,999",
-    duration: "3 Months",
-    servicesIncluded: [
-      "Intraday + Positional Cash",
-      "Short Term Delivery Ideas",
-      "Weekly Portfolio Review",
-      "Risk Management Guidance",
-    ],
-    deliveryMode: "WhatsApp",
-  },
-  {
-    planName: "Gold F&O",
-    price: "₹24,999",
-    duration: "6 Months",
+    originalPrice: "₹19,999",
+    discount: "25%",
+    duration: "Monthly",
     servicesIncluded: [
       "Nifty & Bank Nifty Options",
-      "Stock Options & Futures",
-      "Hedging Strategies",
-      "Live Market Support",
+      "High Probability Setups",
+      "Advanced Hedging Strategies",
+      "Priority Telegram Support",
     ],
-    deliveryMode: "WhatsApp + Telegram",
+    deliveryMode: "Telegram",
+    isPopular: true,
   },
   {
     planName: "Platinum Combo",
-    price: "₹39,999",
-    duration: "12 Months",
+    price: "₹24,999",
+    originalPrice: "₹34,999",
+    discount: "30%",
+    duration: "Monthly",
     servicesIncluded: [
-      "Equity + F&O + Commodity",
-      "BTST & STBT Calls",
-      "Dedicated Relationship Manager",
-      "Algo Trading Setup Assistance",
+      "Equity + Index F&O",
+      "Personal Portfolio Review",
+      "One-on-One Interaction",
+      "Early Access to Research",
     ],
-    deliveryMode: "Priority Telegram Channel",
-  },
-  {
-    planName: "Commodity Special",
-    price: "₹19,999",
-    duration: "6 Months",
-    servicesIncluded: [
-      "Gold & Silver Outlook",
-      "Crude Oil Strategies",
-      "Base Metals inventory data",
-      "Global Market Correlation",
-    ],
-    deliveryMode: "Telegram Channel",
-  },
-  {
-    planName: "HNI Exclusive",
-    price: "₹99,999",
-    duration: "12 Months",
-    servicesIncluded: [
-      "High Conviction Trades",
-      "One-on-One Consultation",
-      "Portfolio Restructuring",
-      "Pre-IPO Research Notes",
-      "24/7 Priority Support",
-    ],
-    deliveryMode: "Personal Call + Priority Channel",
+    deliveryMode: "Priority Channel",
   },
 ];
 
-const mapPlanToCardProps = (plan: any) => ({
+interface PlanData {
+  planId?: string;
+  planName: string;
+  duration: string;
+  price: string;
+  originalPrice?: string;
+  discount?: string;
+  servicesIncluded: string[];
+  deliveryMode: string;
+  isPopular?: boolean;
+  riskDisclaimer?: string;
+}
+
+const mapPlanToCardProps = (plan: any): PlanData => ({
   planId: plan.id || plan.planId,
   planName: plan.name || plan.planName || plan.title || "Unknown Plan",
   duration: plan.duration || `${plan.durationMonths} Month${plan.durationMonths > 1 ? 's' : ''}` || "N/A",
   price: plan.price ? (typeof plan.price === 'string' && plan.price.startsWith('₹') ? plan.price : `₹${plan.price}`) : "Contact for Price",
+  originalPrice: plan.originalPrice,
+  discount: plan.discount,
   servicesIncluded: plan.servicesIncluded || plan.features || (plan.description ? [plan.description] : []),
   deliveryMode: plan.deliveryMode || "Standard",
+  isPopular: plan.isPopular || false,
   riskDisclaimer: plan.riskDisclaimer,
 });
 
 export default function PlansPage() {
-  const [plans, setPlans] = useState<any[]>([]);
+  const [plans, setPlans] = useState<PlanData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const data: any = await PlansApi.getAllPlans();
+        const data = await PlansApi.getAllPlans() as any;
         const apiPlans = Array.isArray(data) ? data : data.data || [];
 
-        const mappedPlans = (apiPlans.length > 0 ? apiPlans : mockPlans).map(
-          mapPlanToCardProps,
-        );
+        const sourcePlans = apiPlans.length > 0 ? apiPlans : mockPlans;
+        const mappedPlans = sourcePlans.map(mapPlanToCardProps);
         setPlans(mappedPlans);
       } catch (error) {
         console.warn("Failed to fetch plans, using mock data.", error);
@@ -126,15 +110,16 @@ export default function PlansPage() {
     <main className="min-h-screen bg-background relative overflow-hidden">
       <FloatingIcons />
       <PageHeader
-        title="Subscription Plans"
-        description="Transparent pricing for professional research. Choose a plan that suits your trading needs."
+        title="Choose Your Research Edge"
+        description="Select a professional subscription plan tailored to your trading frequency and risk tolerance."
       />
 
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="container mx-auto px-6 py-24 lg:py-32 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 max-w-7xl mx-auto items-center">
           {loading ? (
             <div className="col-span-full text-center py-20">
-              Loading plans...
+              <div className="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+              <p className="mt-4 text-gray-500 font-bold uppercase tracking-widest text-xs">Synchronizing Plans...</p>
             </div>
           ) : (
             plans.map((plan, index) => (
@@ -146,17 +131,18 @@ export default function PlansPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pb-16 text-center relative z-10">
+      <div className="container mx-auto px-6 pb-16 text-center relative z-10">
         <FadeIn delay={0.2}>
-          <p className="text-sm text-gray-500">
-            <strong>Refund Policy:</strong> Fees once paid are non-refundable.
-            Please read the terms and conditions carefully.
-          </p>
+          <div className="max-w-2xl mx-auto p-8 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/5">
+            <p className="text-sm text-gray-400 font-bold uppercase tracking-widest leading-relaxed">
+              <span className="text-primary mr-2">Refund Policy:</span> 
+              Fees once paid are non-refundable. Please read the terms and conditions carefully.
+            </p>
+          </div>
         </FadeIn>
       </div>
 
       <TelegramPromo />
-
       <DisclaimerStrip />
     </main>
   );
