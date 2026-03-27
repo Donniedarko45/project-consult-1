@@ -7,6 +7,7 @@ on:
 env:
   DOCKER_BUILDKIT: 1
   COMPOSE_DOCKER_CLI_BUILD: 1
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   deploy:
@@ -16,7 +17,38 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Preflight SSH connectivity
+        shell: bash
+        run: |
+          set -e
+          HOST="${{ secrets.VPS_HOST }}"
+          PORT="${{ secrets.VPS_PORT }}"
+
+          if [ -z "$HOST" ]; then
+            echo "Missing required GitHub secret: VPS_HOST"
+            exit 1
+          fi
+
+          if [ -z "$PORT" ]; then
+            PORT="22"
+          fi
+
+          echo "Checking DNS resolution for SSH host..."
+          if ! getent hosts "$HOST"; then
+            echo "Unable to resolve VPS_HOST. Use a public IP or resolvable hostname."
+            exit 1
+          fi
+
+          echo "Checking TCP connectivity to ${HOST}:${PORT}..."
+          if ! timeout 15 bash -c "</dev/tcp/${HOST}/${PORT}"; then
+            echo "Cannot reach SSH endpoint from GitHub runner (timeout/refused)."
+            echo "Verify VPS_HOST/VPS_PORT, cloud firewall, and UFW/iptables rules."
+            exit 1
+          fi
+
+          echo "SSH endpoint is reachable from the runner."
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.2.0
@@ -25,6 +57,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT && secrets.VPS_PORT || '22' }}
+          timeout: 60s
           script_stop: true
           script: |
             set -e
