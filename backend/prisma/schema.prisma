@@ -43,6 +43,7 @@ model SubscriptionPlan {
   description    String?
   isActive       Boolean        @default(true)
   createdAt      DateTime       @default(now())
+  telegramLink   String?
   subscriptions  Subscription[]
 
   @@map("subscription_plans")
@@ -69,21 +70,24 @@ model Subscription {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  phone         String         @unique
-  name          String?
-  email         String?
-  hasAccess     Boolean        @default(false)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime        @updatedAt
-  aadhar        String?
-  digioKycId    String?
-  dob           String?
-  gender        String?
-  kycStatus     KycStatus      @default(NOT_STARTED)
-  pan           String?
-  otps          OTP[]
-  subscriptions Subscription[]
+  id                   String         @id @default(cuid())
+  phone                String         @unique
+  name                 String?
+  email                String?
+  hasAccess            Boolean        @default(false)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  aadhar               String?
+  digioKycId           String?
+  dob                  String?
+  gender               String?
+  kycStatus            KycStatus      @default(NOT_STARTED)
+  pan                  String?
+  agreementSignStatus  SignStatus     @default(NOT_STARTED)
+  agreementDigioDocId  String?
+  agreementSignedAt    DateTime?
+  otps                 OTP[]
+  subscriptions        Subscription[]
 
   @@map("users")
 }

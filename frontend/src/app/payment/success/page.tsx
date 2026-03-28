@@ -77,9 +77,23 @@ function PaymentSuccessContent() {
       <h1 className="text-3xl font-bold text-foreground mb-4">
         Payment Successful!
       </h1>
-      <p className="text-gray-600 dark:text-gray-400 mb-8">
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
         Thank you for your subscription. Your plan has been activated
-        successfully. You will be redirected to your dashboard in a few seconds.
+        successfully.
+      </p>
+
+      <div className="w-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-8 text-left">
+        <p className="text-sm font-semibold text-green-800 dark:text-green-300 mb-1 flex items-center gap-2">
+          <span>📲</span> WhatsApp Confirmation Sent
+        </p>
+        <p className="text-xs text-green-700 dark:text-green-400">
+          A confirmation message with your Telegram channel link has been sent to your registered WhatsApp number.
+          Click the link in the message to join your advisory channel.
+        </p>
+      </div>
+
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        You will be redirected to your dashboard in a few seconds.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">

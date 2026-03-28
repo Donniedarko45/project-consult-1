@@ -9,22 +9,22 @@ const faqs = [
   {
     question: "Do you provide guaranteed returns?",
     answer:
-      "No, as a SEBI registered entity, we do not and cannot provide guaranteed returns. Investment in the securities market is subject to market risks. We focus on risk-adjusted, data-driven methodologies to improve outcomes, but the ultimate market direction is always uncertain.",
+      "No. We do not provide any guarantee of returns or profits. Stock market investments are subject to market risks, and returns depend on various factors including market conditions, execution, and individual decisions. All our research and recommendations are based on analysis and probability, not certainty.",
   },
   {
     question: "What is the mode of communication?",
     answer:
-      "Our research alerts are sent via our dedicated mobile app, high-priority WhatsApp alerts, and a private Telegram channel. The delivery mode is selected based on your chosen subscription plan to ensure you never miss an execution level.",
+      "We share our research and updates through our Telegram Channel, WhatsApp Support (if applicable), and Live Market Updates (for premium services). All communications are timely, structured, and based on research analysis.",
   },
   {
     question: "Do you offer free trials?",
     answer:
-      "We provide a complimentary weekly educational newsletter and occasional free analysis in our public Telegram community. However, our premium research and specific execution strategies are available exclusively through our curated subscription plans.",
+      "We may offer free educational sessions, webinars, or demo access from time to time. However, our premium research services are paid services, as they involve dedicated research, analysis, and continuous market tracking.",
   },
   {
     question: "Is this suitable for working professionals?",
     answer:
-      "Absolutely. Our 'Swing Trading' and 'Positional' services are specifically engineered for traders who cannot actively track markets intra-day. We provide clear entry, target, and stop-loss levels that remain valid for multiple days.",
+      "Yes. Our services are designed to suit both working professionals and full-time traders. We provide clear entry, exit & stop loss levels, swing and positional trading options, and a structured approach to save your time. You can participate in the market without needing to monitor it all day.",
   },
 ];
 

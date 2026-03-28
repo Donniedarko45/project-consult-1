@@ -9,25 +9,25 @@ const features = [
     icon: LineChart,
     title: "Data-Driven Research",
     description:
-      "Our research is backed by rigorous backtesting and real-time market validation with advanced analytics.",
+      "All our insights are powered by in-depth analysis, market data, and proven methodologies to ensure consistency and reliability.",
   },
   {
     icon: HeartHandshake,
     title: "Client-Centric Approach",
     description:
-      "We prioritize your financial goals with personalized attention and dedicated support systems.",
+      "We prioritize your financial goals by delivering strategies tailored to maximize your growth and long-term success.",
   },
   {
     icon: ShieldCheck,
     title: "Strategic Risk Management",
     description:
-      "Comprehensive risk-reward analysis designed to protect your capital and ensure sustainable growth.",
+      "Our approach focuses on capital protection and controlled risk, helping you trade with confidence and discipline.",
   },
   {
     icon: Cpu,
     title: "Technology & Innovation",
     description:
-      "Leveraging cutting-edge AI and automation to deliver high-precision insights and seamless execution.",
+      "We leverage AI tools, advanced platforms, and real-time analytics combined with human expertise to deliver smarter market insights.",
   },
 ];
 

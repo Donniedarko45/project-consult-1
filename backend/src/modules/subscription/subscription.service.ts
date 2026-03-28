@@ -2,6 +2,7 @@ import prisma from '../../prisma/client';
 import { SubscriptionStatus } from '@prisma/client';
 import ApiError from '../../utils/apiError';
 import { calculateSubscriptionEndDate } from '../../utils/helpers';
+import { sendWhatsAppMessage } from '../auth/twilio.service';
 
 interface SubscriptionWithPlan {
     id: string;
@@ -167,6 +168,29 @@ export const activateSubscription = async (
             data: { hasAccess: true },
         }),
     ]);
+
+    // Send WhatsApp confirmation with Telegram link
+    try {
+        const fullSubscription = await prisma.subscription.findUnique({
+            where: { id: subscriptionId },
+            include: {
+                plan: true,
+                user: true,
+            },
+        });
+
+        if (fullSubscription && fullSubscription.user.phone) {
+            const userName = fullSubscription.user.name || 'Valued Customer';
+            const planName = fullSubscription.plan.name;
+            const telegramLink = (fullSubscription.plan as any).telegramLink || '';
+            const message = `Dear ${userName},\nYour purchase order for advisory subscription channel ${planName} has been confirmed.\nKindly click on the link given to join and availing your services ${telegramLink}`;
+
+            await sendWhatsAppMessage(fullSubscription.user.phone, message);
+        }
+    } catch (err) {
+        console.error('[SUBSCRIPTION] Failed to send WhatsApp confirmation:', err);
+        // Don't throw — subscription is already activated
+    }
 };
 
 /**

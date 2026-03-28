@@ -13,6 +13,27 @@ const getTwilioClient = () => {
   return client;
 };
 
+export const sendWhatsAppMessage = async (
+  phoneNumber: string,
+  message: string
+): Promise<void> => {
+  try {
+    const twilioClient = getTwilioClient();
+    const formattedPhone = phoneNumber.startsWith('+') ? phoneNumber : `+91${phoneNumber}`;
+
+    await twilioClient.messages.create({
+      from: `whatsapp:${config.twilio.phoneNumber}`,
+      to: `whatsapp:${formattedPhone}`,
+      body: message,
+    });
+
+    console.log(`[TWILIO] WhatsApp message sent to ${formattedPhone}`);
+  } catch (error) {
+    console.error('[TWILIO] Failed to send WhatsApp message:', error);
+    throw new Error('Failed to send WhatsApp message');
+  }
+};
+
 export const sendSMSOTP = async (
   phoneNumber: string,
   otp: string

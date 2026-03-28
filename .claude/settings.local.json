@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx prisma:*)",
+      "Bash(npx tsc:*)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(echo \"TS Exit: $?\")",
+      "Bash(echo:*)",
+      "Bash(node -e \":*)",
+      "Bash(npx ts-node:*)"
+    ]
+  }
+}

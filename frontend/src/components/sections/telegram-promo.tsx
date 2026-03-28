@@ -6,11 +6,12 @@ import { FadeIn } from "@/components/ui/fade-in";
 
 export function TelegramPromo() {
   const benefits = [
-    "High-Accuracy Intraday & Positional Alerts",
-    "Real-time Nifty & Bank Nifty Market Levels",
-    "Premium Equity Swing Trade Insights",
-    "Exclusive Market Commentary & Daily Outlook",
-    "Pro-Level Risk Management Strategies",
+    "Real-Time Market Commentary (No Delay)",
+    "Accurate Nifty & Bank Nifty Levels",
+    "High-Probability Intraday Setups",
+    "Equity Swing Trades with Proper Analysis",
+    "Options Trading Insights (Expiry Special)",
+    "AI + Manual Research-Based Signals",
   ];
 
   return (
@@ -34,8 +35,7 @@ export function TelegramPromo() {
               </h2>
 
               <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl leading-relaxed transition-colors">
-                Unlock professional-grade market research and real-time alerts. 
-                Experience the edge used by institutional traders.
+                Stop guessing. Start trading with confidence. Get high-probability trade setups, real-time insights, and expert analysis directly on your phone — guided by a SEBI Registered Research Analyst.
               </p>
 
               <div className="grid sm:grid-cols-1 gap-5">

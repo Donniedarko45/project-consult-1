@@ -23,6 +23,9 @@ interface UserProfile {
     digioKycId: string | null;
     hasAccess: boolean;
     createdAt: Date;
+    agreementSignStatus: string;
+    agreementDigioDocId: string | null;
+    agreementSignedAt: Date | null;
 }
 
 const USER_SELECT = {
@@ -38,6 +41,9 @@ const USER_SELECT = {
     digioKycId: true,
     hasAccess: true,
     createdAt: true,
+    agreementSignStatus: true,
+    agreementDigioDocId: true,
+    agreementSignedAt: true,
 };
 
 /**

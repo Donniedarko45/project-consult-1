@@ -382,9 +382,149 @@ export const updateSignStatus = async (
     }
 };
 
+/**
+ * Initiate e-sign for user-level advisory agreement (before plan selection)
+ * POST /api/ekyc/sign/init-agreement
+ */
+export const initUserAgreement = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        if (!req.user) throw ApiError.unauthorized();
+
+        const user = await prisma.user.findUnique({
+            where: { id: req.user.userId },
+        });
+
+        if (!user) throw ApiError.notFound('User not found');
+
+        if (user.kycStatus !== 'VERIFIED') {
+            throw ApiError.badRequest('KYC verification must be completed before signing the agreement');
+        }
+
+        if (user.agreementSignStatus === SignStatus.SIGNED) {
+            ApiResponse.success(res, {
+                signStatus: user.agreementSignStatus,
+                digioDocId: user.agreementDigioDocId,
+                message: 'Agreement already signed',
+            }, 'Agreement already signed');
+            return;
+        }
+
+        if (user.agreementDigioDocId && user.agreementSignStatus === SignStatus.REQUESTED) {
+            ApiResponse.success(res, {
+                signStatus: user.agreementSignStatus,
+                digioDocId: user.agreementDigioDocId,
+                message: 'Sign request already exists. Use the document ID to resume signing.',
+            }, 'Sign request already exists');
+            return;
+        }
+
+        const signerIdentifier = user.email || user.phone;
+        const signerName = user.name || 'Subscriber';
+
+        if (!signerIdentifier) {
+            throw ApiError.badRequest('User must have an email or phone number for signing');
+        }
+
+        const agreementBase64 = getAgreementBase64(signerName, 'Advisory Services', '', '');
+        const fileName = `Advisory_Agreement_${user.id}.pdf`;
+
+        const signResponse = await digioService.createSignRequest(
+            signerName,
+            signerIdentifier,
+            agreementBase64,
+            fileName,
+            30,
+        );
+
+        await prisma.user.update({
+            where: { id: req.user.userId },
+            data: {
+                agreementDigioDocId: signResponse.id,
+                agreementSignStatus: SignStatus.REQUESTED,
+            },
+        });
+
+        ApiResponse.success(res, {
+            digioDocId: signResponse.id,
+            signStatus: SignStatus.REQUESTED,
+            signingParties: signResponse.signing_parties,
+        }, 'Agreement sign request created. Use the document ID with Digio SDK to sign.');
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Update user agreement sign status after Digio SDK callback
+ * POST /api/ekyc/sign/update-agreement
+ */
+export const updateUserAgreement = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        if (!req.user) throw ApiError.unauthorized();
+
+        const { status } = req.body;
+        if (!status) throw ApiError.badRequest('status is required');
+
+        const user = await prisma.user.findUnique({
+            where: { id: req.user.userId },
+        });
+
+        if (!user) throw ApiError.notFound('User not found');
+
+        let signStatus: SignStatus = SignStatus.REQUESTED;
+        let signedAt: Date | undefined;
+
+        if (user.agreementDigioDocId) {
+            try {
+                const docStatus = await digioService.getDocumentStatus(user.agreementDigioDocId);
+                if (docStatus.agreement_status === 'completed') {
+                    signStatus = SignStatus.SIGNED;
+                    signedAt = new Date();
+                } else if (docStatus.agreement_status === 'rejected' || docStatus.agreement_status === 'expired') {
+                    signStatus = SignStatus.FAILED;
+                }
+            } catch (err) {
+                if (status === 'success' || status === 'signed') {
+                    signStatus = SignStatus.SIGNED;
+                    signedAt = new Date();
+                } else if (status === 'failed' || status === 'rejected') {
+                    signStatus = SignStatus.FAILED;
+                }
+            }
+        }
+
+        await prisma.user.update({
+            where: { id: req.user.userId },
+            data: {
+                agreementSignStatus: signStatus,
+                ...(signedAt && { agreementSignedAt: signedAt }),
+            },
+        });
+
+        ApiResponse.success(res, {
+            signStatus,
+            signedAt,
+        }, `Agreement sign status updated to ${signStatus}`);
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 export default {
     initSign,
     getSignStatus,
     handleSignWebhook,
     updateSignStatus,
+    initUserAgreement,
+    updateUserAgreement,
 };

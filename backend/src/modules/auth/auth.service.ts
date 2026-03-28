@@ -17,6 +17,8 @@ interface VerifyOTPResult {
         name: string | null;
         email: string | null;
         hasAccess: boolean;
+        kycStatus: string;
+        agreementSignStatus: string;
     };
     isNewUser: boolean;
 }
@@ -133,6 +135,8 @@ export const verifyOTP = async (
             name: user.name,
             email: user.email,
             hasAccess: user.hasAccess,
+            kycStatus: user.kycStatus,
+            agreementSignStatus: user.agreementSignStatus,
         },
         isNewUser,
     };

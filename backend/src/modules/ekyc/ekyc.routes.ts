@@ -64,4 +64,18 @@ router.post('/sign/update-status', authMiddleware, esignController.updateSignSta
  */
 router.post('/sign/webhook', esignController.handleSignWebhook);
 
+/**
+ * @route   POST /api/ekyc/sign/init-agreement
+ * @desc    Initiate user-level advisory agreement signing (before plan selection)
+ * @access  Private
+ */
+router.post('/sign/init-agreement', authMiddleware, esignController.initUserAgreement);
+
+/**
+ * @route   POST /api/ekyc/sign/update-agreement
+ * @desc    Update user agreement sign status after Digio SDK callback
+ * @access  Private
+ */
+router.post('/sign/update-agreement', authMiddleware, esignController.updateUserAgreement);
+
 export default router;

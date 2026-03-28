@@ -15,6 +15,9 @@ export interface User {
   gender?: string;
   kycStatus?: string;
   digioKycId?: string;
+  agreementSignStatus?: string;
+  agreementDigioDocId?: string;
+  agreementSignedAt?: string;
 }
 
 interface SendOTPResponse {

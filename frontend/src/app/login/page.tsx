@@ -25,15 +25,21 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
 
-  const { sendOTP, verifyOTP, isAuthenticated } = useAuth();
+  const { sendOTP, verifyOTP, isAuthenticated, user, isLoading } = useAuth();
   const router = useRouter();
 
-  // Redirect if already authenticated
+  // Smart redirect based on KYC and agreement sign status
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/plans");
+    if (!isLoading && isAuthenticated && user) {
+      if (user.kycStatus !== "VERIFIED") {
+        router.push("/ekyc");
+      } else if (user.agreementSignStatus !== "SIGNED") {
+        router.push("/ekyc");
+      } else {
+        router.push("/plans");
+      }
     }
-  }, [isAuthenticated, router]);
+  }, [isLoading, isAuthenticated, user, router]);
 
   // Countdown timer for resend OTP
   useEffect(() => {
@@ -96,8 +102,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await verifyOTP(phone, otp);
-      // Redirect to plans page
-      router.push("/plans");
+      // Redirect handled by useEffect based on kycStatus and agreementSignStatus
     } catch (err: any) {
       setError(err.message || "Invalid OTP. Please try again.");
     } finally {

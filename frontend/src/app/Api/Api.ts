@@ -155,6 +155,12 @@ export const ESignApi = {
   // Update sign status after frontend Digio SDK callback
   updateSignStatus: (subscriptionId: string, status: string) =>
     request("/api/ekyc/sign/update-status", "POST", { subscriptionId, status }),
+  // Initiate user-level advisory agreement signing (before plan selection)
+  initUserAgreement: () =>
+    request("/api/ekyc/sign/init-agreement", "POST", {}),
+  // Update user agreement sign status after Digio SDK callback
+  updateUserAgreement: (status: string) =>
+    request("/api/ekyc/sign/update-agreement", "POST", { status }),
 };
 
 export default {
