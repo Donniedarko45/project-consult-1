@@ -62,10 +62,10 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-bold text-lg mb-1">Email Support</h3>
                     <p className="text-gray-600 dark:text-gray-400 font-medium">
-                      support@example.com
+                      ashwini@ashwinisdresearch.com
                     </p>
                     <p className="text-gray-600 dark:text-gray-400 font-medium">
-                      compliance@example.com
+                      compliance@ashwinisdresearch.com
                     </p>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ function ContactForm() {
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-primary/50 outline-none transition-all"
-          placeholder="john@example.com"
+          placeholder="your@email.com"
           required
         />
       </div>

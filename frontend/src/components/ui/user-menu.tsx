@@ -65,14 +65,14 @@ export function UserMenu({ variant = "dropdown" }: UserMenuProps) {
           <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
             {initials}
           </div>
-          {/* <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0">
             <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
               {user.name || user.email}
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
               {user.email}
             </p>
-          </div> */}
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-1">
           <Link

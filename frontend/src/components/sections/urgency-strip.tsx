@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Timer, AlertCircle } from "lucide-react";
 
-export function UrgencyStrip() {
+export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
   const [timeLeft, setTimeLeft] = useState({
     hours: 2,
     minutes: 45,
@@ -28,6 +28,37 @@ export function UrgencyStrip() {
   }, []);
 
   const formatTime = (time: number) => time.toString().padStart(2, "0");
+
+  if (compact) {
+    return (
+      <div className="bg-primary text-white py-2 relative overflow-hidden group">
+        <div className="absolute inset-0 bg-linear-to-r from-orange-600 via-primary to-orange-600 opacity-50 group-hover:animate-pulse" />
+        <div className="w-full px-10 relative z-10 flex items-center justify-between ">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-[9px] font-black uppercase tracking-widest whitespace-nowrap animate-pulse">
+              <AlertCircle className="w-3 h-3 text-orange-200" />
+              Limited Slots
+            </div>
+            <p className="text-[11px] font-black tracking-tighter opacity-90 hidden sm:block">
+              Next batch closing soon! <span className="text-yellow-200 italic underline">Join Today.</span>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full border border-white/10">
+            <Timer className="w-3.5 h-3.5 text-yellow-300" />
+            <div className="flex items-center gap-1 font-mono text-xs font-black">
+              <span>{formatTime(timeLeft.hours)}</span>
+              <span className="opacity-50">:</span>
+              <span>{formatTime(timeLeft.minutes)}</span>
+              <span className="opacity-50">:</span>
+              <span className="text-yellow-300">{formatTime(timeLeft.seconds)}</span>
+            </div>
+            <span className="text-[8px] font-bold uppercase tracking-widest opacity-60">Left</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-orange-500 text-white py-4 relative overflow-hidden group">

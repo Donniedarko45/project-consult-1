@@ -6,9 +6,10 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu, X, Send } from "lucide-react";
+import { Menu, X, Send, Home, Info, Briefcase, CreditCard, ShieldCheck, Phone, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { UserMenu } from "@/components/ui/user-menu";
+import { UrgencyStrip } from "@/components/sections/urgency-strip";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -17,24 +18,23 @@ export function Navbar() {
   const { isAuthenticated } = useAuth();
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
-    { href: "/services", label: "Services" },
-    { href: "/plans", label: "Plans" },
-    { href: "/methodology", label: "Methodology" },
-    { href: "/charter", label: "Investor Charter" },
-    { href: "/disclosures", label: "Disclosures" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: "Home", icon: Home },
+    { href: "/about", label: "About Us", icon: Info },
+    { href: "/services", label: "Services", icon: Briefcase },
+    { href: "/plans", label: "Plans", icon: CreditCard },
+    { href: "/charter", label: "Investor Charter", icon: ShieldCheck },
+    { href: "/contact", label: "Contact", icon: Phone },
   ];
 
   return (
-    <header className="sticky top-4 z-50 w-full px-4 mx-auto max-w-[95%]">
-      <div className="backdrop-blur-xl bg-white/70 dark:bg-gray-950/70 border border-white/20 dark:border-gray-800/50 rounded-2xl shadow-lg shadow-black/5 supports-backdrop-filter:bg-white/60 dark:supports-backdrop-filter:bg-gray-950/60 transition-all duration-300">
-        <div className="flex h-20 items-center justify-between px-6">
+    <header className="sticky top-0 z-50 w-full">
+      <UrgencyStrip compact />
+      <div className="backdrop-blur-md bg-white/70 dark:bg-gray-950/70 border-b border-gray-200 dark:border-white/10 shadow-sm transition-all duration-300">
+        <div className="w-full flex h-20 items-center justify-between px-10">
           <div className="flex items-center gap-6">
             <Link
               href="/"
-              className="flex items-center gap-2 font-black text-2xl tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-600 dark:from-blue-400 dark:to-blue-200"
+              className="flex items-center gap-2 font-black text-2xl tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-600 dark:from-blue-400 dark:to-blue-200 hover:scale-105 transition-transform duration-300 active:scale-95"
             >
               <Image
                 src="/images/Ashwini SD.png"
@@ -50,6 +50,7 @@ export function Navbar() {
           <nav className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
+              const Icon = link.icon;
               return (
                 <div key={link.href} className="relative group">
                   {link.href === "/services" ? (
@@ -60,14 +61,15 @@ export function Navbar() {
                     >
                       <Link
                         href={link.href}
-                        className={`px-3 py-2 text-xs font-medium transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1 ${
+                        className={`px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
                           isActive || hoveredServices
                             ? "text-primary dark:text-white"
                             : "text-gray-600 dark:text-gray-400"
                         }`}
                       >
+                        <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                         {link.label}
-                        {/* <ChevronDown className="w-3 h-3 mt-0.5" /> */}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${hoveredServices ? "rotate-180" : ""}`} />
                       </Link>
 
                       {/* Mega Menu Dropdown */}
@@ -78,7 +80,7 @@ export function Navbar() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
                             transition={{ duration: 0.2, ease: "easeOut" }}
-                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-2xl p-4 grid grid-cols-1 gap-1 z-50 overflow-hidden"
+                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800/80 rounded-2xl shadow-2xl p-4 grid grid-cols-1 gap-1.5 z-50 overflow-hidden backdrop-blur-xl"
                           >
                             {[
                               { label: "Research Services", href: "/services" },
@@ -98,7 +100,7 @@ export function Navbar() {
                               <Link
                                 key={item.href}
                                 href={item.href}
-                                className="block px-4 py-2.5 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-white/5 dark:hover:text-white transition-all text-left"
+                                className="block px-4 py-3 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary dark:hover:bg-white/5 dark:hover:text-white transition-all text-left"
                               >
                                 {item.label}
                               </Link>
@@ -111,17 +113,18 @@ export function Navbar() {
                   ) : (
                     <Link
                       href={link.href}
-                      className={`relative px-3 py-2 text-xs font-medium transition-colors hover:text-primary dark:hover:text-white ${
+                      className={`relative px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
                         isActive
                           ? "text-primary dark:text-white"
                           : "text-gray-600 dark:text-gray-400"
                       }`}
                     >
+                      <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                       {link.label}
                       {isActive && (
                         <motion.div
                           layoutId="navbar-indicator"
-                          className="absolute inset-0 bg-primary/10 dark:bg-white/10 rounded-lg -z-10"
+                          className="absolute inset-0 bg-primary/10 dark:bg-white/10 rounded-xl -z-10"
                           transition={{
                             type: "spring",
                             bounce: 0.2,
@@ -137,7 +140,7 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <a
+            {/* <a
               href="https://t.me/tradewithashwinisd6"
               target="_blank"
               className="hidden lg:flex items-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-all hover:scale-105 shadow-md shadow-blue-500/20"
@@ -146,7 +149,7 @@ export function Navbar() {
               <span className="text-[8px] font-bold uppercase tracking-wider">
                 Free Channel
               </span>
-            </a>
+            </a> */}
             <ThemeToggle />
             <div className="hidden sm:flex items-center gap-3">
               {isAuthenticated ? (
@@ -245,20 +248,27 @@ export function Navbar() {
               )}
 
               <nav className="flex flex-col gap-2">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
-                      pathname === link.href
-                        ? "bg-primary/10 text-primary dark:bg-white/10 dark:text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`px-4 py-4 rounded-2xl text-sm font-bold transition-all flex items-center gap-4 ${
+                        isActive
+                          ? "bg-primary text-white shadow-lg shadow-primary/25"
+                          : "hover:bg-gray-100 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300"
+                      }`}
+                    >
+                      <div className={`p-2 rounded-lg ${isActive ? "bg-white/20" : "bg-gray-100 dark:bg-white/5"}`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </nav>
 
               <div className="h-px bg-gray-200 dark:bg-gray-800 my-2" />

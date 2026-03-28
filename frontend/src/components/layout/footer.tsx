@@ -1,14 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Twitter,
   Instagram,
-  Linkedin,
   Mail,
   Phone,
   MapPin,
   Send,
   ExternalLink,
+  Youtube,
 } from "lucide-react";
 
 export function Footer() {
@@ -50,7 +49,7 @@ export function Footer() {
                 <Send className="w-5 h-5" />
               </a>
               <a
-                href="https://instagram.com/ashwinisd"
+                href="https://www.instagram.com/ashwinitradingacademy/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 bg-white dark:bg-white/5 text-gray-900 dark:text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 rounded-xl flex items-center justify-center border border-gray-200 dark:border-white/5 shadow-sm"
@@ -60,18 +59,14 @@ export function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/channel/UCmXpfbIwQ6eGqkcrkoSpnjw"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 bg-white dark:bg-white/5 text-gray-900 dark:text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 rounded-xl flex items-center justify-center border border-gray-200 dark:border-white/5 shadow-sm"
                 suppressHydrationWarning
+                title="Subscribe YouTube"
               >
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-11 h-11 bg-white dark:bg-white/5 text-gray-900 dark:text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 rounded-xl flex items-center justify-center border border-gray-200 dark:border-white/5 shadow-sm"
-                suppressHydrationWarning
-              >
-                <Linkedin className="w-5 h-5" />
+                <Youtube className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -152,7 +147,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-4 group">
                 <Mail className="w-5 h-5 text-primary shrink-0 transition-transform group-hover:scale-110" />
-                <span className="group-hover:text-gray-900 dark:group-hover:text-white transition-colors">support@ashwinisd.com</span>
+                <span className="group-hover:text-gray-900 dark:group-hover:text-white transition-colors">ashwini@ashwinisdresearch.com</span>
               </li>
             </ul>
           </div>
