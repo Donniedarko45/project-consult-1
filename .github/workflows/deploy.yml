@@ -124,6 +124,23 @@ jobs:
               TWILIO_PHONE_VALUE="$TWILIO_WHATSAPP_VALUE"
             fi
 
+            sanitize_single_line() {
+              printf '%s' "$1" | tr -d '\r\n'
+            }
+
+            DATABASE_URL_VALUE="$(sanitize_single_line "$DATABASE_URL_VALUE")"
+            JWT_SECRET_VALUE="$(sanitize_single_line "$JWT_SECRET_VALUE")"
+            TWILIO_ACCOUNT_SID_VALUE="$(sanitize_single_line "$TWILIO_ACCOUNT_SID_VALUE")"
+            TWILIO_AUTH_TOKEN_VALUE="$(sanitize_single_line "$TWILIO_AUTH_TOKEN_VALUE")"
+            TWILIO_PHONE_VALUE="$(sanitize_single_line "$TWILIO_PHONE_VALUE")"
+            TWILIO_WHATSAPP_VALUE="$(sanitize_single_line "$TWILIO_WHATSAPP_VALUE")"
+            CASHFREE_CLIENT_ID_VALUE="$(sanitize_single_line "$CASHFREE_CLIENT_ID_VALUE")"
+            CASHFREE_CLIENT_SECRET_VALUE="$(sanitize_single_line "$CASHFREE_CLIENT_SECRET_VALUE")"
+            CASHFREE_ENV_VALUE="$(sanitize_single_line "$CASHFREE_ENV_VALUE")"
+            DIGIO_CLIENT_ID_VALUE="$(sanitize_single_line "${{ secrets.DIGIO_CLIENT_ID }}")"
+            DIGIO_CLIENT_SECRET_VALUE="$(sanitize_single_line "${{ secrets.DIGIO_CLIENT_SECRET }}")"
+            DIGIO_ENV_VALUE="$(sanitize_single_line "${{ secrets.DIGIO_ENV }}")"
+
             echo "==> Pulling latest code..."
             cd $APP_DIR
 
@@ -138,35 +155,42 @@ jobs:
             git reset --hard origin/$BRANCH
             git clean -fd
 
-            echo "==> Creating .env files if they don't exist..."
-            # Backend .env (created from GitHub secrets)
-            cat > backend/.env << 'ENVEOF'
-            PORT=3000
-            NODE_ENV=production
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            JWT_EXPIRES_IN=7d
-            TWILIO_ACCOUNT_SID=${{ secrets.TWILIO_ACCOUNT_SID }}
-            TWILIO_AUTH_TOKEN=${{ secrets.TWILIO_AUTH_TOKEN }}
-            TWILIO_PHONE_NUMBER=__TWILIO_PHONE_NUMBER__
-            TWILIO_WHATSAPP_NUMBER=__TWILIO_WHATSAPP_NUMBER__
-            CASHFREE_CLIENT_ID=${{ secrets.CASHFREE_CLIENT_ID }}
-            CASHFREE_CLIENT_SECRET=${{ secrets.CASHFREE_CLIENT_SECRET }}
-            CASHFREE_ENV=${{ secrets.CASHFREE_ENV }}
-            DIGIO_CLIENT_ID=${{ secrets.DIGIO_CLIENT_ID }}
-            DIGIO_CLIENT_SECRET=${{ secrets.DIGIO_CLIENT_SECRET }}
-            DIGIO_ENV=${{ secrets.DIGIO_ENV }}
-            ENVEOF
-            # Remove leading whitespace from heredoc
-            sed -i 's/^[[:space:]]*//' backend/.env
-            sed -i "s|__TWILIO_PHONE_NUMBER__|$TWILIO_PHONE_VALUE|g" backend/.env
-            sed -i "s|__TWILIO_WHATSAPP_NUMBER__|$TWILIO_WHATSAPP_VALUE|g" backend/.env
+            echo "==> Creating backend .env from GitHub secrets..."
+            {
+              echo "PORT=3000"
+              echo "NODE_ENV=production"
+              printf 'DATABASE_URL=%s\n' "$DATABASE_URL_VALUE"
+              printf 'JWT_SECRET=%s\n' "$JWT_SECRET_VALUE"
+              echo "JWT_EXPIRES_IN=7d"
+              printf 'TWILIO_ACCOUNT_SID=%s\n' "$TWILIO_ACCOUNT_SID_VALUE"
+              printf 'TWILIO_AUTH_TOKEN=%s\n' "$TWILIO_AUTH_TOKEN_VALUE"
+              printf 'TWILIO_PHONE_NUMBER=%s\n' "$TWILIO_PHONE_VALUE"
+              printf 'TWILIO_WHATSAPP_NUMBER=%s\n' "$TWILIO_WHATSAPP_VALUE"
+              printf 'CASHFREE_CLIENT_ID=%s\n' "$CASHFREE_CLIENT_ID_VALUE"
+              printf 'CASHFREE_CLIENT_SECRET=%s\n' "$CASHFREE_CLIENT_SECRET_VALUE"
+              printf 'CASHFREE_ENV=%s\n' "$CASHFREE_ENV_VALUE"
+              printf 'DIGIO_CLIENT_ID=%s\n' "$DIGIO_CLIENT_ID_VALUE"
+              printf 'DIGIO_CLIENT_SECRET=%s\n' "$DIGIO_CLIENT_SECRET_VALUE"
+              printf 'DIGIO_ENV=%s\n' "$DIGIO_ENV_VALUE"
+            } > backend/.env
+
+            echo "==> Secret length diagnostics (value length only):"
+            awk -F= 'NF>1 { val=substr($0, index($0, "=")+1); printf "   - %s: %d\n", $1, length(val) }' backend/.env | sort -t: -k2nr
+
+            MAX_ALLOWED_VALUE_LEN=8192
+            oversize_count=$(awk -F= -v max="$MAX_ALLOWED_VALUE_LEN" 'NF>1 { val=substr($0, index($0, "=")+1); if (length(val) > max) c++ } END { print c+0 }' backend/.env)
+            if [ "$oversize_count" -gt 0 ]; then
+              echo "One or more secret values are unexpectedly large (> ${MAX_ALLOWED_VALUE_LEN} chars)."
+              echo "Please fix malformed GitHub secrets before deployment."
+              exit 1
+            fi
 
             echo "==> Building and deploying containers..."
             export NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
 
             docker compose down --remove-orphans
             docker rm -f app-certbot app-backend app-frontend app-nginx 2>/dev/null || true
+            docker network rm app_app-network 2>/dev/null || true
             docker compose build --no-cache
 
             # Start backend first and wait for health before bringing up dependents.
