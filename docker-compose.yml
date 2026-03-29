@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: app-backend:latest
     container_name: app-backend
     restart: unless-stopped
     env_file:
@@ -27,6 +28,7 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.ashwinisdresearch.com}
+    image: app-frontend:latest
     container_name: app-frontend
     restart: unless-stopped
     environment:
