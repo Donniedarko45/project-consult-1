@@ -208,19 +208,7 @@ jobs:
 
               # Write a temporary HTTP-only nginx config
               mkdir -p nginx-tmp
-              cat > nginx-tmp/default.conf << 'NGINXEOF'
-server {
-    listen 80;
-    server_name ashwinisdresearch.com www.ashwinisdresearch.com api.ashwinisdresearch.com;
-    location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
-    }
-    location / {
-        return 200 'Configuring SSL...';
-        add_header Content-Type text/plain;
-    }
-}
-NGINXEOF
+              printf 'server {\n    listen 80;\n    server_name ashwinisdresearch.com www.ashwinisdresearch.com api.ashwinisdresearch.com;\n    location /.well-known/acme-challenge/ {\n        root /var/www/certbot;\n    }\n    location / {\n        return 200 '"'"'Configuring SSL...'"'"';\n        add_header Content-Type text/plain;\n    }\n}\n' > nginx-tmp/default.conf
 
               # Start a temporary HTTP-only nginx
               docker run -d --name nginx-tmp \
