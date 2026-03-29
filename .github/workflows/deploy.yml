@@ -195,8 +195,24 @@ jobs:
             BACKEND_IMAGE="app-backend:latest"
 
             # -------------------------------------------------------
-            # SSL Bootstrap (first-deploy only — needs port 80 briefly)
+            # Step 1: Disk cleanup FIRST — always, before anything else
             # -------------------------------------------------------
+            echo "==> [1/6] Checking disk usage..."
+            df -h /
+            docker system df || true
+
+            echo "==> Pruning unused Docker resources to free disk space..."
+            docker container prune -f || true
+            docker image prune -f || true
+            docker builder prune -f || true
+
+            echo "==> Disk after cleanup:"
+            df -h /
+
+            # -------------------------------------------------------
+            # Step 2: SSL Bootstrap (first-deploy only)
+            # -------------------------------------------------------
+            echo "==> [2/6] Checking SSL certificates..."
             mkdir -p "${APP_DIR}/certbot/www" "${APP_DIR}/certbot/conf"
 
             if [ ! -f "$CERT_PATH" ]; then
