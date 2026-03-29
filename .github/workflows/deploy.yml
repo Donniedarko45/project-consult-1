@@ -210,78 +210,27 @@ jobs:
             df -h /
 
             # -------------------------------------------------------
-            # Step 2: SSL Bootstrap (first-deploy only)
+            # Step 2: Verify SSL certificates exist (one-time setup via setup-vps.sh)
             # -------------------------------------------------------
-            echo "==> [2/6] Checking SSL certificates..."
-            mkdir -p "${APP_DIR}/certbot/www" "${APP_DIR}/certbot/conf"
-
+            echo "==> [2/5] Verifying SSL certificates..."
             if [ ! -f "$CERT_PATH" ]; then
-              echo "==> No SSL certs found. Running one-time SSL bootstrap..."
-
-              # Bring down only nginx to free port 80 for certbot challenge
-              docker stop app-nginx 2>/dev/null || true
-              docker rm app-nginx 2>/dev/null || true
-              docker rm -f nginx-tmp 2>/dev/null || true
-
-              mkdir -p "${APP_DIR}/nginx-tmp"
-              printf '%s\n' \
-                'server {' \
-                '    listen 80;' \
-                '    server_name ashwinisdresearch.com www.ashwinisdresearch.com api.ashwinisdresearch.com;' \
-                '    location /.well-known/acme-challenge/ { root /var/www/certbot; }' \
-                '    location / { return 200 OK; add_header Content-Type text/plain; }' \
-                '}' > "${APP_DIR}/nginx-tmp/default.conf"
-
-              docker run -d --name nginx-tmp \
-                -p 80:80 \
-                -v "${APP_DIR}/nginx-tmp/default.conf:/etc/nginx/conf.d/default.conf:ro" \
-                -v "${APP_DIR}/certbot/www:/var/www/certbot:ro" \
-                nginx:alpine
-
-              sleep 5
-
-              if ! docker run --rm \
-                -v "${APP_DIR}/certbot/www:/var/www/certbot" \
-                -v "${APP_DIR}/certbot/conf:/etc/letsencrypt" \
-                certbot/certbot certonly \
-                  --webroot \
-                  --webroot-path=/var/www/certbot \
-                  --email "$EMAIL" \
-                  --agree-tos \
-                  --no-eff-email \
-                  --non-interactive \
-                  -d "$DOMAIN" \
-                  -d "www.${DOMAIN}" \
-                  -d "api.${DOMAIN}"; then
-                echo "==> Certbot failed! nginx-tmp logs:"
-                docker logs nginx-tmp 2>&1 || true
-                docker stop nginx-tmp && docker rm nginx-tmp || true
-                rm -rf "${APP_DIR}/nginx-tmp"
-                exit 1
-              fi
-
-              docker stop nginx-tmp && docker rm nginx-tmp || true
-              rm -rf "${APP_DIR}/nginx-tmp"
-              echo "==> SSL certificate obtained."
-            else
-              echo "==> SSL certs exist, skipping bootstrap."
+              echo ""
+              echo "=========================================================="
+              echo "  ERROR: SSL certificates not found."
+              echo "  Path checked: ${CERT_PATH}"
+              echo "  SSL setup is a one-time manual step. Run on the VPS:"
+              echo "    bash /opt/app/setup-vps.sh ashwinisdresearch.com"
+              echo "=========================================================="
+              exit 1
             fi
+            echo "==> SSL certificates OK."
 
             # -------------------------------------------------------
-            # Build new images (OLD CONTAINERS STAY RUNNING — no downtime)
+            # Step 3: Build new images (old containers stay running)
             # -------------------------------------------------------
-            echo "==> Checking disk space before build..."
-            df -h /
-            AVAIL_KB=$(df / | awk 'NR==2 {print $4}')
-            if [ "$AVAIL_KB" -lt 3145728 ]; then
-              echo "==> WARNING: Less than 3GB free. Running Docker cleanup before build..."
-              docker container prune -f || true
-              docker image prune -f || true
-              docker builder prune -f || true
-            fi
-
-            echo "==> Building new images (production is still live)..."
+            echo "==> [3/5] Building new images (production is still live)..."
             docker compose build
+
 
             # -------------------------------------------------------
             # Canary test: validate new backend image BEFORE any swap
