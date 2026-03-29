@@ -41,6 +41,7 @@ const services = [
     telegramLink: 'https://t.me/indexoptionsellingtrades',
     plans: [
       { duration: 1, price: 4, label: 'Monthly', description: 'Index Option Selling — Consistent income with hedged strategies. 1 Month.(Demo)' },
+      { duration: 1, price: 4000, label: 'Monthly', description: 'Index Option Selling — Consistent income with hedged strategies. 1 Month.' },
       { duration: 3, price: 10800, label: '3 Month', description: 'Index Option Selling — 3-Month Plan. Save 10%!' },
       { duration: 6, price: 20400, label: '6 Month', description: 'Index Option Selling — 6-Month Plan. Save 15%!' },
       { duration: 9, price: 27000, label: '9 Month', description: 'Index Option Selling — 9-Month Plan. Save 25%!' },
