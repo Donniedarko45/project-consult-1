@@ -2,7 +2,7 @@ import prisma from '../../prisma/client';
 import { SubscriptionStatus } from '@prisma/client';
 import ApiError from '../../utils/apiError';
 import { calculateSubscriptionEndDate } from '../../utils/helpers';
-import { sendWhatsAppMessage } from '../auth/twilio.service';
+import { sendWhatsAppMessage, sendSMSMessage } from '../auth/twilio.service';
 
 interface SubscriptionWithPlan {
     id: string;
@@ -175,7 +175,7 @@ export const activateSubscription = async (
         }),
     ]);
 
-    // Send WhatsApp confirmation with Telegram link
+    // Send subscription confirmation with Telegram link
     try {
         const fullSubscription = await prisma.subscription.findUnique({
             where: { id: subscriptionId },
@@ -189,9 +189,23 @@ export const activateSubscription = async (
             const userName = fullSubscription.user.name || 'Valued Customer';
             const planName = fullSubscription.plan.name;
             const telegramLink = (fullSubscription.plan as any).telegramLink || '';
-            const message = `Dear ${userName},\nYour purchase order for advisory subscription channel ${planName} has been confirmed.\nKindly click on the link given to join and availing your services ${telegramLink}`;
+            const message = `Dear ${userName},\nYour subscription to ${planName} is now ACTIVE!\nJoin your advisory Telegram channel here: ${telegramLink}\n\nThank you for choosing Ashwini SD Research.`;
 
-            await sendWhatsAppMessage(fullSubscription.user.phone, message);
+            // Try WhatsApp first, fall back to SMS
+            try {
+                await sendWhatsAppMessage(fullSubscription.user.phone, message);
+                console.log(`[SUBSCRIPTION] WhatsApp confirmation sent for subscription ${subscriptionId}`);
+            } catch (waErr: any) {
+                console.warn(`[SUBSCRIPTION] WhatsApp failed (${waErr?.message}), trying SMS fallback...`);
+                try {
+                    await sendSMSMessage(fullSubscription.user.phone, message);
+                    console.log(`[SUBSCRIPTION] SMS confirmation sent for subscription ${subscriptionId}`);
+                } catch (smsErr: any) {
+                    console.error(`[SUBSCRIPTION] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+                }
+            }
+        } else {
+            console.warn(`[SUBSCRIPTION] No phone number found for subscription ${subscriptionId}`);
         }
     } catch (err) {
         console.error('[SUBSCRIPTION] Failed to send WhatsApp confirmation:', err);
