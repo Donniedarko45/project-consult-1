@@ -68,11 +68,17 @@ export const initSubscription = async (
             throw ApiError.conflict('You already have an active subscription');
         }
         if (existingSubscription.status === SubscriptionStatus.PENDING) {
-            // Return the existing pending subscription so the user can complete payment
-            return {
-                subscription: existingSubscription,
-                message: 'You have a pending subscription. Please proceed to payment.',
-            };
+            // If the pending subscription is for the SAME plan, reuse it
+            if (existingSubscription.plan.id === planId) {
+                return {
+                    subscription: existingSubscription,
+                    message: 'You have a pending subscription. Please proceed to payment.',
+                };
+            }
+            // Different plan selected — delete the stale pending subscription and create a new one
+            await prisma.subscription.delete({
+                where: { id: existingSubscription.id },
+            });
         }
     }
 
