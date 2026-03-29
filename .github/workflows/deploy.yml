@@ -254,8 +254,18 @@ jobs:
             # -------------------------------------------------------
             # Build new images (OLD CONTAINERS STAY RUNNING — no downtime)
             # -------------------------------------------------------
+            echo "==> Checking disk space before build..."
+            df -h /
+            AVAIL_KB=$(df / | awk 'NR==2 {print $4}')
+            if [ "$AVAIL_KB" -lt 3145728 ]; then
+              echo "==> WARNING: Less than 3GB free. Running Docker cleanup before build..."
+              docker container prune -f || true
+              docker image prune -f || true
+              docker builder prune -f || true
+            fi
+
             echo "==> Building new images (production is still live)..."
-            docker compose build --no-cache
+            docker compose build
 
             # -------------------------------------------------------
             # Canary test: validate new backend image BEFORE any swap
@@ -304,8 +314,13 @@ jobs:
 
             docker compose up -d --remove-orphans
 
-            echo "==> Cleaning up old images..."
-            docker image prune -f
+            echo "==> Cleaning up Docker disk usage..."
+            docker container prune -f || true
+            docker image prune -a -f || true
+            docker builder prune -f || true
+            echo "==> Disk usage after cleanup:"
+            df -h /
+            docker system df
 
             echo "==> Final container status:"
             sleep 8
