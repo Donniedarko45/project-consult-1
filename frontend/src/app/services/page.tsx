@@ -10,6 +10,7 @@ import Image from "next/image";
 
 import { useState, useEffect } from "react";
 import { ServiceApi } from "@/app/Api/Api";
+import { TrendingUp, Zap, Layers, ShieldCheck } from "lucide-react";
 
 export default function ServicesPage() {
   const [services, setServices] = useState<any[]>([]);
@@ -21,6 +22,8 @@ export default function ServicesPage() {
       instrument: "Intraday & Short Term",
       tradingStyle: "Techno-Funda Analysis",
       deliveryMode: "WhatsApp / SMS",
+      icon: TrendingUp,
+      price: "₹4,999",
       riskDisclaimer: "Moderate Risk - Suitable for active traders.",
     },
     {
@@ -28,6 +31,8 @@ export default function ServicesPage() {
       instrument: "Nifty & BankNifty Options",
       tradingStyle: "Scalping & Positional",
       deliveryMode: "Telegram Channel",
+      icon: Zap,
+      price: "₹9,999",
       riskDisclaimer: "High Risk - For experienced traders only.",
     },
     {
@@ -35,6 +40,8 @@ export default function ServicesPage() {
       instrument: "Crude Oil & Gold",
       tradingStyle: "Swing Trading",
       deliveryMode: "App Notifications",
+      icon: Layers,
+      price: "₹7,499",
       riskDisclaimer: "High Volatility - Strict Stop Loss Required.",
     },
     {
@@ -42,6 +49,8 @@ export default function ServicesPage() {
       instrument: "Long Term Portfolio",
       tradingStyle: "Fundamental Growth Investing",
       deliveryMode: "Quarterly Reports",
+      icon: ShieldCheck,
+      price: "₹14,999",
       riskDisclaimer: "Low Risk - For wealth creation.",
     },
   ];
