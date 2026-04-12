@@ -63,7 +63,7 @@ export default function PlansPage() {
         setPlans(mappedPlans);
         
         if (mappedPlans.length > 0) {
-          const availableDurations = Array.from(new Set(mappedPlans.map(p => p.durationMonths))).sort((a, b) => a - b);
+          const availableDurations = Array.from(new Set<number>(mappedPlans.map((p: PlanData) => p.durationMonths))).sort((a, b) => a - b);
           setActiveTab(prev => prev || availableDurations[0]);
         }
       } catch (error) {
@@ -81,7 +81,7 @@ export default function PlansPage() {
   const segments = useMemo(() => {
     const unique = new Set<string>();
     unique.add("All");
-    plans.forEach(p => {
+    plans.forEach((p: PlanData) => {
       const baseName = p.planName.split(/ — | \| /)[0].trim();
       unique.add(baseName);
     });
@@ -89,7 +89,7 @@ export default function PlansPage() {
   }, [plans]);
 
   const durations = useMemo(() => {
-    return Array.from(new Set(plans.map(p => p.durationMonths))).sort((a, b) => a - b);
+    return Array.from(new Set<number>(plans.map((p: PlanData) => p.durationMonths))).sort((a, b) => a - b);
   }, [plans]);
 
   const filteredPlans = plans.filter(plan => {
