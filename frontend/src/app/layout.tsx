@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
+import { TelegramButton } from "@/components/ui/telegram-button";
 import { AuthProvider } from "@/contexts/auth-context";
 
 const geistSans = Geist({
@@ -42,6 +43,7 @@ export default function RootLayout({
             <Navbar />
             {children}
             <WhatsAppButton />
+            <TelegramButton />
           </AuthProvider>
         </ThemeProvider>
       </body>
