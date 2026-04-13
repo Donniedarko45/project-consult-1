@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Info, LucideIcon } from "lucide-react";
+import { ArrowRight, Info, LucideIcon, TrendingUp } from "lucide-react";
 
 interface ServiceCardProps {
   segment: string;
   instrument: string;
   tradingStyle: string;
   deliveryMode: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   price: string;
   riskDisclaimer?: string;
 }
@@ -16,7 +16,7 @@ export function ServiceCard({
   instrument,
   tradingStyle,
   deliveryMode,
-  icon: Icon,
+  icon: Icon = TrendingUp,
   price,
   riskDisclaimer = "Standard market risks apply.",
 }: ServiceCardProps) {
