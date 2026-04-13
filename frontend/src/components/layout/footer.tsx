@@ -21,11 +21,11 @@ const quickLinks = [
 ];
 
 const importantLinks = [
-  { href: "/terms", label: "Terms & Condition" },
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/refund", label: "Refund Policy" },
-  { href: "/disclaimer", label: "Disclaimer & Disclosure" },
-  { href: "/grievance", label: "Grievance Redressal" },
+  { href: "/terms", label: "Terms & Condition", external: false },
+  { href: "/privacy", label: "Privacy Policy", external: false },
+  { href: "/refund", label: "Refund Policy", external: false },
+  { href: "/disclaimer", label: "Disclaimer & Disclosure", external: false },
+  { href: "/grievance", label: "Grievance Redressal", external: false },
 ];
 
 const socialLinks = [
@@ -71,8 +71,8 @@ export function Footer() {
         <div className="absolute left-0 top-0 h-full w-full bg-[linear-gradient(125deg,transparent_0%,transparent_11%,rgba(29,78,216,0.16)_11%,transparent_32%,transparent_100%)]" />
       </div>
 
-      <div className="relative container mx-auto px-6 py-20 lg:py-24">
-        <div className="grid gap-14 lg:grid-cols-[1.35fr_0.9fr_0.9fr_1.15fr]">
+      <div className="relative container mx-auto px-6 py-12 lg:py-16">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-[1.35fr_0.9fr_0.9fr_1.15fr]">
           <div className="space-y-8">
             <Link
               href="/"
@@ -239,15 +239,15 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-white/10 pt-10">
+        <div className="mt-10 border-t border-white/10 pt-8">
          
 
-          <div className="mt-8 flex flex-col gap-5  pt-8 text-sm text-white/48 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col items-center gap-5 text-center text-sm text-white/48 lg:flex-row lg:items-center lg:justify-between lg:text-left">
             <p className="font-bold uppercase tracking-[0.22em]">
               © {new Date().getFullYear()} Ashwini SD Research. All rights
               reserved.
             </p>
-            <div className="flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold text-white/70">
+            <div className="flex flex-wrap justify-center gap-x-7 gap-y-3 text-sm font-semibold text-white/70 lg:justify-end">
               <Link
                 href="/disclosures"
                 className="transition-colors hover:text-primary"
