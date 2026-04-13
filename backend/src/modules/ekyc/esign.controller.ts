@@ -33,17 +33,26 @@ const sendTelegramLinkNotification = async (subscriptionId: string): Promise<voi
         const telegramLink = subscription.plan.telegramLink || '';
         const message = `Dear ${userName},\n\nYour subscription agreement for ${planName} has been successfully signed!\n\nJoin your advisory Telegram channel here: ${telegramLink}\n\nThank you for choosing Ashwini SD Research.`;
 
-        // Try WhatsApp first, fall back to SMS
+        let whatsappSucceeded = false;
+
+        // Attempt WhatsApp first.
         try {
             await sendWhatsAppMessage(subscription.user.phone, message);
-            console.log(`[ESIGN] WhatsApp Telegram link sent for subscription ${subscriptionId}`);
+            whatsappSucceeded = true;
+            console.log(`[ESIGN] WhatsApp Telegram link accepted for subscription ${subscriptionId}`);
         } catch (waErr: any) {
-            console.warn(`[ESIGN] WhatsApp failed (${waErr?.message}), trying SMS fallback...`);
-            try {
-                await sendSMSMessage(subscription.user.phone, message);
-                console.log(`[ESIGN] SMS Telegram link sent for subscription ${subscriptionId}`);
-            } catch (smsErr: any) {
+            console.warn(`[ESIGN] WhatsApp failed (${waErr?.message}), trying SMS...`);
+        }
+
+        // Always attempt SMS as a reliability channel for Telegram-link delivery.
+        try {
+            await sendSMSMessage(subscription.user.phone, message);
+            console.log(`[ESIGN] SMS Telegram link accepted for subscription ${subscriptionId}`);
+        } catch (smsErr: any) {
+            if (!whatsappSucceeded) {
                 console.error(`[ESIGN] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+            } else {
+                console.warn(`[ESIGN] WhatsApp accepted, but SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
             }
         }
     } catch (err) {

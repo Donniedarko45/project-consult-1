@@ -45,13 +45,15 @@ export const sendWhatsAppMessage = async (
       ? config.twilio.phoneNumber
       : `whatsapp:${config.twilio.phoneNumber}`;
 
-    await twilioClient.messages.create({
+    const response = await twilioClient.messages.create({
       from: fromNumber,
       to: `whatsapp:${formattedPhone}`,
       body: message,
     });
 
-    console.log(`[TWILIO] WhatsApp message sent to ${formattedPhone}`);
+    console.log(
+      `[TWILIO] WhatsApp message accepted to ${formattedPhone} (sid=${response.sid}, status=${response.status})`
+    );
   } catch (error: any) {
     console.error('[TWILIO] Failed to send WhatsApp message:', {
       code: error?.code,
@@ -73,13 +75,15 @@ export const sendSMSMessage = async (
     const twilioClient = getTwilioClient();
     const formattedPhone = normalizeIndianPhone(phoneNumber);
 
-    await twilioClient.messages.create({
+    const response = await twilioClient.messages.create({
       from: config.twilio.phoneNumber.replace(/^whatsapp:/, ''),
       to: formattedPhone,
       body: message,
     });
 
-    console.log(`[TWILIO] SMS sent to ${formattedPhone}`);
+    console.log(
+      `[TWILIO] SMS accepted to ${formattedPhone} (sid=${response.sid}, status=${response.status})`
+    );
   } catch (error: any) {
     console.error('[TWILIO] Failed to send SMS:', {
       code: error?.code,
@@ -98,13 +102,15 @@ export const sendSMSOTP = async (
     const formattedPhone = normalizeIndianPhone(phoneNumber);
     const messageBody = `Your OTP is: ${otp}. Valid for ${config.otp.expiryMinutes} minutes. Do not share this code with anyone.`;
 
-    await twilioClient.messages.create({
+    const response = await twilioClient.messages.create({
       from: config.twilio.phoneNumber.replace(/^whatsapp:/, ''),
       to: formattedPhone,
       body: messageBody
     });
 
-    console.log(`[TWILIO] SMS OTP sent to ${formattedPhone}`);
+    console.log(
+      `[TWILIO] SMS OTP accepted to ${formattedPhone} (sid=${response.sid}, status=${response.status})`
+    );
   } catch (error: any) {
     console.error('[TWILIO] Failed to send SMS OTP:', {
       code: error?.code,

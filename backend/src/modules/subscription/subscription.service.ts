@@ -191,17 +191,26 @@ export const activateSubscription = async (
             const telegramLink = (fullSubscription.plan as any).telegramLink || '';
             const message = `Dear ${userName},\nYour subscription to ${planName} is now ACTIVE!\nJoin your advisory Telegram channel here: ${telegramLink}\n\nThank you for choosing Ashwini SD Research.`;
 
-            // Try WhatsApp first, fall back to SMS
+            let whatsappSucceeded = false;
+
+            // Attempt WhatsApp first.
             try {
                 await sendWhatsAppMessage(fullSubscription.user.phone, message);
-                console.log(`[SUBSCRIPTION] WhatsApp confirmation sent for subscription ${subscriptionId}`);
+                whatsappSucceeded = true;
+                console.log(`[SUBSCRIPTION] WhatsApp confirmation accepted for subscription ${subscriptionId}`);
             } catch (waErr: any) {
-                console.warn(`[SUBSCRIPTION] WhatsApp failed (${waErr?.message}), trying SMS fallback...`);
-                try {
-                    await sendSMSMessage(fullSubscription.user.phone, message);
-                    console.log(`[SUBSCRIPTION] SMS confirmation sent for subscription ${subscriptionId}`);
-                } catch (smsErr: any) {
+                console.warn(`[SUBSCRIPTION] WhatsApp failed (${waErr?.message}), trying SMS...`);
+            }
+
+            // Also send SMS to improve delivery reliability.
+            try {
+                await sendSMSMessage(fullSubscription.user.phone, message);
+                console.log(`[SUBSCRIPTION] SMS confirmation accepted for subscription ${subscriptionId}`);
+            } catch (smsErr: any) {
+                if (!whatsappSucceeded) {
                     console.error(`[SUBSCRIPTION] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+                } else {
+                    console.warn(`[SUBSCRIPTION] WhatsApp accepted, but SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
                 }
             }
         } else {
