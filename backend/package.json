@@ -12,7 +12,9 @@
         "prisma:migrate": "prisma migrate dev",
         "prisma:migrate:deploy": "prisma migrate deploy",
         "prisma:studio": "prisma studio",
-        "prisma:seed": "ts-node prisma/seed.ts"
+        "prisma:seed": "ts-node prisma/seed.ts",
+        "test": "jest --runInBand",
+        "test:watch": "jest --watch"
     },
     "keywords": [
         "stock-market",
@@ -40,7 +42,11 @@
         "typescript": "^5.3.3"
     },
     "devDependencies": {
+        "@types/jest": "^30.0.0",
+        "fast-check": "^4.6.0",
+        "jest": "^30.3.0",
         "nodemon": "^3.0.2",
+        "ts-jest": "^29.4.9",
         "ts-node": "^10.9.2"
     },
     "prisma": {
