@@ -6,6 +6,51 @@ import ApiResponse from '../../utils/apiResponse';
 import ApiError from '../../utils/apiError';
 import fs from 'fs';
 import path from 'path';
+import { sendWhatsAppMessage, sendSMSMessage } from '../auth/twilio.service';
+
+/**
+ * Send Telegram link notification after e-sign completion
+ * Attempts WhatsApp first, falls back to SMS if WhatsApp fails
+ * Non-blocking: logs errors without throwing
+ */
+const sendTelegramLinkNotification = async (subscriptionId: string): Promise<void> => {
+    try {
+        const subscription = await prisma.subscription.findUnique({
+            where: { id: subscriptionId },
+            include: {
+                plan: true,
+                user: true,
+            },
+        });
+
+        if (!subscription || !subscription.user.phone) {
+            console.warn(`[ESIGN] No phone number found for subscription ${subscriptionId}`);
+            return;
+        }
+
+        const userName = subscription.user.name || 'Valued Customer';
+        const planName = subscription.plan.name;
+        const telegramLink = subscription.plan.telegramLink || '';
+        const message = `Dear ${userName},\n\nYour subscription agreement for ${planName} has been successfully signed!\n\nJoin your advisory Telegram channel here: ${telegramLink}\n\nThank you for choosing Ashwini SD Research.`;
+
+        // Try WhatsApp first, fall back to SMS
+        try {
+            await sendWhatsAppMessage(subscription.user.phone, message);
+            console.log(`[ESIGN] WhatsApp Telegram link sent for subscription ${subscriptionId}`);
+        } catch (waErr: any) {
+            console.warn(`[ESIGN] WhatsApp failed (${waErr?.message}), trying SMS fallback...`);
+            try {
+                await sendSMSMessage(subscription.user.phone, message);
+                console.log(`[ESIGN] SMS Telegram link sent for subscription ${subscriptionId}`);
+            } catch (smsErr: any) {
+                console.error(`[ESIGN] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+            }
+        }
+    } catch (err) {
+        console.error('[ESIGN] Failed to send Telegram link notification:', err);
+        // Don't throw — signStatus update should succeed even if notification fails
+    }
+};
 
 /**
  * Generate a simple agreement PDF as base64
@@ -211,6 +256,9 @@ export const getSignStatus = async (
                         },
                     });
                     latestStatus = SignStatus.SIGNED;
+
+                    // Send Telegram link notification after successful sign
+                    await sendTelegramLinkNotification(subscriptionId);
                 } else if (docStatus.agreement_status === 'rejected' || docStatus.agreement_status === 'expired') {
                     await prisma.subscription.update({
                         where: { id: subscriptionId },
@@ -294,6 +342,11 @@ export const handleSignWebhook = async (
 
         console.log(`[ESIGN WEBHOOK] Updated subscription ${subscription.id} sign status to ${signStatus}`);
 
+        // Send Telegram link notification if signing completed
+        if (signStatus === SignStatus.SIGNED) {
+            await sendTelegramLinkNotification(subscription.id);
+        }
+
         res.status(200).json({ success: true, message: `Sign status updated to ${signStatus}` });
 
     } catch (error) {
@@ -371,6 +424,11 @@ export const updateSignStatus = async (
                 ...(signedAt && { signedAt }),
             },
         });
+
+        // Send Telegram link notification if signing completed
+        if (signStatus === SignStatus.SIGNED) {
+            await sendTelegramLinkNotification(subscriptionId);
+        }
 
         ApiResponse.success(res, {
             signStatus,
