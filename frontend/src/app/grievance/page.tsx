@@ -1,7 +1,102 @@
+"use client";
+
 import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Mail, Phone, Clock, ShieldCheck } from "lucide-react";
+import { Mail, Phone, Clock, ShieldCheck, Send } from "lucide-react";
+import { useState } from "react";
+
+function GrievanceForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    issue: "",
+  });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "f5e9b95b-ceb0-42ce-a6ce-b9511c7f96e6",
+          subject: "New Grievance Redressal Submission",
+          ...formData,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setStatus("success");
+        setFormData({ name: "", contact: "", issue: "" });
+        alert("Grievance submitted successfully. We will contact you soon.");
+      } else {
+        setStatus("error");
+        alert("Failed to submit grievance. Please try again.");
+      }
+    } catch (_) {
+      setStatus("error");
+      alert("An error occurred while submitting. Please try again.");
+    } finally {
+      setStatus("idle");
+    }
+  };
+
+  return (
+    <form className="mt-8 space-y-4 border-t border-gray-100 dark:border-gray-800 pt-8" onSubmit={handleSubmit}>
+      <h3 className="text-xl font-bold text-foreground mb-4">Submit Your Complaint Details</h3>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <label className="text-sm font-bold text-gray-700 dark:text-gray-300">Name</label>
+          <input
+            type="text"
+            required
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+            placeholder="Your Full Name"
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-bold text-gray-700 dark:text-gray-300">Contact Details</label>
+          <input
+            type="text"
+            required
+            value={formData.contact}
+            onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+            className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+            placeholder="Email or Phone Number"
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <label className="text-sm font-bold text-gray-700 dark:text-gray-300">Description of the Issue</label>
+        <textarea
+          required
+          rows={4}
+          value={formData.issue}
+          onChange={(e) => setFormData({ ...formData, issue: e.target.value })}
+          className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+          placeholder="Please describe your complaint in detail..."
+        />
+      </div>
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="w-full py-4 bg-primary text-secondary font-bold rounded-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-70"
+      >
+        {status === "loading" ? "Submitting..." : "Submit Grievance"}
+        <Send className="w-4 h-4" />
+      </button>
+    </form>
+  );
+}
 
 export default function GrievancePage() {
   return (
@@ -30,7 +125,7 @@ export default function GrievancePage() {
               📧 How to Raise a Complaint
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">
-              You can contact us through:
+              You can contact us directly through:
             </p>
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50">
@@ -48,15 +143,8 @@ export default function GrievancePage() {
                 </div>
               </div>
             </div>
-            <div className="space-y-4">
-              <p className="font-bold text-foreground">Please include:</p>
-              <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2 text-lg">
-                <li>Your Name</li>
-                <li>Contact Details</li>
-                <li>Description of the issue</li>
-                <li>Supporting documents (if any)</li>
-              </ul>
-            </div>
+            
+            <GrievanceForm />
           </div>
         </FadeIn>
 

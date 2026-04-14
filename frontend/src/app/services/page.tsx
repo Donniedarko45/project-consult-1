@@ -223,18 +223,18 @@ export default function ServicesPage() {
             </div>
           </FadeIn>
           
-          <FadeIn direction="left" className="bg-primary hover:bg-primary/90 transition-colors p-8 md:p-12 rounded-3xl text-white text-center shadow-2xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <h3 className="text-3xl md:text-4xl font-black mb-4">🚀 Take the Next Step</h3>
-            <p className="text-lg text-white/90 mb-8 font-medium">
+          <FadeIn direction="left" className="relative z-10 bg-primary hover:bg-primary/90 transition-colors p-8 md:p-12 rounded-3xl text-white text-center shadow-2xl overflow-hidden group">
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+            <h3 className="relative z-10 text-3xl md:text-4xl font-black mb-4">🚀 Take the Next Step</h3>
+            <p className="relative z-10 text-lg text-white/90 mb-8 font-medium">
               Join now and experience research-driven trading with clarity and confidence
             </p>
             <Link 
               href="/signup" 
-              className="inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-full font-black text-lg hover:bg-gray-50 transition-all shadow-xl hover:scale-105 active:scale-95"
+              className="relative z-10 inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-full font-black text-lg hover:bg-gray-50 transition-all shadow-xl hover:scale-105 active:scale-95"
             >
               Get Started Today
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 w-5 h-5 pointer-events-none" />
             </Link>
           </FadeIn>
         </div>

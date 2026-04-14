@@ -22,7 +22,7 @@ const workshops = [
     time: "10:00 AM",
     level: "Intermediate",
     attendees: 450,
-    price: "₹10",
+    price: "₹999",
     image: "from-blue-600 to-indigo-600",
     icon: Zap,
     popular: true,
@@ -35,7 +35,7 @@ const workshops = [
     time: "11:00 AM",
     level: "Beginner Friendly",
     attendees: 280,
-    price: "₹499",
+    price: "₹999",
     image: "from-emerald-500 to-teal-500",
     icon: star_icon,
     popular: false,
@@ -165,12 +165,14 @@ export function WorkshopsSection() {
                       </div>
                     </div>
 
-                    <motion.button
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full mt-6 bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                    >
-                      Reserve Seat <ArrowRight className="w-4 h-4" />
-                    </motion.button>
+                    <Link href="/signup" suppressHydrationWarning className="w-full mt-6 block">
+                      <motion.button
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                      >
+                        Reserve Seat <ArrowRight className="w-4 h-4" />
+                      </motion.button>
+                    </Link>
                   </div>
                 </div>
               </motion.div>
