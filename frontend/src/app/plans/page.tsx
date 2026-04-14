@@ -197,20 +197,29 @@ export default function PlansPage() {
 
       <div className="container mx-auto px-6 pb-24 text-center relative z-10">
         <FadeIn delay={0.2}>
-          <div className="max-w-3xl mx-auto p-12 glass rounded-[3.5rem] border border-primary/10">
-            <h4 className="text-foreground font-black uppercase tracking-[0.2em] text-sm mb-6 flex items-center justify-center gap-3">
-              <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-              Institutional Guidelines
-              <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+          <div className="max-w-3xl mx-auto p-12 glass rounded-[3.5rem] border border-primary/20 bg-primary/5 dark:bg-primary/5">
+            <h4 className="text-foreground font-black uppercase tracking-[0.2em] text-sm mb-8 flex items-center justify-center gap-3">
+              <span className="text-xl">⚠️</span>
+              Important Notes
             </h4>
-            <div className="space-y-6">
-              <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest leading-loose">
-                <span className="text-primary mr-2">No Refund Policy:</span> 
-                All research subscriptions are final. The fees collected are for intellectual property and 
-                proprietary analysis which is delivered digitally.
-              </p>
-              <p className="text-[9px] text-gray-400/60 font-bold uppercase tracking-widest leading-loose">
-                Registered Research Analyst | SEBI Compliant Operations | Market Risk Disclosures Apply
+            <div className="space-y-4 text-left max-w-xl mx-auto">
+              {[
+                "All plans are non-refundable",
+                "Services are provided for educational & research purposes only",
+                "No guaranteed returns"
+              ].map((note, i) => (
+                <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-black/20 border border-black/5 dark:border-white/5 shadow-sm hover:border-primary/20 transition-colors">
+                  <div className="w-2 h-2 rounded-full bg-primary shrink-0 drop-shadow-[0_0_8px_rgba(var(--primary-rgb),0.8)]" />
+                  <p className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                    {note}
+                  </p>
+                </div>
+              ))}
+            </div>
+            
+            <div className="mt-10 pt-6 border-t border-primary/10">
+              <p className="text-[9px] text-gray-400/80 font-bold uppercase tracking-widest leading-loose">
+                SEBI Registered Research Analyst | Market Risk Disclosures Apply
               </p>
             </div>
           </div>

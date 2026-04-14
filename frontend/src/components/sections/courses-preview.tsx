@@ -149,8 +149,7 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
               )}
             </div>
             <Link
-              href="https://www.ashwinitradingacademy.com"
-              target="_blank"
+              href="/payment"
               className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-black rounded-xl hover:bg-primary/90 transition-all gap-2 text-sm"
               suppressHydrationWarning
             >

@@ -1,6 +1,6 @@
-import { TrustStrip } from "@/components/sections/trust-strip";
 import { TelegramPromo } from "@/components/sections/telegram-promo";
 import { AboutSection } from "@/components/sections/about-section";
+import { PhotoGallery } from "@/components/sections/photo-gallery";
 import { CoursesPreview } from "@/components/sections/courses-preview";
 import { VideoEducationSection } from "@/components/sections/video-education-section";
 import { HeroSection } from "@/components/sections/hero-section";
@@ -13,6 +13,7 @@ import { Footer } from "@/components/layout/footer";
 import { UrgencyStrip } from "@/components/sections/urgency-strip";
 import { FloatingIcons } from "@/components/ui/floating-icons";
 import { WorkshopsSection } from "@/components/sections/workshops-section";
+import { TrustStrip } from "@/components/sections/trust-strip";
 
 export default function Home() {
   return (

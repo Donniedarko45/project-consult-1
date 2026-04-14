@@ -42,7 +42,12 @@ export function VideoEducationSection() {
         <div className="grid md:grid-cols-3 gap-8">
           {videos.map((video, index) => (
             <FadeIn key={index} delay={index * 0.1}>
-              <div className="group relative rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 cursor-pointer">
+              <a
+                href="https://www.instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block group relative rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 cursor-pointer"
+              >
                 {/* Thumbnail */}
                 <div className="relative aspect-video overflow-hidden">
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors z-10" />
@@ -69,15 +74,20 @@ export function VideoEducationSection() {
                     {video.title}
                   </h3>
                 </div>
-              </div>
+              </a>
             </FadeIn>
           ))}
         </div>
 
         <div className="mt-12 text-center">
-          <button className="px-8 py-3 rounded-full border border-primary text-primary dark:text-blue-400 font-semibold hover:bg-primary/5 dark:hover:bg-blue-400/10 transition-colors">
-            View All Videos
-          </button>
+          <a
+            href="https://www.youtube.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-3 rounded-full border border-primary text-primary dark:text-blue-400 font-semibold hover:bg-primary/5 dark:hover:bg-blue-400/10 transition-colors"
+          >
+            Watch More On YouTube
+          </a>
         </div>
       </div>
     </section>

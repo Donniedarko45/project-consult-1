@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Timer, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
   const [timeLeft, setTimeLeft] = useState({
@@ -40,7 +41,10 @@ export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
               Limited Slots
             </div>
             <p className="text-[11px] font-black tracking-tighter opacity-90 hidden sm:block">
-              Next batch closing soon! <span className="text-yellow-200 italic underline">Join Today.</span>
+              Next batch closing soon!{" "}
+              <Link href="/signup" className="text-yellow-200 italic underline hover:text-white transition-colors cursor-pointer">
+                Join Today.
+              </Link>
             </p>
           </div>
 
@@ -75,9 +79,11 @@ export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
             </span>
           </div>
 
-          {/* Main Message */}
           <p className="text-lg lg:text-xl font-black tracking-tight text-center">
-            Next Research Batch Closing Soon! <span className="text-yellow-200 italic underline">Join Today.</span>
+            Next Research Batch Closing Soon!{" "}
+            <Link href="/signup" className="text-yellow-200 italic underline hover:text-white transition-colors cursor-pointer hover:scale-105 inline-block">
+              Join Today.
+            </Link>
           </p>
 
           {/* Countdown Timer */}

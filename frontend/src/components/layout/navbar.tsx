@@ -83,19 +83,16 @@ export function Navbar() {
                             className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800/80 rounded-2xl shadow-2xl p-4 grid grid-cols-1 gap-1.5 z-50 overflow-hidden backdrop-blur-xl"
                           >
                             {[
-                              { label: "Research Services", href: "/services" },
-                              { label: "Courses", href: "/courses" },
-                              {
-                                label: "Wealth Management",
-                                href: "/wealth-management",
-                              },
-                              { label: "Small Case", href: "/small-case" },
+                              { label: "Intraday Research Setups", href: "/services/intraday" },
+                              { label: "BTST / STBT Setups", href: "/services/btst" },
+                              { label: "Swing / Positional Setups", href: "/services/swing" },
+                              { label: "Derivatives (F&O) Research", href: "/services/derivatives" },
+                              { label: "High-Conviction Setups", href: "/services/high-conviction" },
+                              { label: "Market Direction & Key Levels", href: "/services/market-direction" },
+                              { label: "Cash Market Intraday Setups", href: "/services/cash-intraday" },
+                              { label: "Equity Swing / Positional Setups", href: "/services/equity-swing" },
+                              { label: "Courses & Training Programs", href: "/courses" },
                               { label: "Workshops", href: "/workshops" },
-                              { label: "Mutual Funds", href: "/mutual-funds" },
-                              { label: "Placements", href: "/placements" },
-                              { label: "Tools", href: "/tools" },
-                              { label: "Blog", href: "/blog" },
-                              { label: "FAQs", href: "/faqs" },
                             ].map((item) => (
                               <Link
                                 key={item.href}
