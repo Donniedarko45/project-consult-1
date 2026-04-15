@@ -22,7 +22,8 @@ const setups = [
       "Momentum-driven opportunities"
     ],
     idealFor: "Designed for traders who seek quick market movements with structured execution",
-    icon: Zap
+    icon: Zap,
+    href: "/services/intraday"
   },
   {
     id: "02",
@@ -34,7 +35,8 @@ const setups = [
       "Clear levels for tracking"
     ],
     idealFor: "Ideal for working professionals and part-time traders",
-    icon: Moon
+    icon: Moon,
+    href: "/services/btst"
   },
   {
     id: "03",
@@ -46,7 +48,8 @@ const setups = [
       "Trend-based opportunities"
     ],
     idealFor: "Perfect balance of risk and reward",
-    icon: TrendingUp
+    icon: TrendingUp,
+    href: "/services/swing"
   },
   {
     id: "04",
@@ -58,7 +61,8 @@ const setups = [
       "Market structure-based analysis"
     ],
     idealFor: "Suitable for traders looking for high-impact opportunities",
-    icon: Activity
+    icon: Activity,
+    href: "/services/derivatives"
   },
   {
     id: "05",
@@ -70,7 +74,8 @@ const setups = [
       "Strong risk-reward opportunities"
     ],
     idealFor: "Built for traders who prefer precision over volume",
-    icon: CheckCircle
+    icon: CheckCircle,
+    href: "/services/high-conviction"
   },
   {
     id: "06",
@@ -82,7 +87,8 @@ const setups = [
       "Directional clarity before trading"
     ],
     idealFor: "Helps you trade with confidence, not confusion",
-    icon: Compass
+    icon: Compass,
+    href: "/services/market-direction"
   },
   {
     id: "07",
@@ -94,7 +100,8 @@ const setups = [
       "No leverage-based approach"
     ],
     idealFor: "Best suited for beginners and conservative traders",
-    icon: LineChart
+    icon: LineChart,
+    href: "/services/cash-intraday"
   },
   {
     id: "08",
@@ -106,7 +113,8 @@ const setups = [
       "Clear tracking levels"
     ],
     idealFor: "Ideal for steady and less stressful trading",
-    icon: BarChart
+    icon: BarChart,
+    href: "/services/equity-swing"
   },
   {
     id: "09",
@@ -118,7 +126,8 @@ const setups = [
       "Real-market case studies"
     ],
     idealFor: "Build skills to become an independent trader",
-    icon: GraduationCap
+    icon: GraduationCap,
+    href: "https://ashwinitradingacademy.com/"
   },
   {
     id: "10",
@@ -130,7 +139,8 @@ const setups = [
       "Beginner-friendly explanations"
     ],
     idealFor: "Perfect starting point for new traders",
-    icon: Presentation
+    icon: Presentation,
+    href: "https://ashwinitradingacademy.com/"
   }
 ];
 
@@ -183,11 +193,20 @@ export default function ServicesPage() {
                       ))}
                     </div>
 
-                    <div className="pt-6 border-t border-gray-100 dark:border-white/5 mt-auto">
+                    <div className="pt-6 border-t border-gray-100 dark:border-white/5 mt-auto space-y-4">
                       <div className="flex gap-3 p-4 bg-primary/5 dark:bg-primary/10 rounded-2xl text-[12px] text-primary/80 dark:text-primary/90 items-start border border-primary/10 dark:border-primary/20 group-hover:border-primary/30 transition-all">
                         <ChevronRight className="w-4 h-4 shrink-0 mt-0.5 text-primary" />
                         <p className="font-bold leading-relaxed">{setup.idealFor}</p>
                       </div>
+                      
+                      <Link 
+                        href={setup.href}
+                        className="flex items-center justify-between w-full p-4 rounded-2xl bg-gray-50 dark:bg-white/5 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-primary hover:text-white transition-all group/link"
+                        suppressHydrationWarning
+                      >
+                        Explore Dedicated Page
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                      </Link>
                     </div>
                   </div>
                 </div>

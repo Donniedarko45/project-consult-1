@@ -7,7 +7,16 @@ import { Presentation, Video, MessageCircleQuestion, Users, Calendar, ArrowRight
 import Link from "next/link";
 import Image from "next/image";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 export default function WorkshopsPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    window.location.href = "https://ashwinitradingacademy.com/";
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#001428] text-sky-100 relative overflow-hidden font-sans">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1200px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-900/20 via-transparent to-transparent pointer-events-none" />
@@ -68,7 +77,7 @@ export default function WorkshopsPage() {
 
           <div className="text-center">
              <Link 
-                href="/signup" 
+                href="/enquiry?subject=Workshop Inquiry" 
                 className="inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-400 text-slate-900 px-12 py-5 rounded-full font-black text-xl transition-all shadow-[0_0_40px_rgba(14,165,233,0.3)] hover:scale-105"
               >
                 Reserve Your Seat

@@ -81,7 +81,7 @@ export function WorkshopsSection() {
             </div>
 
             <Link
-              href="/workshops"
+              href="https://ashwinitradingacademy.com/"
               className="hidden md:flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all"
               suppressHydrationWarning
             >
@@ -165,7 +165,7 @@ export function WorkshopsSection() {
                       </div>
                     </div>
 
-                    <Link href="/signup" suppressHydrationWarning className="w-full mt-6 block">
+                    <Link href={`/enquiry?subject=Reserve Seat: ${workshop.title}`} suppressHydrationWarning className="w-full mt-6 block">
                       <motion.button
                         whileTap={{ scale: 0.98 }}
                         className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
@@ -182,7 +182,7 @@ export function WorkshopsSection() {
 
         <div className="mt-12 text-center md:hidden">
           <Link
-            href="/workshops"
+            href="https://ashwinitradingacademy.com/"
             className="inline-flex items-center gap-2 text-primary font-bold"
             suppressHydrationWarning
           >

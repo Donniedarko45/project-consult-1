@@ -7,7 +7,16 @@ import { GraduationCap, BookOpen, Layers, LibraryBig, ArrowRight } from "lucide-
 import Link from "next/link";
 import Image from "next/image";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 export default function CoursesPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    window.location.href = "https://ashwinitradingacademy.com/";
+  }, []);
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-200 relative overflow-hidden font-sans">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[150px] pointer-events-none" />

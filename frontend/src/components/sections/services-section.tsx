@@ -18,6 +18,7 @@ const services = [
     ],
     note: "Designed for traders who want fast-moving opportunities with structured execution",
     telegramLink: "https://t.me/indexfuturesandoptions",
+    pageLink: "/services/derivatives",
   },
   {
     icon: TrendingUp,
@@ -32,6 +33,7 @@ const services = [
     ],
     note: "Ideal for traders looking beyond index and targeting stock-specific moves",
     telegramLink: "https://t.me/stockfuturesandoptions",
+    pageLink: "/services/derivatives",
   },
   {
     icon: Zap,
@@ -47,6 +49,7 @@ const services = [
     note: "Built for traders who want to take advantage of expiry volatility with discipline",
     telegramLink: "https://t.me/herozeropremiumtrades",
     highlight: true,
+    pageLink: "/services/intraday",
   },
   {
     icon: ShieldCheck,
@@ -61,6 +64,7 @@ const services = [
     ],
     note: "Perfect for traders who prefer consistency over high-risk trading",
     telegramLink: "https://t.me/indexoptionsellingtrades",
+    pageLink: "/services/derivatives",
   },
   {
     icon: PieChart,
@@ -75,6 +79,7 @@ const services = [
     ],
     note: "Ideal for investors who want to grow capital with smart stock selection",
     telegramLink: "https://t.me/equitycashmultibaggerstock",
+    pageLink: "/services/equity-swing",
   },
 ];
 
@@ -139,19 +144,34 @@ export function ServicesSection() {
                     👉 {service.note}
                   </p>
 
-                  <Link
-                    href={service.telegramLink}
-                    target="_blank"
-                    className={`mt-2 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl font-black text-sm transition-all hover:scale-[1.02] ${
-                      service.highlight
-                        ? "bg-white text-primary hover:bg-white/90"
-                        : "bg-primary/10 text-primary hover:bg-primary hover:text-white"
-                    }`}
-                    suppressHydrationWarning
-                  >
-                    <Send className="w-4 h-4" />
-                    Join Channel
-                  </Link>
+                  <div className="pt-2 space-y-3">
+                    <Link
+                      href={service.pageLink}
+                      className={`inline-flex items-center justify-between w-full px-5 py-3 rounded-xl font-bold text-xs transition-all ${
+                        service.highlight
+                          ? "bg-white/10 text-white hover:bg-white/20"
+                          : "bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 hover:text-primary"
+                      }`}
+                      suppressHydrationWarning
+                    >
+                      Explore Service Details
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+
+                    <Link
+                      href={service.telegramLink}
+                      target="_blank"
+                      className={`inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl font-black text-sm transition-all hover:scale-[1.02] shadow-lg ${
+                        service.highlight
+                          ? "bg-white text-primary hover:bg-gray-50 shadow-white/10"
+                          : "bg-primary text-secondary hover:opacity-90 shadow-primary/20"
+                      }`}
+                      suppressHydrationWarning
+                    >
+                      <Send className="w-4 h-4 transition-transform group-hover/btn:rotate-12" />
+                      Join The Telegram Channel
+                    </Link>
+                  </div>
                 </div>
               </div>
             </FadeIn>

@@ -5,7 +5,7 @@ import Link from "next/link";
 export function TelegramButton() {
   return (
     <Link
-      href="https://t.me/yourchannel" // Replace with actual channel link
+      href="https://t.me/tradewithashwinisd6" 
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-24 right-6 z-50 flex items-center justify-center w-14 h-14 bg-[#0088cc] hover:bg-[#0077b5] text-white rounded-full shadow-2xl transition-transform hover:scale-110 animate-bounce-slow"

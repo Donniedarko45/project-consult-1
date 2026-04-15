@@ -15,6 +15,7 @@ export function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredServices, setHoveredServices] = useState(false);
+  const [hoveredPlans, setHoveredPlans] = useState(false);
   const { isAuthenticated } = useAuth();
 
   const navLinks = [
@@ -91,8 +92,59 @@ export function Navbar() {
                               { label: "Market Direction & Key Levels", href: "/services/market-direction" },
                               { label: "Cash Market Intraday Setups", href: "/services/cash-intraday" },
                               { label: "Equity Swing / Positional Setups", href: "/services/equity-swing" },
-                              { label: "Courses & Training Programs", href: "/courses" },
-                              { label: "Workshops", href: "/workshops" },
+                              { label: "Courses & Training Programs", href: "https://ashwinitradingacademy.com/" },
+                              { label: "Workshops", href: "https://ashwinitradingacademy.com/" },
+                            ].map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="block px-4 py-3 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary dark:hover:bg-white/5 dark:hover:text-white transition-all text-left"
+                              >
+                                {item.label}
+                              </Link>
+                            ))}
+                            <div className="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent pointer-events-none opacity-50" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : link.href === "/plans" ? (
+                    <div
+                      onMouseEnter={() => setHoveredPlans(true)}
+                      onMouseLeave={() => setHoveredPlans(false)}
+                      className="relative"
+                    >
+                      <Link
+                        href={link.href}
+                        className={`px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
+                          isActive || hoveredPlans
+                            ? "text-primary dark:text-white"
+                            : "text-gray-600 dark:text-gray-400"
+                        }`}
+                      >
+                        <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                        {link.label}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${hoveredPlans ? "rotate-180" : ""}`} />
+                      </Link>
+
+                      {/* Plans Dropdown */}
+                      <AnimatePresence>
+                        {hoveredPlans && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800/80 rounded-2xl shadow-2xl p-4 grid grid-cols-1 gap-1.5 z-50 overflow-hidden backdrop-blur-xl"
+                          >
+                            {[
+                              { label: "All Research Plans", href: "/plans" },
+                              { label: "Test Plan (Trial)", href: "/plans/test-plan" },
+                              { label: "Index Option Selling", href: "/plans/index-option-selling" },
+                              { label: "Equity Cash Setups", href: "/plans/equity-cash" },
+                              { label: "Hero Zero Expiry Special", href: "/plans/hero-zero-expiry-premium" },
+                              { label: "Stock Futures & Options", href: "/plans/stock-futures-and-options" },
+                              { label: "Index Futures & Options", href: "/plans/index-futures-and-options" },
                             ].map((item) => (
                               <Link
                                 key={item.href}

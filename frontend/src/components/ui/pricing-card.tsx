@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Check, ArrowRight, Star, ShieldCheck } from "lucide-react";
 
@@ -44,60 +46,63 @@ export function PricingCard({
           </div>
         )}
 
-        <div className="p-8 lg:p-10 flex flex-col h-full relative z-10">
+        <div className="p-10 lg:p-14 flex flex-col h-full relative z-10">
           {/* Header */}
-          <div className="mb-8">
-            <div className={`inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 ${
-              isPopular ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400" : "bg-primary/10 text-primary"
+          <div className="mb-10">
+            <div className={`inline-block px-5 py-1.5 rounded-full text-[11px] font-black uppercase tracking-[0.25em] mb-6 ${
+              isPopular ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20" : "bg-primary/10 text-primary border border-primary/20"
             }`}>
-              {duration} Plan
+              {duration} Access
             </div>
-            <h3 className="text-3xl lg:text-4xl font-black text-foreground leading-none tracking-tight">
+            <h3 className="text-4xl lg:text-5xl font-black text-foreground leading-[1.1] tracking-tighter mb-4">
               {planName}
             </h3>
-            <p className="text-gray-400 text-sm font-bold mt-2 uppercase tracking-wide opacity-60">
-              Professional Research
-            </p>
+            <div className="flex items-center gap-3">
+              <div className="h-1 w-12 bg-primary/30 rounded-full" />
+              <p className="text-gray-400 text-[11px] font-black uppercase tracking-[0.2em] opacity-80">
+                Institutional Research
+              </p>
+            </div>
           </div>
 
           {/* Pricing */}
-          <div className="mb-10">
+          <div className="mb-12">
             {originalPrice && (
-              <div className="flex items-center gap-3 mb-1">
-                <span className="text-gray-400 line-through text-lg font-bold opacity-50">{originalPrice}</span>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-gray-400 line-through text-xl font-bold opacity-40">{originalPrice}</span>
                 {discount && (
-                  <span className="px-2 py-0.5 bg-green-500/10 text-green-500 text-[10px] font-black rounded-lg uppercase tracking-wider">
-                    -{discount} OFF
+                  <span className="px-3 py-1 bg-green-500 text-white text-[10px] font-black rounded-lg uppercase tracking-wider shadow-lg shadow-green-500/20">
+                    SAVE {discount}
                   </span>
                 )}
               </div>
             )}
-            <div className="flex items-baseline gap-1">
-              <span className={`text-6xl font-black tracking-tighter ${isPopular ? "text-yellow-600 dark:text-yellow-400" : "text-foreground"}`}>
+            <div className="flex items-baseline gap-2">
+              <span className={`text-7xl lg:text-8xl font-black tracking-tighter ${isPopular ? "text-yellow-600 dark:text-yellow-400" : "text-foreground"}`}>
                 {price}
               </span>
-              <span className="text-gray-400 text-xs font-black uppercase tracking-widest pb-2 opacity-60">
-                / {duration.toLowerCase()}
-              </span>
+              <div className="flex flex-col mb-2">
+                <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest opacity-60">Inclusive of</span>
+                <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest opacity-60">GST & Fees</span>
+              </div>
             </div>
           </div>
 
           {/* Features */}
-          <div className="grow space-y-6 mb-10">
-            <div className="flex items-center gap-3">
-              <div className="h-px grow bg-gray-100 dark:bg-white/5" />
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap">Core Benefits</span>
-              <div className="h-px grow bg-gray-100 dark:bg-white/5" />
+          <div className="grow space-y-8 mb-12">
+            <div className="flex items-center gap-4">
+              <span className="text-[11px] font-black text-primary uppercase tracking-[0.2em] whitespace-nowrap">Core Deliverables</span>
+              <div className="h-px grow bg-linear-to-r from-primary/20 to-transparent" />
             </div>
-            <ul className="space-y-4">
+            <ul className="grid grid-cols-1 gap-5">
               {servicesIncluded.map((service, index) => (
                 <li key={index} className="flex items-start group/item">
-                  <div className={`mt-1 h-5 w-5 rounded-full flex items-center justify-center shrink-0 mr-4 transition-colors ${
-                    isPopular ? "bg-yellow-500/20 text-yellow-600" : "bg-primary/10 text-primary"
+                  <div className={`mt-1 h-6 w-6 rounded-xl flex items-center justify-center shrink-0 mr-5 transition-all duration-500 group-hover/item:scale-110 ${
+                    isPopular ? "bg-yellow-500/20 text-yellow-600 shadow-lg shadow-yellow-500/10" : "bg-primary/20 text-primary shadow-lg shadow-primary/10"
                   }`}>
-                    <Check className="w-3 h-3 stroke-[4px]" />
+                    <Check className="w-3.5 h-3.5 stroke-[4px]" />
                   </div>
-                  <span className="text-sm lg:text-base font-bold text-gray-600 dark:text-gray-300 group-hover/item:text-foreground transition-colors leading-snug">
+                  <span className="text-base lg:text-lg font-bold text-gray-600 dark:text-gray-300 group-hover/item:text-foreground transition-colors leading-relaxed">
                     {service}
                   </span>
                 </li>
@@ -106,37 +111,37 @@ export function PricingCard({
           </div>
 
           {/* Footer Section */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-white/2 rounded-2xl border border-gray-100 dark:border-white/5">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white dark:bg-white/5 rounded-lg shadow-sm">
-                  <ShieldCheck className={`w-4 h-4 ${isPopular ? "text-yellow-500" : "text-primary"}`} />
+          <div className="space-y-8">
+            <div className="p-6 bg-gray-50/50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10 backdrop-blur-sm">
+              <div className="flex items-center gap-5">
+                <div className="p-3 bg-white dark:bg-white/10 rounded-xl shadow-sm border border-black/5 dark:border-white/10">
+                  <ShieldCheck className={`w-5 h-5 ${isPopular ? "text-yellow-500" : "text-primary"}`} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Delivery Mode</span>
-                  <span className="text-[11px] font-black text-foreground uppercase tracking-wider">{deliveryMode}</span>
+                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Deployment Channel</span>
+                  <span className="text-xs font-black text-foreground uppercase tracking-widest">{deliveryMode}</span>
                 </div>
               </div>
             </div>
 
             <Link
               href={`/payment?plan=${encodeURIComponent(planName)}&price=${encodeURIComponent(price)}&planId=${encodeURIComponent(planId || "")}`}
-              className={`relative flex items-center justify-center w-full px-8 py-5 text-lg font-black rounded-[1.5rem] transition-all duration-500 group/btn overflow-hidden ${
+              className={`relative flex items-center justify-center w-full px-10 py-6 text-xl font-black rounded-[2rem] transition-all duration-500 group/btn overflow-hidden ${
                 isPopular 
-                  ? "bg-yellow-500 text-white shadow-[0_10px_20px_-5px_rgba(234,179,8,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(234,179,8,0.5)] hover:-translate-y-1" 
-                  : "bg-primary text-secondary shadow-[0_10px_20px_-5px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_15px_30px_-5px_rgba(var(--primary-rgb),0.4)] hover:-translate-y-1"
+                  ? "bg-yellow-500 text-white shadow-[0_15px_30px_-5px_rgba(234,179,8,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(234,179,8,0.6)] hover:-translate-y-1.5" 
+                  : "bg-primary text-secondary shadow-[0_15px_30px_-5px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_20px_40px_-5px_rgba(var(--primary-rgb),0.5)] hover:-translate-y-1.5"
               }`}
             >
-              <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]" />
+              <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_2s_infinite]" />
               <span className="relative z-10 flex items-center">
-                Get Started
-                <ArrowRight className="w-5 h-5 ml-3 transition-transform group-hover/btn:translate-x-1" />
+                Access Research
+                <ArrowRight className="w-6 h-6 ml-4 transition-transform group-hover/btn:translate-x-2" />
               </span>
             </Link>
             
-            <div className="bg-orange-50/50 dark:bg-orange-900/5 p-4 rounded-2xl border border-orange-100/50 dark:border-orange-900/10">
-              <p className="text-[10px] text-orange-800/60 dark:text-orange-400/60 text-center leading-relaxed font-bold">
-                {riskDisclaimer}
+            <div className="bg-orange-50/30 dark:bg-orange-950/20 p-5 rounded-2xl border border-orange-100/50 dark:border-orange-900/20">
+              <p className="text-[11px] text-orange-800/70 dark:text-orange-400/70 text-center leading-relaxed font-bold">
+                ⚠️ {riskDisclaimer}
               </p>
             </div>
           </div>
