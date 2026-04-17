@@ -94,7 +94,7 @@ export const config: Config = {
     environment: getEnvVar("DIGIO_ENV", "sandbox") as "sandbox" | "production",
   },
   brevo: {
-    apiKey: getEnvVar("BREVO_API_KEY"),
+    apiKey: getEnvVar("BREVO_API_KEY", ""),
     smsSender: getEnvVar("BREVO_SMS_SENDER", "AshwiniSD"),
     whatsappSender: getEnvVar("BREVO_WHATSAPP_SENDER", ""),
     whatsappTemplateId: parseInt(getEnvVar("BREVO_WHATSAPP_TEMPLATE_ID", "1"), 10),
