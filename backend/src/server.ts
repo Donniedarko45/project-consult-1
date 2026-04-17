@@ -13,6 +13,7 @@ import subscriptionRoutes from './modules/subscription/subscription.routes';
 import paymentRoutes from './modules/payment/payment.routes';
 import webhookRoutes from './modules/payment/webhook.routes';
 import ekycRoutes from './modules/ekyc/ekyc.routes';
+import contactRoutes from './modules/contact/contact.routes';
 
 const app: Express = express();
 
@@ -63,6 +64,7 @@ app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/ekyc', ekycRoutes);
+app.use('/contact', contactRoutes);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {

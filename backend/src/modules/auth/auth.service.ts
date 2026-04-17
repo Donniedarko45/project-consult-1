@@ -1,7 +1,7 @@
 import prisma from '../../prisma/client';
 import { generateToken } from '../../utils/jwt';
 import { generateOTP, getOTPExpiry, isOTPExpired, formatPhoneNumber } from '../../utils/helpers';
-import { sendSMSOTP } from './twilio.service';
+import { sendSMSOTP } from './brevo.service';
 import ApiError from '../../utils/apiError';
 
 interface SendOTPResult {

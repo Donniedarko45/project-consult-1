@@ -105,21 +105,17 @@ jobs:
             CASHFREE_CLIENT_ID_VALUE="${{ secrets.CASHFREE_CLIENT_ID }}"
             CASHFREE_CLIENT_SECRET_VALUE="${{ secrets.CASHFREE_CLIENT_SECRET }}"
             CASHFREE_ENV_VALUE="${{ secrets.CASHFREE_ENV }}"
+            BREVO_API_KEY_VALUE="${{ secrets.BREVO_API_KEY }}"
 
             if [ -z "$DATABASE_URL_VALUE" ]; then echo "Missing required GitHub secret: DATABASE_URL"; exit 1; fi
             if [ -z "$JWT_SECRET_VALUE" ]; then echo "Missing required GitHub secret: JWT_SECRET"; exit 1; fi
-            if [ -z "$TWILIO_ACCOUNT_SID_VALUE" ]; then echo "Missing required GitHub secret: TWILIO_ACCOUNT_SID"; exit 1; fi
-            if [ -z "$TWILIO_AUTH_TOKEN_VALUE" ]; then echo "Missing required GitHub secret: TWILIO_AUTH_TOKEN"; exit 1; fi
             if [ -z "$CASHFREE_CLIENT_ID_VALUE" ]; then echo "Missing required GitHub secret: CASHFREE_CLIENT_ID"; exit 1; fi
             if [ -z "$CASHFREE_CLIENT_SECRET_VALUE" ]; then echo "Missing required GitHub secret: CASHFREE_CLIENT_SECRET"; exit 1; fi
             if [ -z "$CASHFREE_ENV_VALUE" ]; then echo "Missing required GitHub secret: CASHFREE_ENV"; exit 1; fi
+            if [ -z "$BREVO_API_KEY_VALUE" ]; then echo "Missing required GitHub secret: BREVO_API_KEY"; exit 1; fi
 
             TWILIO_PHONE_VALUE="${{ secrets.TWILIO_PHONE_NUMBER }}"
             TWILIO_WHATSAPP_VALUE="${{ secrets.TWILIO_WHATSAPP_NUMBER }}"
-            if [ -z "$TWILIO_PHONE_VALUE" ] && [ -z "$TWILIO_WHATSAPP_VALUE" ]; then
-              echo "Missing Twilio phone secret. Set TWILIO_PHONE_NUMBER or TWILIO_WHATSAPP_NUMBER."
-              exit 1
-            fi
             if [ -z "$TWILIO_PHONE_VALUE" ]; then
               TWILIO_PHONE_VALUE="$TWILIO_WHATSAPP_VALUE"
             fi
@@ -140,6 +136,12 @@ jobs:
             DIGIO_CLIENT_ID_VALUE="$(sanitize_single_line "${{ secrets.DIGIO_CLIENT_ID }}")"
             DIGIO_CLIENT_SECRET_VALUE="$(sanitize_single_line "${{ secrets.DIGIO_CLIENT_SECRET }}")"
             DIGIO_ENV_VALUE="$(sanitize_single_line "${{ secrets.DIGIO_ENV }}")"
+            BREVO_API_KEY_VALUE="$(sanitize_single_line "$BREVO_API_KEY_VALUE")"
+            BREVO_SMS_SENDER_VALUE="$(sanitize_single_line "${{ secrets.BREVO_SMS_SENDER }}")"
+            BREVO_WHATSAPP_SENDER_VALUE="$(sanitize_single_line "${{ secrets.BREVO_WHATSAPP_SENDER }}")"
+            BREVO_WHATSAPP_TEMPLATE_ID_VALUE="$(sanitize_single_line "${{ secrets.BREVO_WHATSAPP_TEMPLATE_ID }}")"
+            BREVO_EMAIL_SENDER_NAME_VALUE="$(sanitize_single_line "${{ secrets.BREVO_EMAIL_SENDER_NAME }}")"
+            BREVO_EMAIL_SENDER_ADDRESS_VALUE="$(sanitize_single_line "${{ secrets.BREVO_EMAIL_SENDER_ADDRESS }}")"
 
             echo "==> Pulling latest code..."
             cd $APP_DIR
@@ -172,6 +174,12 @@ jobs:
               printf 'DIGIO_CLIENT_ID=%s\n' "$DIGIO_CLIENT_ID_VALUE"
               printf 'DIGIO_CLIENT_SECRET=%s\n' "$DIGIO_CLIENT_SECRET_VALUE"
               printf 'DIGIO_ENV=%s\n' "$DIGIO_ENV_VALUE"
+              printf 'BREVO_API_KEY=%s\n' "$BREVO_API_KEY_VALUE"
+              printf 'BREVO_SMS_SENDER=%s\n' "${BREVO_SMS_SENDER_VALUE:-AshwiniSD}"
+              printf 'BREVO_WHATSAPP_SENDER=%s\n' "$BREVO_WHATSAPP_SENDER_VALUE"
+              printf 'BREVO_WHATSAPP_TEMPLATE_ID=%s\n' "${BREVO_WHATSAPP_TEMPLATE_ID_VALUE:-1}"
+              printf 'BREVO_EMAIL_SENDER_NAME=%s\n' "${BREVO_EMAIL_SENDER_NAME_VALUE:-Ashwini SD Research}"
+              printf 'BREVO_EMAIL_SENDER_ADDRESS=%s\n' "${BREVO_EMAIL_SENDER_ADDRESS_VALUE:-ashwini@ashwinisdresearch.com}"
             } > backend/.env
 
             echo "==> Secret length diagnostics (value length only):"

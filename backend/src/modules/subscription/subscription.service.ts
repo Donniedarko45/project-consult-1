@@ -2,7 +2,7 @@ import prisma from '../../prisma/client';
 import { SubscriptionStatus } from '@prisma/client';
 import ApiError from '../../utils/apiError';
 import { calculateSubscriptionEndDate } from '../../utils/helpers';
-import { sendWhatsAppMessage, sendSMSMessage } from '../auth/twilio.service';
+import { sendWhatsAppMessage, sendSMSMessage } from '../auth/brevo.service';
 
 interface SubscriptionWithPlan {
     id: string;
