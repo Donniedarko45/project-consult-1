@@ -139,7 +139,7 @@ export function Navbar() {
                           >
                             {[
                               { label: "All Research Plans", href: "/plans" },
-                              { label: "Test Plan (Trial)", href: "/plans/test-plan" },
+                              // { label: "Test Plan (Trial)", href: "/plans/test-plan" },
                               { label: "Index Option Selling", href: "/plans/index-option-selling" },
                               { label: "Equity Cash Setups", href: "/plans/equity-cash" },
                               { label: "Hero Zero Expiry Special", href: "/plans/hero-zero-expiry-premium" },

@@ -267,12 +267,6 @@ export function Footer() {
                   >
                     ashwini@ashwinisdresearch.com
                   </a>
-                  <a
-                    href="mailto:compliance@ashwinisdresearch.com"
-                    className="block font-semibold text-white transition-colors hover:text-primary"
-                  >
-                    compliance@ashwinisdresearch.com
-                  </a>
                 </div>
               </li>
               <li className="flex items-start gap-4">
