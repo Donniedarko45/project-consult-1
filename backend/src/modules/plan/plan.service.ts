@@ -15,7 +15,14 @@ interface SubscriptionPlan {
  */
 export const getAllPlans = async (): Promise<SubscriptionPlan[]> => {
     const plans = await prisma.subscriptionPlan.findMany({
-        where: { isActive: true },
+        where: {
+            isActive: true,
+            NOT: [
+                { name: { contains: 'Test', mode: 'insensitive' } },
+                { name: { contains: 'Trial', mode: 'insensitive' } },
+                { description: { contains: '(Demo)', mode: 'insensitive' } },
+            ],
+        },
         orderBy: { durationMonths: 'asc' },
     });
 
