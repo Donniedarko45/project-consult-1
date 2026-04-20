@@ -18,6 +18,7 @@ function PaymentContent() {
   const [state, setState] = useState<PaymentState>("loading");
   const [error, setError] = useState<string>("");
   const [subscriptionId, setSubscriptionId] = useState<string>("");
+  const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(false);
 
   // Initialize subscription on mount
   useEffect(() => {
@@ -49,6 +50,17 @@ function PaymentContent() {
 
           setSubscriptionId(subscription.id);
         } catch (err: any) {
+          // User already has an active subscription - guide to their subscription page
+          if (
+            err?.status === 409 &&
+            err?.message?.toLowerCase().includes("active subscription")
+          ) {
+            setHasActiveSubscription(true);
+            setError("You already have an active subscription.");
+            setState("failed");
+            return;
+          }
+
           // Check if error is about existing pending subscription
           if (err.message?.toLowerCase().includes("pending subscription") ||
             err.message?.toLowerCase().includes("already have")) {
@@ -208,8 +220,18 @@ function PaymentContent() {
               <div className="flex flex-col items-center justify-center py-8">
                 <XCircle className="w-16 h-16 text-red-500 mb-4" />
                 <p className="text-lg font-semibold text-foreground mb-2">
-                  Payment Failed
+                  {hasActiveSubscription
+                    ? "Subscription Already Active"
+                    : "Payment Failed"}
                 </p>
+                {hasActiveSubscription && (
+                  <button
+                    onClick={() => router.push("/my-subscription")}
+                    className="mt-3 px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all"
+                  >
+                    Go to My Subscription
+                  </button>
+                )}
               </div>
             )}
 
