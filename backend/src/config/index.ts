@@ -26,6 +26,14 @@ interface Config {
     clientSecret: string;
     environment: "sandbox" | "production";
   };
+  brevo: {
+    apiKey: string;
+    smsSender: string;
+    whatsappSender: string;
+    whatsappTemplateId: number;
+    emailSenderName: string;
+    emailSenderAddress: string;
+  };
   otp: {
     expiryMinutes: number;
     length: number;
@@ -84,6 +92,14 @@ export const config: Config = {
     clientId: getEnvVar("DIGIO_CLIENT_ID", ""),
     clientSecret: getEnvVar("DIGIO_CLIENT_SECRET", ""),
     environment: getEnvVar("DIGIO_ENV", "sandbox") as "sandbox" | "production",
+  },
+  brevo: {
+    apiKey: getEnvVar("BREVO_API_KEY", ""),
+    smsSender: getEnvVar("BREVO_SMS_SENDER", "AshwiniSD"),
+    whatsappSender: getEnvVar("BREVO_WHATSAPP_SENDER", ""),
+    whatsappTemplateId: parseInt(getEnvVar("BREVO_WHATSAPP_TEMPLATE_ID", "1"), 10),
+    emailSenderName: getEnvVar("BREVO_EMAIL_SENDER_NAME", "Ashwini SD Research"),
+    emailSenderAddress: getEnvVar("BREVO_EMAIL_SENDER_ADDRESS", "ashwini@ashwinisdresearch.com"),
   },
   otp: {
     expiryMinutes: 5,

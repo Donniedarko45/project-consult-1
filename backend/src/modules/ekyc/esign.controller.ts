@@ -6,7 +6,7 @@ import ApiResponse from '../../utils/apiResponse';
 import ApiError from '../../utils/apiError';
 import fs from 'fs';
 import path from 'path';
-import { sendWhatsAppMessage, sendSMSMessage } from '../auth/twilio.service';
+import { sendWhatsAppMessage, sendSMSMessage } from '../auth/brevo.service';
 
 /**
  * Send Telegram link notification after e-sign completion
