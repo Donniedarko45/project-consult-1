@@ -158,7 +158,7 @@ export default function AboutPage() {
                  <h3 className="text-2xl font-bold mb-2 text-foreground">Founder</h3>
                  <h2 className="text-4xl font-black text-primary mb-2">Ashwini SD</h2>
                  <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">
-                   SEBI REGISTERED RESEARCH ANALYST | MBA | CFA | <a href="/images/certificate.png" target="_blank" className="text-blue-500 hover:text-blue-600 underline underline-offset-4 transition-colors cursor-pointer inline-flex items-center gap-1"><Award className="w-4 h-4" /> NISM Certified</a> | Market Professional
+                   SEBI REGISTERED RESEARCH ANALYST | MBA | <a href="/images/certificate.png" target="_blank" className="text-blue-500 hover:text-blue-600 underline underline-offset-4 transition-colors cursor-pointer inline-flex items-center gap-1"><Award className="w-4 h-4" /> NISM Certified</a> | Market Professional
                  </p>
                  <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
                    <p>
