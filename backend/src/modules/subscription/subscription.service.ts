@@ -2,7 +2,7 @@ import prisma from '../../prisma/client';
 import { SubscriptionStatus } from '@prisma/client';
 import ApiError from '../../utils/apiError';
 import { calculateSubscriptionEndDate } from '../../utils/helpers';
-import { sendWhatsAppMessage, sendSMSMessage } from '../auth/brevo.service';
+import { sendWhatsAppMessage, sendSMSMessage } from '../auth/twilio.service';
 
 interface SubscriptionWithPlan {
     id: string;
@@ -26,6 +26,19 @@ interface InitSubscriptionResult {
     subscription: SubscriptionWithPlan;
     message: string;
 }
+
+const getErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) {
+        return error.message;
+    }
+    if (error && typeof error === 'object' && 'message' in error) {
+        const message = (error as { message?: unknown }).message;
+        if (typeof message === 'string') {
+            return message;
+        }
+    }
+    return 'Unknown error';
+};
 
 /**
  * Initialize a new subscription for a user
@@ -188,7 +201,7 @@ export const activateSubscription = async (
         if (fullSubscription && fullSubscription.user.phone) {
             const userName = fullSubscription.user.name || 'Valued Customer';
             const planName = fullSubscription.plan.name;
-            const telegramLink = (fullSubscription.plan as any).telegramLink || '';
+            const telegramLink = fullSubscription.plan.telegramLink || '';
             const message = `Dear ${userName},\nYour subscription to ${planName} is now ACTIVE!\nJoin your advisory Telegram channel here: ${telegramLink}\n\nThank you for choosing Ashwini SD Research.`;
 
             let whatsappSucceeded = false;
@@ -198,19 +211,25 @@ export const activateSubscription = async (
                 await sendWhatsAppMessage(fullSubscription.user.phone, message);
                 whatsappSucceeded = true;
                 console.log(`[SUBSCRIPTION] WhatsApp confirmation accepted for subscription ${subscriptionId}`);
-            } catch (waErr: any) {
-                console.warn(`[SUBSCRIPTION] WhatsApp failed (${waErr?.message}), trying SMS...`);
+            } catch (waErr: unknown) {
+                console.warn(`[SUBSCRIPTION] WhatsApp failed (${getErrorMessage(waErr)}), trying SMS...`);
             }
 
             // Also send SMS to improve delivery reliability.
             try {
                 await sendSMSMessage(fullSubscription.user.phone, message);
                 console.log(`[SUBSCRIPTION] SMS confirmation accepted for subscription ${subscriptionId}`);
-            } catch (smsErr: any) {
+            } catch (smsErr: unknown) {
                 if (!whatsappSucceeded) {
-                    console.error(`[SUBSCRIPTION] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+                    console.error(
+                        `[SUBSCRIPTION] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`,
+                        getErrorMessage(smsErr),
+                    );
                 } else {
-                    console.warn(`[SUBSCRIPTION] WhatsApp accepted, but SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+                    console.warn(
+                        `[SUBSCRIPTION] WhatsApp accepted, but SMS failed for subscription ${subscriptionId}:`,
+                        getErrorMessage(smsErr),
+                    );
                 }
             }
         } else {

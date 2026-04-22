@@ -18,8 +18,15 @@ import {
 } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { useAuth } from "@/contexts/auth-context";
-import { SubscriptionsApi, EkycApi, ESignApi, PaymentApi } from "@/app/Api/Api";
+import {
+    ApiEnvelope,
+    SubscriptionsApi,
+    EkycApi,
+    ESignApi,
+    PaymentApi,
+} from "@/app/Api/Api";
 import { loadDigioSDK, startDigioSign } from "@/utils/load-digio";
+import { clearAuthSession, getAuthRedirectPath, isAuthError } from "@/utils/auth-session";
 import Link from "next/link";
 
 interface Subscription {
@@ -40,9 +47,52 @@ interface Subscription {
     };
 }
 
+interface PaymentVerificationResult {
+    status?: string;
+    subscriptionStatus?: string;
+}
+
+interface EkycInitResult {
+    status?: string;
+    details?: {
+        remarks?: string;
+    };
+}
+
+interface SignInitResult {
+    digioDocId?: string;
+}
+
+interface SignUpdateResult {
+    signStatus?: string;
+}
+
+interface DigioSignResult {
+    message?: string;
+    status?: string;
+}
+
 type PageState = "loading" | "no-subscription" | "loaded" | "error";
 type KycFlowState = "idle" | "loading" | "processing" | "success" | "failed";
 type SignFlowState = "idle" | "loading" | "signing" | "success" | "failed";
+
+const extractResponseData = <T,>(response: ApiEnvelope<T> | T): T => {
+    if (response && typeof response === "object" && "data" in response) {
+        return (response as ApiEnvelope<T>).data;
+    }
+    return response as T;
+};
+
+const getErrorMessage = (error: unknown, fallback: string): string => {
+    if (error instanceof Error && error.message) return error.message;
+    if (error && typeof error === "object" && "message" in error) {
+        const message = (error as { message?: unknown }).message;
+        if (typeof message === "string" && message.trim()) {
+            return message;
+        }
+    }
+    return fallback;
+};
 
 export default function MySubscriptionPage() {
     const { user, isAuthenticated, isLoading: authLoading, refreshProfile } = useAuth();
@@ -63,19 +113,26 @@ export default function MySubscriptionPage() {
     const [signState, setSignState] = useState<SignFlowState>("idle");
     const [signError, setSignError] = useState("");
 
+    const redirectToLogin = useCallback(() => {
+        clearAuthSession();
+        setTimeout(() => router.push(getAuthRedirectPath()), 1000);
+    }, [router]);
+
     // Redirect if not authenticated
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
-            router.push("/login");
+            router.push(getAuthRedirectPath());
         }
     }, [isAuthenticated, authLoading, router]);
 
     // Fetch subscription on mount
     const fetchSubscription = useCallback(async () => {
         try {
-            const response: any =
-                await SubscriptionsApi.getCurrentSubscription();
-            const sub = response.data || response;
+            const response = (await SubscriptionsApi.getCurrentSubscription()) as
+                | ApiEnvelope<Subscription | null>
+                | Subscription
+                | null;
+            const sub = response ? extractResponseData(response) : null;
 
             if (sub && sub.id) {
                 setSubscription(sub);
@@ -85,19 +142,32 @@ export default function MySubscriptionPage() {
                 if (sub.status === "PENDING") {
                     try {
                         console.log("[PAYMENT] Auto-verifying payment for subscription:", sub.id);
-                        const verifyRes: any = await PaymentApi.verifyPayment(sub.id);
-                        const verifyData = verifyRes.data || verifyRes;
+                        const verifyRes = (await PaymentApi.verifyPayment(
+                            sub.id,
+                        )) as ApiEnvelope<PaymentVerificationResult> | PaymentVerificationResult;
+                        const verifyData = extractResponseData(verifyRes);
 
                         if (verifyData.status === "PAID" || verifyData.subscriptionStatus === "ACTIVE") {
                             console.log("[PAYMENT] Payment verified! Re-fetching subscription...");
                             // Re-fetch to get updated status
-                            const refreshRes: any = await SubscriptionsApi.getCurrentSubscription();
-                            const refreshedSub = refreshRes.data || refreshRes;
+                            const refreshRes = (await SubscriptionsApi.getCurrentSubscription()) as
+                                | ApiEnvelope<Subscription | null>
+                                | Subscription
+                                | null;
+                            const refreshedSub = refreshRes
+                                ? extractResponseData(refreshRes)
+                                : null;
                             if (refreshedSub && refreshedSub.id) {
                                 setSubscription(refreshedSub);
                             }
                         }
-                    } catch (verifyErr) {
+                    } catch (verifyErr: unknown) {
+                        if (isAuthError(verifyErr)) {
+                            setError("Your session has expired. Please login again.");
+                            setPageState("error");
+                            redirectToLogin();
+                            return;
+                        }
                         console.warn("[PAYMENT] Auto-verify failed (non-critical):", verifyErr);
                         // Don't block the page — user can still see their subscription
                     }
@@ -105,12 +175,18 @@ export default function MySubscriptionPage() {
             } else {
                 setPageState("no-subscription");
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
+            if (isAuthError(err)) {
+                setError("Your session has expired. Please login again.");
+                setPageState("error");
+                redirectToLogin();
+                return;
+            }
             console.error("Failed to fetch subscription:", err);
-            setError(err.message || "Failed to load subscription data.");
+            setError(getErrorMessage(err, "Failed to load subscription data."));
             setPageState("error");
         }
-    }, []);
+    }, [redirectToLogin]);
 
     useEffect(() => {
         if (!isAuthenticated) return;
@@ -153,12 +229,12 @@ export default function MySubscriptionPage() {
 
         try {
             // Call backend to verify identity via Digio
-            const response: any = await EkycApi.initKyc(
+            const response = (await EkycApi.initKyc(
                 panInput.toUpperCase(),
                 nameInput.trim(),
                 formattedDob,
-            );
-            const result = response.data || response;
+            )) as ApiEnvelope<EkycInitResult> | EkycInitResult;
+            const result = extractResponseData(response);
 
             if (result.status === "valid") {
                 setKycState("success");
@@ -171,11 +247,15 @@ export default function MySubscriptionPage() {
                     `Verification failed: ${result.status}. Please check your details and try again.`
                 );
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
+            if (isAuthError(err)) {
+                setKycError("Your session has expired. Please login again.");
+                setKycState("failed");
+                redirectToLogin();
+                return;
+            }
             console.error("eKYC failed:", err);
-            setKycError(
-                err.message || "eKYC verification failed. Please try again.",
-            );
+            setKycError(getErrorMessage(err, "eKYC verification failed. Please try again."));
             setKycState("failed");
         }
     };
@@ -189,8 +269,10 @@ export default function MySubscriptionPage() {
 
         try {
             // 1. Call backend to create sign request
-            const response: any = await ESignApi.initSign(subscription.id);
-            const result = response.data || response;
+            const response = (await ESignApi.initSign(subscription.id)) as
+                | ApiEnvelope<SignInitResult>
+                | SignInitResult;
+            const result = extractResponseData(response);
 
             const digioDocId = result.digioDocId;
             if (!digioDocId) {
@@ -208,11 +290,11 @@ export default function MySubscriptionPage() {
             await loadDigioSDK("production");
 
             // 3. Open the Digio SDK for signing
-            const signResponse = await startDigioSign(
+            const signResponse = (await startDigioSign(
                 digioDocId,
                 signerIdentifier,
                 "production",
-            );
+            )) as DigioSignResult;
 
             console.log("[ESIGN] Digio sign response:", signResponse);
 
@@ -224,8 +306,11 @@ export default function MySubscriptionPage() {
                 
             const statusToReport = isSuccess ? "success" : "failed";
 
-            const updateRes: any = await ESignApi.updateSignStatus(subscription.id, statusToReport);
-            const updateData = updateRes.data || updateRes;
+            const updateRes = (await ESignApi.updateSignStatus(
+                subscription.id,
+                statusToReport,
+            )) as ApiEnvelope<SignUpdateResult> | SignUpdateResult;
+            const updateData = extractResponseData(updateRes);
 
             if (updateData?.signStatus === "SIGNED" || isSuccess) {
                 setSignState("success");
@@ -237,16 +322,21 @@ export default function MySubscriptionPage() {
                 setSignError(signResponse.message || "Signing was not completed.");
             }
 
-        } catch (err: any) {
+        } catch (err: unknown) {
+            if (isAuthError(err)) {
+                setSignError("Your session has expired. Please login again.");
+                setSignState("failed");
+                redirectToLogin();
+                return;
+            }
             console.error("E-Sign failed:", err);
+            const errMessage = getErrorMessage(err, "Agreement signing failed. Please try again.");
 
             // Check if it was cancelled by user
-            if (err.message?.includes("cancelled") || err.message?.includes("closed")) {
+            if (errMessage.includes("cancelled") || errMessage.includes("closed")) {
                 setSignError("Signing was cancelled. You can try again when ready.");
             } else {
-                setSignError(
-                    err.message || "Agreement signing failed. Please try again.",
-                );
+                setSignError(errMessage);
             }
             setSignState("failed");
         }

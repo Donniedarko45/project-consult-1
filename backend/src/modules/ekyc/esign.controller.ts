@@ -6,7 +6,20 @@ import ApiResponse from '../../utils/apiResponse';
 import ApiError from '../../utils/apiError';
 import fs from 'fs';
 import path from 'path';
-import { sendWhatsAppMessage, sendSMSMessage } from '../auth/brevo.service';
+import { sendWhatsAppMessage, sendSMSMessage } from '../auth/twilio.service';
+
+const getErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) {
+        return error.message;
+    }
+    if (error && typeof error === 'object' && 'message' in error) {
+        const message = (error as { message?: unknown }).message;
+        if (typeof message === 'string') {
+            return message;
+        }
+    }
+    return 'Unknown error';
+};
 
 /**
  * Send Telegram link notification after e-sign completion
@@ -40,19 +53,25 @@ const sendTelegramLinkNotification = async (subscriptionId: string): Promise<voi
             await sendWhatsAppMessage(subscription.user.phone, message);
             whatsappSucceeded = true;
             console.log(`[ESIGN] WhatsApp Telegram link accepted for subscription ${subscriptionId}`);
-        } catch (waErr: any) {
-            console.warn(`[ESIGN] WhatsApp failed (${waErr?.message}), trying SMS...`);
+        } catch (waErr: unknown) {
+            console.warn(`[ESIGN] WhatsApp failed (${getErrorMessage(waErr)}), trying SMS...`);
         }
 
         // Always attempt SMS as a reliability channel for Telegram-link delivery.
         try {
             await sendSMSMessage(subscription.user.phone, message);
             console.log(`[ESIGN] SMS Telegram link accepted for subscription ${subscriptionId}`);
-        } catch (smsErr: any) {
+        } catch (smsErr: unknown) {
             if (!whatsappSucceeded) {
-                console.error(`[ESIGN] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+                console.error(
+                    `[ESIGN] Both WhatsApp and SMS failed for subscription ${subscriptionId}:`,
+                    getErrorMessage(smsErr),
+                );
             } else {
-                console.warn(`[ESIGN] WhatsApp accepted, but SMS failed for subscription ${subscriptionId}:`, smsErr?.message);
+                console.warn(
+                    `[ESIGN] WhatsApp accepted, but SMS failed for subscription ${subscriptionId}:`,
+                    getErrorMessage(smsErr),
+                );
             }
         }
     } catch (err) {

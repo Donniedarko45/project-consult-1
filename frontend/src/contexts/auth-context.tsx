@@ -1,7 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { AuthApi } from "@/app/Api/Api";
+import { ApiEnvelope, AuthApi } from "@/app/Api/Api";
+import { clearAuthSession, getStoredToken, isAuthError } from "@/utils/auth-session";
 
 export interface User {
   id: string;
@@ -37,6 +38,17 @@ interface VerifyOTPResponse {
   };
 }
 
+const unwrapApiData = <T,>(response: ApiEnvelope<T> | T): T => {
+  if (
+    response &&
+    typeof response === "object" &&
+    "data" in response
+  ) {
+    return (response as ApiEnvelope<T>).data;
+  }
+  return response as T;
+};
+
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
@@ -54,10 +66,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const logout = React.useCallback(() => {
+    setUser(null);
+    clearAuthSession();
+  }, []);
+
   useEffect(() => {
     const initAuth = async () => {
       if (typeof window !== "undefined") {
-        const token = localStorage.getItem("token");
+        const token = getStoredToken();
         const storedUser = localStorage.getItem("user");
 
         if (token && storedUser) {
@@ -67,13 +84,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             console.error("Auth initialization error", e);
             logout();
           }
+        } else {
+          clearAuthSession();
         }
       }
       setIsLoading(false);
     };
 
     initAuth();
-  }, []);
+  }, [logout]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleUnauthorized = () => {
+      logout();
+    };
+
+    window.addEventListener("auth:unauthorized", handleUnauthorized);
+    return () => {
+      window.removeEventListener("auth:unauthorized", handleUnauthorized);
+    };
+  }, [logout]);
 
   const sendOTP = async (
     phone: string,
@@ -119,32 +151,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-    }
-  };
-
   const updateProfile = async (data: Partial<User>) => {
     try {
-      const response: any = await AuthApi.updateProfile(data);
-      const updatedUser = response.data || response;
+      const response = (await AuthApi.updateProfile(data)) as ApiEnvelope<User> | User;
+      const updatedUser = unwrapApiData(response);
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
     } catch (error) {
+      if (isAuthError(error)) {
+        logout();
+      }
       throw error;
     }
   };
 
   const refreshProfile = async () => {
     try {
-      const response: any = await AuthApi.getProfile();
-      const userData = response.data || response;
+      const response = (await AuthApi.getProfile()) as ApiEnvelope<User> | User;
+      const userData = unwrapApiData(response);
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
     } catch (error) {
+      if (isAuthError(error)) {
+        logout();
+        return;
+      }
       console.error("Failed to refresh profile:", error);
     }
   };

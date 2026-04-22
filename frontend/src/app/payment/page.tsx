@@ -3,35 +3,44 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { CheckCircle, XCircle, Loader2, AlertCircle } from "lucide-react";
-import { SubscriptionsApi, PaymentApi } from "@/app/Api/Api";
+import { ApiEnvelope, SubscriptionsApi, PaymentApi } from "@/app/Api/Api";
 import { loadCashfreeSDK, initializeCashfree } from "@/utils/load-cashfree";
+import {
+  clearAuthSession,
+  getAuthRedirectPath,
+  getStoredToken,
+  isAuthError,
+} from "@/utils/auth-session";
 
 type PaymentState = "loading" | "ready" | "processing" | "success" | "failed";
 
-const AUTH_ERROR_PATTERN = /(invalid|expired).*token|no token provided|unauthorized/i;
+interface SubscriptionSummary {
+  id: string;
+  status?: string;
+}
 
-const isAuthError = (err: unknown): boolean => {
-  if (!err || typeof err !== "object") return false;
-  const apiErr = err as { status?: number; message?: unknown };
-  return (
-    apiErr.status === 401 ||
-    AUTH_ERROR_PATTERN.test(String(apiErr.message ?? ""))
-  );
+interface InitSubscriptionResult {
+  subscription?: SubscriptionSummary;
+}
+
+interface CreateOrderResult {
+  paymentSessionId?: string;
+}
+
+const extractResponseData = <T,>(response: ApiEnvelope<T> | T): T => {
+  if (response && typeof response === "object" && "data" in response) {
+    return (response as ApiEnvelope<T>).data;
+  }
+  return response as T;
 };
 
-const isJwtExpired = (token: string): boolean => {
-  try {
-    const [, payloadPart] = token.split(".");
-    if (!payloadPart) return false;
-
-    const normalized = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
-    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
-    const payload = JSON.parse(atob(padded));
-    if (typeof payload.exp !== "number") return false;
-    return payload.exp * 1000 <= Date.now();
-  } catch {
-    return false;
+const getErrorMessage = (error: unknown, fallback: string): string => {
+  if (error instanceof Error && error.message) return error.message;
+  if (error && typeof error === "object" && "message" in error) {
+    const message = (error as { message?: unknown }).message;
+    if (typeof message === "string" && message.trim()) return message;
   }
+  return fallback;
 };
 
 function PaymentContent() {
@@ -47,16 +56,8 @@ function PaymentContent() {
   const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(false);
 
   const redirectToLogin = useCallback(() => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      const returnTo = encodeURIComponent(
-        `${window.location.pathname}${window.location.search}`,
-      );
-      setTimeout(() => router.push(`/login?redirect=${returnTo}`), 1200);
-      return;
-    }
-    setTimeout(() => router.push("/login"), 1200);
+    clearAuthSession();
+    setTimeout(() => router.push(getAuthRedirectPath()), 1200);
   }, [router]);
 
   // Initialize subscription on mount
@@ -64,16 +65,9 @@ function PaymentContent() {
     const initializeSubscription = async () => {
       try {
         // Check if user is authenticated
-        const token = localStorage.getItem("token");
-        if (!token || token === "undefined" || token === "null") {
+        const token = getStoredToken();
+        if (!token) {
           setError("Please login to continue with payment.");
-          setState("failed");
-          redirectToLogin();
-          return;
-        }
-
-        if (isJwtExpired(token)) {
-          setError("Your session has expired. Please login again to continue.");
           setState("failed");
           redirectToLogin();
           return;
@@ -82,24 +76,29 @@ function PaymentContent() {
         if (!planId) {
           setError("Invalid plan selected. Please select a plan again.");
           setState("failed");
+          setTimeout(() => router.push("/plans"), 1500);
           return;
         }
 
         // Try to initialize subscription
         try {
-          const response: any = await SubscriptionsApi.initSubscription(planId);
-          const subscription = response.data?.subscription || response.data;
+          const response = (await SubscriptionsApi.initSubscription(planId)) as
+            | ApiEnvelope<InitSubscriptionResult>
+            | InitSubscriptionResult;
+          const data = extractResponseData(response);
+          const subscription = data?.subscription;
 
           if (!subscription || !subscription.id) {
             throw new Error("Failed to initialize subscription");
           }
 
           setSubscriptionId(subscription.id);
-        } catch (err: any) {
+        } catch (err: unknown) {
+          const errorMessage = getErrorMessage(err, "");
           // User already has an active subscription - guide to their subscription page
           if (
-            err?.status === 409 &&
-            err?.message?.toLowerCase().includes("active subscription")
+            (err as { status?: number } | null)?.status === 409 &&
+            errorMessage.toLowerCase().includes("active subscription")
           ) {
             setHasActiveSubscription(true);
             setError("You already have an active subscription.");
@@ -115,12 +114,19 @@ function PaymentContent() {
           }
 
           // Check if error is about existing pending subscription
-          if (err.message?.toLowerCase().includes("pending subscription") ||
-            err.message?.toLowerCase().includes("already have")) {
+          if (
+            errorMessage.toLowerCase().includes("pending subscription") ||
+            errorMessage.toLowerCase().includes("already have")
+          ) {
 
             // Fetch current subscription to get its ID
-            const currentSubResponse: any = await SubscriptionsApi.getCurrentSubscription();
-            const currentSub = currentSubResponse.data || currentSubResponse;
+            const currentSubResponse = (await SubscriptionsApi.getCurrentSubscription()) as
+              | ApiEnvelope<SubscriptionSummary | null>
+              | SubscriptionSummary
+              | null;
+            const currentSub = currentSubResponse
+              ? extractResponseData(currentSubResponse)
+              : null;
 
             if (currentSub && currentSub.id && currentSub.status === "PENDING") {
               // Use the existing pending subscription
@@ -137,7 +143,7 @@ function PaymentContent() {
         await loadCashfreeSDK();
 
         setState("ready");
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Subscription initialization failed:", err);
         if (isAuthError(err)) {
           setError("Your session has expired. Please login again to continue.");
@@ -145,24 +151,30 @@ function PaymentContent() {
           redirectToLogin();
           return;
         }
-        setError(
-          err.message || "Failed to initialize payment. Please try again."
-        );
+        setError(getErrorMessage(err, "Failed to initialize payment. Please try again."));
         setState("failed");
       }
     };
 
     initializeSubscription();
-  }, [planId, redirectToLogin]);
+  }, [planId, redirectToLogin, router]);
 
   const handlePayment = async () => {
     try {
+      if (!subscriptionId) {
+        setError("Unable to create payment right now. Please refresh and try again.");
+        setState("failed");
+        return;
+      }
+
       setState("processing");
       setError("");
 
       // Create payment order
-      const orderResponse: any = await PaymentApi.createOrder(subscriptionId);
-      const orderData = orderResponse.data || orderResponse;
+      const orderResponse = (await PaymentApi.createOrder(subscriptionId)) as
+        | ApiEnvelope<CreateOrderResult>
+        | CreateOrderResult;
+      const orderData = extractResponseData(orderResponse);
 
       if (!orderData.paymentSessionId) {
         throw new Error("Invalid payment session");
@@ -179,7 +191,7 @@ function PaymentContent() {
 
       // Redirect to Cashfree payment page
       checkout.redirect();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Payment failed:", err);
       if (isAuthError(err)) {
         setError("Your session has expired. Please login again to continue.");
@@ -187,7 +199,7 @@ function PaymentContent() {
         redirectToLogin();
         return;
       }
-      setError(err.message || "Payment initialization failed. Please try again.");
+      setError(getErrorMessage(err, "Payment initialization failed. Please try again."));
       setState("ready");
     }
   };

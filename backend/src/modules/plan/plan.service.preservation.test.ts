@@ -43,6 +43,11 @@ describe('Preservation Property Tests: Non-Pricing Behaviors', () => {
   // Increase timeout for database operations
   jest.setTimeout(30000);
 
+  const uniquePhone = (): string =>
+    `+1${Math.floor(Math.random() * 9000000000 + 1000000000)}`;
+  const uniqueEmail = (): string =>
+    `test-${Date.now()}-${Math.floor(Math.random() * 100000)}@example.com`;
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -124,7 +129,8 @@ describe('Preservation Property Tests: Non-Pricing Behaviors', () => {
       // Create test user
       const testUser = await prisma.user.create({
         data: {
-          phone: '+1234567890',
+          phone: uniquePhone(),
+          email: uniqueEmail(),
           name: 'Test User',
           kycStatus: 'VERIFIED',
           hasAccess: false,
@@ -261,8 +267,8 @@ describe('Preservation Property Tests: Non-Pricing Behaviors', () => {
       // Create test user with verified KYC
       const testUser = await prisma.user.create({
         data: {
-          phone: '+1234567890',
-          email: 'test@example.com',
+          phone: uniquePhone(),
+          email: uniqueEmail(),
           name: 'Test User',
           kycStatus: 'VERIFIED',
           hasAccess: false,
@@ -327,8 +333,8 @@ describe('Preservation Property Tests: Non-Pricing Behaviors', () => {
       // Create test user WITHOUT verified KYC
       const testUser = await prisma.user.create({
         data: {
-          phone: '+1234567890',
-          email: 'test@example.com',
+          phone: uniquePhone(),
+          email: uniqueEmail(),
           name: 'Test User',
           kycStatus: 'PENDING', // KYC not verified
           hasAccess: false,

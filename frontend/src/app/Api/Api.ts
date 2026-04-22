@@ -1,20 +1,79 @@
+import { clearAuthSession, getStoredToken } from "@/utils/auth-session";
+
 export const BASE_URL = "https://api.ashwinisdresearch.com";
 
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-interface ApiError {
+export interface ApiError {
   message: string;
   status?: number;
   errors?: Record<string, string[]>;
 }
 
+type JsonPrimitive = string | number | boolean | null;
+type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
+
+export interface ApiEnvelope<T> {
+  success?: boolean;
+  message?: string;
+  data: T;
+}
+
+interface ErrorResponseShape {
+  message?: unknown;
+  errors?: unknown;
+}
+
+interface ProfileUpdateRequest {
+  name?: string;
+  email?: string;
+  pan?: string;
+  aadhar?: string;
+  dob?: string;
+  gender?: string;
+  kycStatus?: string;
+  digioKycId?: string;
+  agreementSignStatus?: string;
+  agreementDigioDocId?: string;
+  agreementSignedAt?: string;
+}
+
+interface ContactQueryRequest {
+  name: string;
+  email?: string;
+  phone?: string;
+  subject?: string;
+  message: string;
+}
+
+const notifyUnauthorized = () => {
+  if (typeof window === "undefined") return;
+  clearAuthSession();
+  window.dispatchEvent(new CustomEvent("auth:unauthorized"));
+};
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    const errorData = (await response
+      .json()
+      .catch(() => null)) as ErrorResponseShape | null;
+
+    if (response.status === 401) {
+      notifyUnauthorized();
+    }
+
     const error: ApiError = {
-      message: errorData.message || "An error occurred",
+      message:
+        typeof errorData?.message === "string"
+          ? errorData.message
+          : response.status === 401
+            ? "Your session has expired. Please login again."
+            : "An error occurred",
       status: response.status,
-      errors: errorData.errors,
+      errors:
+        errorData?.errors && typeof errorData.errors === "object"
+          ? (errorData.errors as Record<string, string[]>)
+          : undefined,
     };
     throw error;
   }
@@ -30,7 +89,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 async function request<T>(
   endpoint: string,
   method: RequestMethod = "GET",
-  body?: any,
+  body?: JsonValue,
   customHeaders: Record<string, string> = {},
 ): Promise<T> {
   const url = `${BASE_URL}${
@@ -43,11 +102,9 @@ async function request<T>(
   };
 
   // Add authorization token if available
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+  const token = getStoredToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
   }
 
   const options: RequestInit = {
@@ -75,19 +132,20 @@ export const AuthApi = {
   // Get user profile
   getProfile: () => request("/api/user/me", "GET"),
   // Update user profile (name, email, kyc)
-  updateProfile: (data: any) => request("/api/user/profile", "POST", data),
+  updateProfile: (data: ProfileUpdateRequest) =>
+    request("/api/user/profile", "POST", data),
 };
 
 // Contact API
 export const ContactApi = {
-  submitQuery: (data: any) => request("/contact", "POST", data),
+  submitQuery: (data: ContactQueryRequest) => request("/contact", "POST", data),
 };
 
 // Plans/Subscription API
 export const PlansApi = {
   getAllPlans: () => request("/api/plans", "GET"),
   getPlanById: (id: string) => request(`/api/plans/${id}`, "GET"),
-  subscribe: (planId: string, data: any) =>
+  subscribe: (planId: string, data: Record<string, JsonValue>) =>
     request(`/api/plans/${planId}/subscribe`, "POST", data),
 };
 
@@ -102,7 +160,7 @@ export const CoursesApi = {
 // Workshops API
 export const WorkshopsApi = {
   getAllWorkshops: () => request("/workshops", "GET"),
-  register: (workshopId: string, data: any) =>
+  register: (workshopId: string, data: Record<string, JsonValue>) =>
     request(`/workshops/${workshopId}/register`, "POST", data),
 };
 
@@ -163,7 +221,7 @@ export const ESignApi = {
     request("/api/ekyc/sign/update-agreement", "POST", { status }),
 };
 
-export default {
+const Api = {
   Auth: AuthApi,
   Contact: ContactApi,
   Plans: PlansApi,
@@ -177,3 +235,5 @@ export default {
   Ekyc: EkycApi,
   ESign: ESignApi,
 };
+
+export default Api;

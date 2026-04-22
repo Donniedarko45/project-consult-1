@@ -168,6 +168,8 @@ describe('Bug Condition Exploration: Missing Telegram Notification After E-Sign'
      * After fix: This test PASSES (proves notification is sent).
      */
     it('bug condition: handleSignWebhook does NOT send Telegram notification when signStatus becomes SIGNED', async () => {
+      const digioDocId = `test-digio-doc-id-webhook-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
       // Create test user with verified KYC
       const testUser = await prisma.user.create({
         data: {
@@ -198,14 +200,14 @@ describe('Bug Condition Exploration: Missing Telegram Notification After E-Sign'
           planId: testPlan.id,
           status: SubscriptionStatus.ACTIVE,
           signStatus: SignStatus.REQUESTED,
-          digioDocId: 'test-digio-doc-id-webhook',
+          digioDocId,
         },
       });
 
       // Mock webhook request from Digio
       const mockReq = {
         body: {
-          digio_doc_id: 'test-digio-doc-id-webhook',
+          digio_doc_id: digioDocId,
           status: 'completed',
           event_type: 'sign_completed',
         },
