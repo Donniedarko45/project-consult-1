@@ -1,24 +1,63 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { CheckCircle, XCircle, Loader2, AlertCircle } from "lucide-react";
 import { SubscriptionsApi, PaymentApi } from "@/app/Api/Api";
 import { loadCashfreeSDK, initializeCashfree } from "@/utils/load-cashfree";
 
 type PaymentState = "loading" | "ready" | "processing" | "success" | "failed";
 
+const AUTH_ERROR_PATTERN = /(invalid|expired).*token|no token provided|unauthorized/i;
+
+const isAuthError = (err: unknown): boolean => {
+  if (!err || typeof err !== "object") return false;
+  const apiErr = err as { status?: number; message?: unknown };
+  return (
+    apiErr.status === 401 ||
+    AUTH_ERROR_PATTERN.test(String(apiErr.message ?? ""))
+  );
+};
+
+const isJwtExpired = (token: string): boolean => {
+  try {
+    const [, payloadPart] = token.split(".");
+    if (!payloadPart) return false;
+
+    const normalized = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
+    const payload = JSON.parse(atob(padded));
+    if (typeof payload.exp !== "number") return false;
+    return payload.exp * 1000 <= Date.now();
+  } catch {
+    return false;
+  }
+};
+
 function PaymentContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const plan = searchParams.get("plan") || "Selected Plan";
   const price = searchParams.get("price") || "--";
-  const planId = searchParams.get("planId") || "";
+  const planId = searchParams.get("planId") || searchParams.get("planid") || "";
 
   const [state, setState] = useState<PaymentState>("loading");
   const [error, setError] = useState<string>("");
   const [subscriptionId, setSubscriptionId] = useState<string>("");
   const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(false);
+
+  const redirectToLogin = useCallback(() => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      const returnTo = encodeURIComponent(
+        `${window.location.pathname}${window.location.search}`,
+      );
+      setTimeout(() => router.push(`/login?redirect=${returnTo}`), 1200);
+      return;
+    }
+    setTimeout(() => router.push("/login"), 1200);
+  }, [router]);
 
   // Initialize subscription on mount
   useEffect(() => {
@@ -26,10 +65,17 @@ function PaymentContent() {
       try {
         // Check if user is authenticated
         const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Please login to continue with payment");
+        if (!token || token === "undefined" || token === "null") {
+          setError("Please login to continue with payment.");
           setState("failed");
-          setTimeout(() => router.push("/login"), 2000);
+          redirectToLogin();
+          return;
+        }
+
+        if (isJwtExpired(token)) {
+          setError("Your session has expired. Please login again to continue.");
+          setState("failed");
+          redirectToLogin();
           return;
         }
 
@@ -61,6 +107,13 @@ function PaymentContent() {
             return;
           }
 
+          if (isAuthError(err)) {
+            setError("Your session has expired. Please login again to continue.");
+            setState("failed");
+            redirectToLogin();
+            return;
+          }
+
           // Check if error is about existing pending subscription
           if (err.message?.toLowerCase().includes("pending subscription") ||
             err.message?.toLowerCase().includes("already have")) {
@@ -86,6 +139,12 @@ function PaymentContent() {
         setState("ready");
       } catch (err: any) {
         console.error("Subscription initialization failed:", err);
+        if (isAuthError(err)) {
+          setError("Your session has expired. Please login again to continue.");
+          setState("failed");
+          redirectToLogin();
+          return;
+        }
         setError(
           err.message || "Failed to initialize payment. Please try again."
         );
@@ -94,7 +153,7 @@ function PaymentContent() {
     };
 
     initializeSubscription();
-  }, [planId, router]);
+  }, [planId, redirectToLogin]);
 
   const handlePayment = async () => {
     try {
@@ -122,6 +181,12 @@ function PaymentContent() {
       checkout.redirect();
     } catch (err: any) {
       console.error("Payment failed:", err);
+      if (isAuthError(err)) {
+        setError("Your session has expired. Please login again to continue.");
+        setState("failed");
+        redirectToLogin();
+        return;
+      }
       setError(err.message || "Payment initialization failed. Please try again.");
       setState("ready");
     }
@@ -238,7 +303,7 @@ function PaymentContent() {
             {/* Error Message */}
             {error && (
               <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg border border-red-200 dark:border-red-800 flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
                 <p className="text-sm text-red-900 dark:text-red-100">
                   {error}
                 </p>
@@ -252,7 +317,7 @@ function PaymentContent() {
       <div className="mt-8 text-center">
         <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-800">
           <div className="flex items-start gap-3 text-left">
-            <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
             <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               <p className="font-semibold">Secure Payment Information:</p>
               <ul className="list-disc list-inside space-y-1 ml-2">

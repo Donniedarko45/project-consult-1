@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { useAuth } from "@/contexts/auth-context";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type AuthStep = "phone" | "otp";
 
@@ -27,10 +27,22 @@ export default function LoginPage() {
 
   const { sendOTP, verifyOTP, isAuthenticated, user, isLoading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTarget = searchParams.get("redirect");
+
+  const isSafeInternalPath = (path: string | null): path is string => {
+    if (!path) return false;
+    return path.startsWith("/") && !path.startsWith("//");
+  };
 
   // Smart redirect based on KYC and agreement sign status
   useEffect(() => {
     if (!isLoading && isAuthenticated && user) {
+      if (isSafeInternalPath(redirectTarget)) {
+        router.push(redirectTarget);
+        return;
+      }
+
       if (user.kycStatus !== "VERIFIED") {
         router.push("/ekyc");
       } else if (user.agreementSignStatus !== "SIGNED") {
@@ -39,7 +51,7 @@ export default function LoginPage() {
         router.push("/plans");
       }
     }
-  }, [isLoading, isAuthenticated, user, router]);
+  }, [isLoading, isAuthenticated, user, router, redirectTarget]);
 
   // Countdown timer for resend OTP
   useEffect(() => {
