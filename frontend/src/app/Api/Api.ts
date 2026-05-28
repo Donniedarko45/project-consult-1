@@ -25,17 +25,17 @@ interface ErrorResponseShape {
 }
 
 interface ProfileUpdateRequest {
-  name?: string;
-  email?: string;
-  pan?: string;
-  aadhar?: string;
-  dob?: string;
-  gender?: string;
-  kycStatus?: string;
-  digioKycId?: string;
-  agreementSignStatus?: string;
-  agreementDigioDocId?: string;
-  agreementSignedAt?: string;
+  name?: string | null;
+  email?: string | null;
+  pan?: string | null;
+  aadhar?: string | null;
+  dob?: string | null;
+  gender?: string | null;
+  kycStatus?: string | null;
+  digioKycId?: string | null;
+  agreementSignStatus?: string | null;
+  agreementDigioDocId?: string | null;
+  agreementSignedAt?: string | null;
 }
 
 interface ContactQueryRequest {
@@ -89,7 +89,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 async function request<T>(
   endpoint: string,
   method: RequestMethod = "GET",
-  body?: JsonValue,
+  body?: unknown,
   customHeaders: Record<string, string> = {},
 ): Promise<T> {
   const url = `${BASE_URL}${
