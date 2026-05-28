@@ -41,7 +41,7 @@ const socialLinks = [
     icon: Send,
   },
   {
-    href: "https://www.instagram.com/ashwinitradingacademy/",
+    href: "https://www.instagram.com/ashwinisd_researchanalyst?igsh=NjJhNTUyMHpxYjF0",
     label: "Instagram",
     icon: Instagram,
   },

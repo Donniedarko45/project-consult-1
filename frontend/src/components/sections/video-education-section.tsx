@@ -43,7 +43,7 @@ export function VideoEducationSection() {
           {videos.map((video, index) => (
             <FadeIn key={index} delay={index * 0.1}>
               <a
-                href="https://www.instagram.com" 
+                href="https://www.instagram.com/ashwinisd_researchanalyst?igsh=NjJhNTUyMHpxYjF0"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="block group relative rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 cursor-pointer"
