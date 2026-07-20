@@ -1,10 +1,18 @@
-import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
+import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description: "The terms governing your use of our services.",
+};
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Terms & Conditions"
         description="Please read these Terms & Conditions carefully before subscribing to any of our services."
@@ -79,16 +87,17 @@ export default function TermsPage() {
 
         <FadeIn delay={0.7}>
           <div className="p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 text-center">
-            <p className="text-primary font-bold text-xl">
+            <h2 className="text-primary font-bold text-xl">
               💡 Final Note
-            </p>
+            </h2>
             <p className="text-gray-700 dark:text-gray-300 mt-2 text-lg italic">
               "Discipline, risk management, and informed decision-making are key to market success."
             </p>
           </div>
         </FadeIn>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
 import { Footer } from "@/components/layout/footer";
+import { useSearchParams } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MessageSquare } from "lucide-react";
@@ -60,10 +60,12 @@ function EnquiryForm() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
+        role="status"
+        aria-live="polite"
         className="bg-white dark:bg-gray-900 p-12 rounded-3xl border border-green-100 dark:border-green-900/30 text-center shadow-2xl"
       >
         <div className="w-20 h-20 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 className="w-10 h-10 text-green-500" />
+          <CheckCircle2 className="w-10 h-10 text-green-500" aria-hidden="true" />
         </div>
         <h2 className="text-3xl font-black text-foreground mb-4">Request Received!</h2>
         <p className="text-gray-600 dark:text-gray-400 text-lg mb-8 max-w-md mx-auto">
@@ -71,7 +73,7 @@ function EnquiryForm() {
         </p>
         <button 
           onClick={() => setStatus("idle")}
-          className="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+          className="bg-primary dark:bg-blue-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
         >
           Send Another Enquiry
         </button>
@@ -81,88 +83,111 @@ function EnquiryForm() {
 
   return (
     <div className="bg-white dark:bg-gray-900 p-8 md:p-12 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-2xl">
-      <h2 className="text-3xl font-black text-foreground mb-2">Reserve Your Seat</h2>
-      <p className="text-gray-500 mb-8 font-medium">Please fill in your details and we will contact you for the next steps.</p>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <h2 id="enquiry-form-heading" className="text-3xl font-black text-foreground mb-2">Reserve Your Seat</h2>
+      <p className="text-gray-600 dark:text-gray-400 mb-8 font-medium">Please fill in your details and we will contact you for the next steps.</p>
+
+      <form onSubmit={handleSubmit} className="space-y-6" aria-labelledby="enquiry-form-heading">
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-              <User className="w-4 h-4 text-primary" /> Full Name
+            <label htmlFor="enquiry-name" className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <User className="w-4 h-4 text-primary" aria-hidden="true" /> Full Name<span className="sr-only"> (required)</span>
             </label>
             <input
+              id="enquiry-name"
+              name="name"
               type="text"
+              autoComplete="name"
               required
+              aria-required="true"
               placeholder="John Doe"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-400"
+              className="w-full p-4 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-600 dark:placeholder:text-gray-400"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-              <Mail className="w-4 h-4 text-primary" /> Email Address
+            <label htmlFor="enquiry-email" className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <Mail className="w-4 h-4 text-primary" aria-hidden="true" /> Email Address<span className="sr-only"> (required)</span>
             </label>
             <input
+              id="enquiry-email"
+              name="email"
               type="email"
+              autoComplete="email"
               required
+              aria-required="true"
               placeholder="john@example.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-400"
+              className="w-full p-4 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-600 dark:placeholder:text-gray-400"
             />
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-              <Phone className="w-4 h-4 text-primary" /> Phone Number
+            <label htmlFor="enquiry-phone" className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <Phone className="w-4 h-4 text-primary" aria-hidden="true" /> Phone Number<span className="sr-only"> (required)</span>
             </label>
             <input
+              id="enquiry-phone"
+              name="phone"
               type="tel"
+              autoComplete="tel"
               required
+              aria-required="true"
               placeholder="+91 98459 61990"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-400"
+              className="w-full p-4 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-600 dark:placeholder:text-gray-400"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-primary" /> Subject
+            <label htmlFor="enquiry-subject" className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-primary" aria-hidden="true" /> Subject
             </label>
             <input
+              id="enquiry-subject"
+              name="subject"
               type="text"
               readOnly
+              aria-readonly="true"
+              aria-describedby="enquiry-subject-hint"
               value={formData.subject}
-              className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 cursor-not-allowed outline-none text-gray-500 font-medium"
+              className="w-full p-4 rounded-xl border border-gray-500 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 cursor-not-allowed outline-none text-gray-700 dark:text-gray-300 font-medium"
             />
+            <span id="enquiry-subject-hint" className="sr-only">
+              This field is pre-filled and cannot be edited.
+            </span>
           </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-            <MessageSquare className="w-4 h-4 text-primary" /> Message (Optional)
+          <label htmlFor="enquiry-message" className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 text-primary" aria-hidden="true" /> Message (Optional)
           </label>
           <textarea
+            id="enquiry-message"
+            name="message"
             rows={4}
             placeholder="Tell us about your trading experience..."
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all resize-none placeholder:text-gray-400"
+            className="w-full p-4 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-primary/50 outline-none transition-all resize-none placeholder:text-gray-600 dark:placeholder:text-gray-400"
           />
         </div>
 
         <AnimatePresence>
           {status === "error" && (
-            <motion.div 
+            <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="flex items-center gap-2 text-red-500 bg-red-50 dark:bg-red-500/10 p-4 rounded-xl text-sm font-bold border border-red-100 dark:border-red-500/20"
+              role="alert"
+              className="flex items-center gap-2 text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-500/10 p-4 rounded-xl text-sm font-bold border border-red-300 dark:border-red-500/20"
             >
-              <AlertCircle className="w-5 h-5" />
+              <AlertCircle className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">Error: </span>
               {errorMessage}
             </motion.div>
           )}
@@ -171,16 +196,20 @@ function EnquiryForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="w-full py-5 bg-primary text-white font-black text-xl rounded-2xl hover:bg-primary/90 transition-all flex items-center justify-center gap-3 shadow-xl shadow-primary/20 disabled:opacity-70 group"
+          aria-busy={status === "loading"}
+          className="w-full py-5 bg-primary dark:bg-blue-800 text-white font-black text-xl rounded-2xl hover:bg-primary/90 transition-all flex items-center justify-center gap-3 shadow-xl shadow-primary/20 disabled:opacity-70 group"
         >
           {status === "loading" ? (
             "Processing..."
           ) : (
             <>
-              Confirm Reservation <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              Confirm Reservation <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true" />
             </>
           )}
         </button>
+        <p aria-live="polite" className="sr-only">
+          {status === "loading" ? "Submitting your enquiry, please wait." : ""}
+        </p>
       </form>
     </div>
   );
@@ -188,7 +217,8 @@ function EnquiryForm() {
 
 export default function EnquiryPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Reserve Your Seat"
         description="Take the first step towards mastering the markets. Fill out the form below to register your interest in our upcoming live workshops."
@@ -204,7 +234,9 @@ export default function EnquiryPage() {
         </div>
       </div>
 
-      <Footer />
     </main>
+
+    <Footer />
+    </>
   );
 }

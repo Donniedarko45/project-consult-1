@@ -8,7 +8,8 @@ import { SipCalculator } from "@/components/features/sip-calculator";
 
 export default function MutualFundsPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <>
+    <main id="main-content" className="min-h-screen bg-background">
       <PageHeader
         title="Mutual Fund Advisory"
         description="Expert selection of top-rated funds aligned with your financial goals. SIP your way to wealth."
@@ -32,7 +33,7 @@ export default function MutualFundsPage() {
                 "Tax Harvesting",
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 font-medium">
-                  <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center text-xs">
+                  <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center text-xs" aria-hidden="true">
                     ✓
                   </div>
                   {item}
@@ -46,8 +47,9 @@ export default function MutualFundsPage() {
           </FadeIn>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   
   );
 }

@@ -56,7 +56,7 @@ export function WhyChooseUs() {
                   className="group space-y-3 p-6 rounded-2xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 dark:border-gray-800"
                 >
                   <div className="w-14 h-14 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                    <feature.icon className="w-7 h-7 text-primary dark:text-blue-400 group-hover:text-white" />
+                    <feature.icon aria-hidden="true" className="w-7 h-7 text-primary dark:text-blue-400 group-hover:text-white" />
                   </div>
                   <h3 className="font-bold text-foreground">{feature.title}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">

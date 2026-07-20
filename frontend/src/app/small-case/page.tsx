@@ -27,7 +27,8 @@ export default function SmallCasePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background">
+    <>
+    <main id="main-content" className="min-h-screen bg-background">
       <PageHeader
         title="Small Case Collections"
         description="Theme-based investment baskets managed by experts. Invest in ideas, not just stocks."
@@ -50,7 +51,7 @@ export default function SmallCasePage() {
                       }`}
                     >
                       {/* Placeholder icon or dynamic icon logic */}
-                      <Monitor className="w-7 h-7" />
+                      <Monitor className="w-7 h-7" aria-hidden="true" />
                     </div>
                     <div className="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full text-xs font-bold uppercase">
                       {item.risk || "Medium"} Risk
@@ -66,12 +67,12 @@ export default function SmallCasePage() {
 
                   <div className="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-gray-800 mt-auto">
                     <div>
-                      <p className="text-xs text-gray-400 font-semibold uppercase">
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase">
                         3Y CAGR
                       </p>
                       <p
                         className={`text-xl font-bold ${
-                          item.color || "text-blue-500"
+                          item.color || "text-blue-600 dark:text-blue-400"
                         }`}
                       >
                         {item.cagr || "N/A"}
@@ -79,9 +80,10 @@ export default function SmallCasePage() {
                     </div>
                     <Link
                       href="#"
+                      aria-label={`View details for ${item.title}`}
                       className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center hover:scale-110 transition-transform"
                     >
-                      <ArrowUpRight className="w-5 h-5" />
+                      <ArrowUpRight className="w-5 h-5" aria-hidden="true" />
                     </Link>
                   </div>
                 </div>
@@ -90,10 +92,10 @@ export default function SmallCasePage() {
           )}
         </div>
 
-        <div className="mt-20 bg-primary rounded-3xl p-12 text-center text-white relative overflow-hidden">
+        <div className="mt-20 bg-primary dark:bg-blue-800 rounded-3xl p-12 text-center text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
           <div className="relative z-10 max-w-2xl mx-auto">
-            <Zap className="w-12 h-12 mx-auto mb-6 text-yellow-300 fill-current" />
+            <Zap className="w-12 h-12 mx-auto mb-6 text-yellow-300 fill-current" aria-hidden="true" />
             <h2 className="text-3xl font-bold mb-6">
               Why Invest via Small Case?
             </h2>
@@ -107,7 +109,8 @@ export default function SmallCasePage() {
           </div>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

@@ -7,7 +7,8 @@ import { Building, Upload, Award } from "lucide-react";
 
 export default function PlacementsPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <>
+    <main id="main-content" className="min-h-screen bg-background">
       <PageHeader
         title="Career Placements"
         description="Connecting certified talent with top financial institutions. Your gateway to a career in Capital Markets."
@@ -18,7 +19,7 @@ export default function PlacementsPage() {
           <FadeIn>
             <div className="bg-primary/5 p-8 rounded-3xl border border-primary/10">
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <Building className="w-6 h-6 text-primary" />
+                <Building className="w-6 h-6 text-primary" aria-hidden="true" />
                 For Job Seekers
               </h2>
               <ul className="space-y-4 mb-8">
@@ -36,8 +37,8 @@ export default function PlacementsPage() {
                   </li>
                 ))}
               </ul>
-              <button className="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
-                <Upload className="w-4 h-4" /> Upload Resume
+              <button className="w-full bg-primary dark:bg-blue-800 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                <Upload className="w-4 h-4" aria-hidden="true" /> Upload Resume
               </button>
             </div>
           </FadeIn>
@@ -45,10 +46,10 @@ export default function PlacementsPage() {
           <FadeIn delay={0.2}>
             <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-3xl border border-gray-200 dark:border-gray-800">
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <Award className="w-6 h-6 text-orange-500" />
+                <Award className="w-6 h-6 text-orange-500" aria-hidden="true" />
                 Hiring Partners
               </h2>
-              <p className="text-gray-500 mb-8">
+              <p className="text-gray-600 dark:text-gray-400 mb-8">
                 We place candidates in top brokerage houses, proprietary trading
                 desks, and research firms.
               </p>
@@ -61,7 +62,7 @@ export default function PlacementsPage() {
                 ].map((partner, i) => (
                   <div
                     key={i}
-                    className="bg-white dark:bg-gray-800 p-4 rounded-xl text-center font-bold text-gray-400 text-sm border border-gray-100 dark:border-gray-700"
+                    className="bg-white dark:bg-gray-800 p-4 rounded-xl text-center font-bold text-gray-600 dark:text-gray-400 text-sm border border-gray-100 dark:border-gray-700"
                   >
                     {partner}
                   </div>
@@ -71,8 +72,9 @@ export default function PlacementsPage() {
           </FadeIn>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
 
   );
 }

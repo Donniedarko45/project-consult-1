@@ -1,12 +1,20 @@
-import { Footer } from "@/components/layout/footer";
 import { BarChart, Search, Activity, PieChart } from "lucide-react";
+import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
 import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Research Methodology",
+  description: "Our systematic, data-driven approach to analyzing the markets.",
+};
+
 export default function MethodologyPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Research Methodology"
         description="Our systematic, data-driven approach to analyzing the markets and parsing signal from noise."
@@ -20,7 +28,8 @@ export default function MethodologyPage() {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
                 <Image
                   src="/images/research-hero.png"
-                  alt="Data Driven Research"
+                  alt=""
+                  aria-hidden="true"
                   width={800}
                   height={600}
                   className="w-full h-auto object-cover"
@@ -77,7 +86,7 @@ export default function MethodologyPage() {
           <FadeIn className="h-full">
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-shadow h-full">
               <div className="w-14 h-14 bg-primary/10 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 text-primary dark:text-blue-400">
-                <BarChart className="w-8 h-8" />
+                <BarChart className="w-8 h-8" aria-hidden="true" />
               </div>
               <h2 className="text-2xl font-bold mb-4 text-foreground">
                 Technical Analysis
@@ -98,7 +107,7 @@ export default function MethodologyPage() {
                     key={i}
                     className="flex items-center gap-3 text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    <span className="w-2 h-2 rounded-sm bg-cta" /> {item}
+                    <span className="w-2 h-2 rounded-sm bg-cta" aria-hidden="true" /> {item}
                   </li>
                 ))}
               </ul>
@@ -108,7 +117,7 @@ export default function MethodologyPage() {
           <FadeIn className="h-full" delay={0.1}>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-shadow h-full">
               <div className="w-14 h-14 bg-primary/10 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 text-primary dark:text-blue-400">
-                <Search className="w-8 h-8" />
+                <Search className="w-8 h-8" aria-hidden="true" />
               </div>
               <h2 className="text-2xl font-bold mb-4 text-foreground">
                 Fundamental Context
@@ -128,7 +137,7 @@ export default function MethodologyPage() {
                     key={i}
                     className="flex items-center gap-3 text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    <span className="w-2 h-2 rounded-sm bg-cta" /> {item}
+                    <span className="w-2 h-2 rounded-sm bg-cta" aria-hidden="true" /> {item}
                   </li>
                 ))}
               </ul>
@@ -138,7 +147,7 @@ export default function MethodologyPage() {
           <FadeIn className="h-full" delay={0.2}>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-shadow h-full">
               <div className="w-14 h-14 bg-primary/10 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 text-primary dark:text-blue-400">
-                <Activity className="w-8 h-8" />
+                <Activity className="w-8 h-8" aria-hidden="true" />
               </div>
               <h2 className="text-2xl font-bold mb-4 text-foreground">
                 Risk Management
@@ -158,7 +167,7 @@ export default function MethodologyPage() {
                     key={i}
                     className="flex items-center gap-3 text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    <span className="w-2 h-2 rounded-sm bg-cta" /> {item}
+                    <span className="w-2 h-2 rounded-sm bg-cta" aria-hidden="true" /> {item}
                   </li>
                 ))}
               </ul>
@@ -168,7 +177,7 @@ export default function MethodologyPage() {
           <FadeIn className="h-full" delay={0.3}>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-shadow h-full">
               <div className="w-14 h-14 bg-primary/10 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 text-primary dark:text-blue-400">
-                <PieChart className="w-8 h-8" />
+                <PieChart className="w-8 h-8" aria-hidden="true" />
               </div>
               <h2 className="text-2xl font-bold mb-4 text-foreground">
                 Data Analytics
@@ -182,8 +191,9 @@ export default function MethodologyPage() {
           </FadeIn>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   
   );
 }

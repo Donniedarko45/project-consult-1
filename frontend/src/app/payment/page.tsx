@@ -229,7 +229,7 @@ function PaymentContent() {
               </span>
               <span className="font-bold text-lg text-foreground">{price}</span>
             </div>
-            <div className="text-xs text-gray-500 mt-4">
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-4">
               * Inclusive of all taxes.
             </div>
           </div>
@@ -262,7 +262,7 @@ function PaymentContent() {
                 </div>
                 <button
                   onClick={handlePayment}
-                  className="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                  className="w-full py-3 bg-primary dark:bg-blue-800 text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
                 >
                   Pay Now - {price}
                 </button>
@@ -304,7 +304,7 @@ function PaymentContent() {
                 {hasActiveSubscription && (
                   <button
                     onClick={() => router.push("/my-subscription")}
-                    className="mt-3 px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all"
+                    className="mt-3 px-4 py-2 bg-primary dark:bg-blue-800 text-white font-semibold rounded-lg hover:bg-primary/90 transition-all"
                   >
                     Go to My Subscription
                   </button>
@@ -348,7 +348,7 @@ function PaymentContent() {
 
 export default function PaymentPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <main id="main-content" className="min-h-screen bg-background">
       <Suspense
         fallback={
           <div className="container mx-auto px-4 py-16 text-center">

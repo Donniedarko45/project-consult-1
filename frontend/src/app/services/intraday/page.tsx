@@ -9,14 +9,16 @@ import Image from "next/image";
 
 export default function IntradayPage() {
   return (
-    <main className="min-h-screen bg-black text-white relative overflow-hidden">
+    <>
+    <main id="main-content" className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Unique Full-Bleed Hero for Intraday */}
       <section className="relative h-[80vh] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/50 to-black z-10" />
+          <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/80 to-black z-10" />
           <Image
             src="/images/intraday_hero.png"
-            alt="Intraday Research Setup"
+            alt=""
+            aria-hidden="true"
             fill
             className="object-cover opacity-60"
             priority
@@ -25,14 +27,14 @@ export default function IntradayPage() {
 
         <div className="relative z-20 text-center max-w-4xl mx-auto px-4 mt-20">
           <FadeIn>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 mb-6 font-semibold uppercase tracking-widest text-sm">
-              <Zap className="w-4 h-4" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-950 border border-blue-500/30 text-blue-300 mb-6 font-semibold uppercase tracking-widest text-sm">
+              <Zap className="w-4 h-4" aria-hidden="true" />
               Real-Time Momentum
             </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight bg-clip-text text-transparent bg-linear-to-r from-white via-blue-100 to-blue-500">
               Intraday Research Setups
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100/80 mb-10 block font-light">
+            <p className="text-xl md:text-2xl text-blue-100 mb-10 block font-light">
               Don't guess the direction. Trade the established momentum. 
             </p>
           </FadeIn>
@@ -62,9 +64,9 @@ export default function IntradayPage() {
             <FadeIn key={idx} delay={idx * 0.1}>
               <div className="bg-gray-900/40 backdrop-blur-xl border border-white/10 p-8 rounded-3xl hover:border-blue-500/50 transition-colors h-full flex flex-col items-center text-center">
                 <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mb-6 shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                  <item.icon className="w-8 h-8" />
+                  <item.icon className="w-8 h-8" aria-hidden="true" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                <h2 className="text-xl font-bold mb-3">{item.title}</h2>
                 <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
               </div>
             </FadeIn>
@@ -87,21 +89,21 @@ export default function IntradayPage() {
                 <div className="w-14 h-14 mx-auto bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-black mb-6 relative z-10 shadow-[0_0_40px_rgba(59,130,246,0.5)]">
                   1
                 </div>
-                <h4 className="text-xl font-bold mb-3 text-blue-100">Pre-Market Prep</h4>
+                <h3 className="text-xl font-bold mb-3 text-blue-100">Pre-Market Prep</h3>
                 <p className="text-gray-400 text-sm">We aggregate institutional data and scanner alerts to spot top movers before 9:15 AM.</p>
               </div>
               <div className="relative text-center">
                 <div className="w-14 h-14 mx-auto bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-black mb-6 relative z-10 shadow-[0_0_40px_rgba(59,130,246,0.5)]">
                   2
                 </div>
-                <h4 className="text-xl font-bold mb-3 text-blue-100">Wait For Trigger</h4>
+                <h3 className="text-xl font-bold mb-3 text-blue-100">Wait For Trigger</h3>
                 <p className="text-gray-400 text-sm">Patience is key. We wait for the stock to breach specific Resistance/Support with strong volume.</p>
               </div>
               <div className="relative text-center">
                 <div className="w-14 h-14 mx-auto bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-black mb-6 relative z-10 shadow-[0_0_40px_rgba(59,130,246,0.5)]">
                   3
                 </div>
-                <h4 className="text-xl font-bold mb-3 text-blue-100">Risk Management</h4>
+                <h3 className="text-xl font-bold mb-3 text-blue-100">Risk Management</h3>
                 <p className="text-gray-400 text-sm">Immediate placing of stop-loss and trailing stops. Cut losers fast, let winners ride.</p>
               </div>
             </div>
@@ -109,18 +111,20 @@ export default function IntradayPage() {
         </FadeIn>
 
         <div className="mt-20 text-center">
-          <Link 
-            href="/signup" 
+          <Link
+            href="/signup"
+            aria-label="Get started - sign up"
             className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-full font-black text-lg transition-all shadow-[0_10px_40px_rgba(59,130,246,0.4)] hover:-translate-y-1"
           >
             Access Intraday Setups Now
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </Link>
         </div>
       </div>
 
       <DisclaimerStrip />
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

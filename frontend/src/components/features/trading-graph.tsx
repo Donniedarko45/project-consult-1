@@ -43,7 +43,7 @@ export function TradingGraph({ onComplete }: TradingGraphProps) {
   }, [onComplete, steps.length]);
 
   return (
-    <div className="relative w-full h-[450px] bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 dark:border-white/5 p-8 flex items-end justify-between overflow-hidden shadow-2xl">
+    <div aria-hidden="true" className="relative w-full h-[450px] bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 dark:border-white/5 p-8 flex items-end justify-between overflow-hidden shadow-2xl">
       {/* Grid Lines */}
       <div className="absolute inset-0 z-0 opacity-20">
         {[1, 2, 3, 4].map((i) => (
@@ -114,7 +114,7 @@ export function TradingGraph({ onComplete }: TradingGraphProps) {
             <TrendingUp className="w-8 h-8" />
           </div>
           <h3 className="text-xl font-black text-foreground">Goal Reached!</h3>
-          <p className="text-sm text-gray-500">Consistent Returns</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Consistent Returns</p>
         </motion.div>
       )}
     </div>

@@ -22,7 +22,7 @@ export default function NotificationsPage() {
   const [frequency, setFrequency] = useState("daily");
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-black py-8">
+    <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black py-8">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <FadeIn>
@@ -53,7 +53,7 @@ export default function NotificationsPage() {
                   <h2 className="text-xl font-bold text-foreground">
                     Email Notifications
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Choose what updates you want to receive via email
                   </p>
                 </div>
@@ -65,7 +65,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Research Updates
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       New research reports and market analysis
                     </p>
                   </div>
@@ -81,7 +81,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -90,7 +90,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Trading Signals
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Buy/sell recommendations and alerts
                     </p>
                   </div>
@@ -106,7 +106,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -115,7 +115,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Account Activity
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Login alerts and security updates
                     </p>
                   </div>
@@ -131,7 +131,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -140,7 +140,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Marketing & Promotions
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Special offers and new features
                     </p>
                   </div>
@@ -156,7 +156,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
               </div>
@@ -174,7 +174,7 @@ export default function NotificationsPage() {
                   <h2 className="text-xl font-bold text-foreground">
                     Push Notifications
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Instant alerts on your device
                   </p>
                 </div>
@@ -186,7 +186,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Research Updates
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Instant notifications for new reports
                     </p>
                   </div>
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -211,7 +211,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Trading Signals
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Real-time trading alerts
                     </p>
                   </div>
@@ -227,7 +227,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -236,7 +236,7 @@ export default function NotificationsPage() {
                     <p className="font-medium text-foreground">
                       Account Activity
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Security and login alerts
                     </p>
                   </div>
@@ -252,7 +252,7 @@ export default function NotificationsPage() {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
               </div>
@@ -270,7 +270,7 @@ export default function NotificationsPage() {
                   <h2 className="text-xl font-bold text-foreground">
                     Email Digest Frequency
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     How often should we send you email summaries?
                   </p>
                 </div>
@@ -294,7 +294,7 @@ export default function NotificationsPage() {
                       <p className="font-medium text-foreground capitalize">
                         {option}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {option === "instant" &&
                           "Receive emails as events happen"}
                         {option === "daily" &&
@@ -308,7 +308,7 @@ export default function NotificationsPage() {
                 ))}
               </div>
 
-              <button className="mt-6 w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors">
+              <button className="mt-6 w-full bg-primary dark:bg-blue-800 text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors">
                 Save Preferences
               </button>
             </div>

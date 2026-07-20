@@ -60,11 +60,11 @@ export function WorkshopsSection() {
           <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-16">
             <div className="max-w-2xl">
               <div className="flex items-center gap-2 mb-4">
-                <span className="flex h-3 w-3 relative">
+                <span aria-hidden="true" className="flex h-3 w-3 relative">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                 </span>
-                <span className="text-sm font-bold text-red-500 tracking-wider uppercase">
+                <span className="text-sm font-bold text-red-600 dark:text-red-400 tracking-wider uppercase">
                   Live Learning Hub
                 </span>
               </div>
@@ -85,7 +85,7 @@ export function WorkshopsSection() {
               className="hidden md:flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all"
               suppressHydrationWarning
             >
-              View Full Schedule <ArrowRight className="w-5 h-5" />
+              View Full Schedule <ArrowRight aria-hidden="true" className="w-5 h-5" />
             </Link>
           </div>
         </FadeIn>
@@ -106,21 +106,21 @@ export function WorkshopsSection() {
 
                     <div className="relative z-10 flex justify-between items-start">
                       <div className="bg-white/20 backdrop-blur-md p-2 rounded-xl text-white">
-                        <workshop.icon className="w-6 h-6" />
+                        <workshop.icon aria-hidden="true" className="w-6 h-6" />
                       </div>
                       {workshop.popular && (
                         <span className="bg-yellow-400 text-yellow-950 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                          <Star className="w-3 h-3 fill-current" /> BESTSELLER
+                          <Star aria-hidden="true" className="w-3 h-3 fill-current" /> BESTSELLER
                         </span>
                       )}
                     </div>
 
                     <div className="relative z-10">
                       <div className="flex items-center gap-2 text-white/90 text-sm font-medium mb-1">
-                        <Calendar className="w-4 h-4" /> {workshop.date}
+                        <Calendar aria-hidden="true" className="w-4 h-4" /> {workshop.date}
                       </div>
                       <div className="flex items-center gap-2 text-white/90 text-sm font-medium">
-                        <Clock className="w-4 h-4" /> {workshop.time}
+                        <Clock aria-hidden="true" className="w-4 h-4" /> {workshop.time}
                       </div>
                     </div>
                   </div>
@@ -128,13 +128,13 @@ export function WorkshopsSection() {
                   {/* Right: Content */}
                   <div className="flex-1 p-6 md:p-8 flex flex-col">
                     <div className="mb-4">
-                      <span className="inline-block px-3 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
+                      <span className="inline-block px-3 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-3">
                         {workshop.level}
                       </span>
                       <h3 className="text-2xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
                         {workshop.title}
                       </h3>
-                      <p className="text-gray-500 text-sm">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">
                         {workshop.subtitle}
                       </p>
                     </div>
@@ -146,6 +146,7 @@ export function WorkshopsSection() {
                             {[1, 2, 3].map((j) => (
                               <div
                                 key={j}
+                                aria-hidden="true"
                                 className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-white dark:border-gray-900"
                               />
                             ))}
@@ -156,7 +157,7 @@ export function WorkshopsSection() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="block text-xs text-gray-400 line-through">
+                        <span className="block text-xs text-gray-600 dark:text-gray-400 line-through">
                           ₹2499
                         </span>
                         <span className="block text-xl font-black text-primary">
@@ -165,13 +166,18 @@ export function WorkshopsSection() {
                       </div>
                     </div>
 
-                    <Link href={`/enquiry?subject=Reserve Seat: ${workshop.title}`} suppressHydrationWarning className="w-full mt-6 block">
-                      <motion.button
+                    <Link
+                      href={`/enquiry?subject=Reserve Seat: ${workshop.title}`}
+                      suppressHydrationWarning
+                      aria-label={`Reserve seat for ${workshop.title}`}
+                      className="w-full mt-6 block"
+                    >
+                      <motion.span
                         whileTap={{ scale: 0.98 }}
                         className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                       >
-                        Reserve Seat <ArrowRight className="w-4 h-4" />
-                      </motion.button>
+                        Reserve Seat <ArrowRight aria-hidden="true" className="w-4 h-4" />
+                      </motion.span>
                     </Link>
                   </div>
                 </div>
@@ -186,7 +192,7 @@ export function WorkshopsSection() {
             className="inline-flex items-center gap-2 text-primary font-bold"
             suppressHydrationWarning
           >
-            View Full Schedule <ArrowRight className="w-5 h-5" />
+            View Full Schedule <ArrowRight aria-hidden="true" className="w-5 h-5" />
           </Link>
         </div>
       </div>

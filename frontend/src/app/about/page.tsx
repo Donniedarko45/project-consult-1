@@ -1,7 +1,7 @@
 "use client";
 
-import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
+import { Footer } from "@/components/layout/footer";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { FloatingIcons } from "@/components/ui/floating-icons";
 import Image from "next/image";
@@ -24,7 +24,8 @@ import { PageHeader } from "@/components/layout/page-header";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground relative overflow-hidden">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <FloatingIcons />
 
       <PageHeader
@@ -32,7 +33,8 @@ export default function AboutPage() {
           <div className="flex flex-col items-center gap-4">
             <Image
               src="/images/Ashwini SD.png"
-              alt="Ashwini SD Logo"
+              alt=""
+              aria-hidden="true"
               width={100}
               height={100}
               className="w-24 h-24 object-contain animate-fade-in"
@@ -101,7 +103,7 @@ export default function AboutPage() {
             <section className="bg-gray-50 dark:bg-gray-900/50 p-8 rounded-3xl border border-gray-100 dark:border-gray-800">
               <FadeIn delay={0.1}>
                 <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                  <Target className="w-6 h-6 text-primary" />
+                  <Target className="w-6 h-6 text-primary" aria-hidden="true" />
                   Our Philosophy
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
@@ -115,7 +117,7 @@ export default function AboutPage() {
                     "Decision-making guided by data, not emotion"
                   ].map((item, i) => (
                     <li key={i} className="flex gap-3 text-gray-700 dark:text-gray-300">
-                      <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -129,7 +131,7 @@ export default function AboutPage() {
             <section>
               <FadeIn delay={0.2}>
                 <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                  <ShieldCheck className="w-6 h-6 text-primary" />
+                  <ShieldCheck className="w-6 h-6 text-primary" aria-hidden="true" />
                   Compliance & Transparency
                 </h3>
                 <ul className="space-y-4">
@@ -140,7 +142,7 @@ export default function AboutPage() {
                     "Full disclosure of any conflicts of interest, if applicable"
                   ].map((item, i) => (
                     <li key={i} className="flex gap-3 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-950 p-4 rounded-xl border border-gray-100 dark:border-gray-800">
-                      <ShieldCheck className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+                      <ShieldCheck className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -155,10 +157,10 @@ export default function AboutPage() {
             <FadeIn direction="left">
                <div className="bg-primary/5 border border-primary/20 p-8 md:p-12 rounded-3xl relative overflow-hidden">
                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full" />
-                 <h3 className="text-2xl font-bold mb-2 text-foreground">Founder</h3>
-                 <h2 className="text-4xl font-black text-primary mb-2">Ashwini SD</h2>
-                 <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">
-                   SEBI REGISTERED RESEARCH ANALYST | MBA | <a href="/images/certificate.png" target="_blank" className="text-blue-500 hover:text-blue-600 underline underline-offset-4 transition-colors cursor-pointer inline-flex items-center gap-1"><Award className="w-4 h-4" /> NISM Certified</a> | Market Professional
+                 <p className="text-2xl font-bold mb-2 text-foreground">Founder</p>
+                 <h3 className="text-4xl font-black text-primary mb-2">Ashwini SD</h3>
+                 <p className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">
+                   SEBI REGISTERED RESEARCH ANALYST | MBA | <a href="/images/certificate.png" target="_blank" rel="noopener noreferrer" aria-label="View NISM certificate (opens in a new tab)" className="text-blue-700 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-4 transition-colors cursor-pointer inline-flex items-center gap-1"><Award className="w-4 h-4" aria-hidden="true" /> NISM Certified</a> | Market Professional
                  </p>
                  <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
                    <p>
@@ -185,7 +187,7 @@ export default function AboutPage() {
             <FadeIn direction="left" delay={0.2}>
               <div className="bg-white dark:bg-gray-900 shadow-xl p-8 rounded-3xl border border-gray-100 dark:border-gray-800">
                 <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                  <LineChart className="w-6 h-6 text-primary" />
+                  <LineChart className="w-6 h-6 text-primary" aria-hidden="true" />
                   What We Deliver
                 </h3>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -201,7 +203,7 @@ export default function AboutPage() {
                     </div>
                   ))}
                 </div>
-                <p className="mt-6 text-xs text-center text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">
+                <p className="mt-6 text-xs text-center text-gray-600 dark:text-gray-400 uppercase tracking-widest font-bold">
                   All services are strictly for educational and research purposes only, in line with regulatory standards.
                 </p>
               </div>
@@ -210,7 +212,7 @@ export default function AboutPage() {
             <FadeIn direction="left" delay={0.3}>
                <div className="p-8 bg-[#0a0a0a] rounded-3xl border border-gray-800 text-center shadow-2xl relative overflow-hidden">
                  <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent pointer-events-none" />
-                 <Lightbulb className="w-10 h-10 text-yellow-500 mx-auto mb-6" />
+                 <Lightbulb className="w-10 h-10 text-yellow-500 mx-auto mb-6" aria-hidden="true" />
                  <h3 className="text-xl font-bold mb-4 text-white">Our Belief</h3>
                  <p className="text-lg md:text-xl text-gray-300 italic font-serif leading-relaxed">
                    "Markets reward discipline, not impulse. Our role is to bring structure to your decisions."
@@ -240,21 +242,21 @@ export default function AboutPage() {
                 year: "2012",
                 title: "Inception",
                 desc: "Founded in 2012, built on a passion for understanding market behavior and delivering structured financial insights.",
-                icon: <TrendingUp className="w-6 h-6" />,
+                icon: <TrendingUp className="w-6 h-6" aria-hidden="true" />,
                 color: "bg-blue-500",
               },
               {
                 year: "2018",
                 title: "Full-Time Operation",
                 desc: "Transitioned into full-time operations in 2018, focusing on disciplined research and consistent market engagement.",
-                icon: <Building2 className="w-6 h-6" />,
+                icon: <Building2 className="w-6 h-6" aria-hidden="true" />,
                 color: "bg-indigo-500",
               },
               {
                 year: "2025",
                 title: "SEBI Registered RA",
                 desc: "Recognized as a SEBI Registered Research Analyst in 2025, reinforcing our commitment to transparency, compliance, and ethical research practices.",
-                icon: <ShieldCheck className="w-6 h-6" />,
+                icon: <ShieldCheck className="w-6 h-6" aria-hidden="true" />,
                 color: "bg-emerald-500",
               }
             ].map((item, i) => (
@@ -271,7 +273,7 @@ export default function AboutPage() {
                     <div className="space-y-3">
                       <span className="text-sm font-black text-primary/60 dark:text-blue-400/60 uppercase tracking-widest">{item.year}</span>
                       <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed italic">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed italic">
                         "{item.desc}"
                       </p>
                     </div>
@@ -289,7 +291,7 @@ export default function AboutPage() {
         <div className="mb-10">
           <FadeIn>
             <h2 className="text-3xl font-bold mb-12 text-center text-foreground flex items-center justify-center gap-3">
-              <Users className="w-8 h-8 text-primary" />
+              <Users className="w-8 h-8 text-primary" aria-hidden="true" />
               Our Core Team
             </h2>
           </FadeIn>
@@ -316,16 +318,16 @@ export default function AboutPage() {
                   <div className="h-48 bg-gray-100 dark:bg-gray-800 relative overflow-hidden shrink-0">
                     <div className="absolute inset-0 bg-linear-to-br from-primary/80 to-blue-600/80 opacity-90 group-hover:opacity-100 transition-opacity" />
                     <div className="absolute bottom-4 left-4 right-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center gap-4 text-white">
-                      <Linkedin className="w-5 h-5 cursor-pointer hover:text-blue-200" />
-                      <Twitter className="w-5 h-5 cursor-pointer hover:text-blue-200" />
+                      <Linkedin className="w-5 h-5 cursor-pointer hover:text-blue-200" aria-hidden="true" />
+                      <Twitter className="w-5 h-5 cursor-pointer hover:text-blue-200" aria-hidden="true" />
                     </div>
                     <div className="w-full h-full flex items-center justify-center">
-                      <Users className="w-16 h-16 text-white/50" />
+                      <Users className="w-16 h-16 text-white/50" aria-hidden="true" />
                     </div>
                   </div>
                   <div className="p-6 text-center relative flex-grow flex flex-col items-center">
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-white dark:bg-gray-900 rounded-full p-1 shadow-xl">
-                      <div className="w-full h-full bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      <div className="w-full h-full bg-primary dark:bg-blue-800 rounded-full flex items-center justify-center text-white font-bold text-xl">
                         {member.name.charAt(0)}
                       </div>
                     </div>
@@ -338,7 +340,7 @@ export default function AboutPage() {
                           {member.role}
                         </p>
                       </div>
-                      <span className="inline-block px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-full text-xs font-bold text-gray-500 uppercase tracking-widest border border-gray-100 dark:border-gray-700 w-max">
+                      <span className="inline-block px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-full text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest border border-gray-100 dark:border-gray-700 w-max">
                         {member.exp}
                       </span>
                     </div>
@@ -349,7 +351,8 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

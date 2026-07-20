@@ -1,12 +1,20 @@
 import { PlansView } from "@/components/plans/plans-view";
-import { DisclaimerStrip } from "@/components/sections/disclaimer-strip";
 import { Footer } from "@/components/layout/footer";
+import { DisclaimerStrip } from "@/components/sections/disclaimer-strip";
 import { PageHeader } from "@/components/layout/page-header";
 import { FloatingIcons } from "@/components/ui/floating-icons";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Subscription Plans",
+  description: "Compare our research subscription plans and pricing.",
+};
+
 export default function PlansPage() {
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden font-sans">
+    <>
+    <main id="main-content" className="min-h-screen bg-background relative overflow-hidden font-sans">
       <FloatingIcons />
       <PageHeader 
         title="Predictive Research. Structured Execution."
@@ -16,7 +24,8 @@ export default function PlansPage() {
       <PlansView />
 
       <DisclaimerStrip />
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

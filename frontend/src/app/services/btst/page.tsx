@@ -9,7 +9,8 @@ import Image from "next/image";
 
 export default function BTSTPage() {
   return (
-    <main className="min-h-screen bg-[#050B14] text-gray-100 relative overflow-hidden font-sans">
+    <>
+    <main id="main-content" className="min-h-screen bg-[#050B14] text-gray-100 relative overflow-hidden font-sans">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-cyan-900/20 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-indigo-900/20 rounded-full blur-[150px] pointer-events-none" />
 
@@ -17,12 +18,12 @@ export default function BTSTPage() {
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
           <FadeIn direction="right" className="order-2 lg:order-1">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950 border border-cyan-800 text-cyan-400 mb-6 text-sm font-bold tracking-wide">
-              <Moon className="w-4 h-4" /> Buy Today. Sell Tomorrow.
+              <Moon className="w-4 h-4" aria-hidden="true" /> Buy Today. Sell Tomorrow.
             </div>
             <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight text-white">
               Capture The <span className="text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">Overnight Alpha.</span>
             </h1>
-            <p className="text-xl text-gray-400 mb-8 leading-relaxed max-w-xl">
+            <p className="text-xl text-gray-300 mb-8 leading-relaxed max-w-xl">
               Stop watching the market all day. BTST/STBT setups are designed to help you capture gap-up and gap-down momentum using strictly defined end-of-day momentum triggers.
             </p>
 
@@ -34,19 +35,20 @@ export default function BTSTPage() {
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center gap-4 text-lg font-medium text-gray-300">
                   <div className="w-10 h-10 rounded-xl bg-cyan-950 flex items-center justify-center border border-cyan-800">
-                    <item.icon className="w-5 h-5 text-cyan-400" />
+                    <item.icon className="w-5 h-5 text-cyan-400" aria-hidden="true" />
                   </div>
                   {item.label}
                 </li>
               ))}
             </ul>
 
-            <Link 
-              href="/signup" 
+            <Link
+              href="/signup"
+              aria-label="Get started - sign up"
               className="inline-flex items-center gap-3 bg-cyan-500 hover:bg-cyan-400 text-[#050B14] px-8 py-4 rounded-xl font-black text-lg transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)]"
             >
               Get Started
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </FadeIn>
 
@@ -55,7 +57,8 @@ export default function BTSTPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-transparent to-transparent z-10" />
               <Image
                 src="/images/btst_hero.png"
-                alt="BTST Trading"
+                alt=""
+                aria-hidden="true"
                 fill
                 className="object-cover"
               />
@@ -104,7 +107,8 @@ export default function BTSTPage() {
       </div>
 
       <DisclaimerStrip />
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

@@ -13,7 +13,8 @@ import {
 
 export default function WealthManagementPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <>
+    <main id="main-content" className="min-h-screen bg-background">
       <PageHeader
         title="Wealth Management"
         description="Bespoke financial solutions for High Net Worth Individuals. We preserve and grow your legacy with institutional precision."
@@ -42,7 +43,7 @@ export default function WealthManagementPage() {
             <FadeIn key={i} delay={i * 0.1}>
               <div className="bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-800 text-center hover:border-gold-500/30 transition-colors">
                 <div className="w-16 h-16 mx-auto bg-primary/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 text-primary dark:text-white">
-                  <item.icon className="w-8 h-8" />
+                  <item.icon className="w-8 h-8" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-bold mb-4">{item.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -77,7 +78,7 @@ export default function WealthManagementPage() {
                       {service}
                     </span>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" aria-hidden="true" />
                 </div>
               </FadeIn>
             ))}
@@ -92,14 +93,15 @@ export default function WealthManagementPage() {
                 Schedule a Portfolio Review
               </button>
             </div>
-            <p className="mt-4 text-sm text-gray-500">
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               Minimum portfolio size: ₹50 Lakhs
             </p>
           </FadeIn>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
  
   );
 }

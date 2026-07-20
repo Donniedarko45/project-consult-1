@@ -1,10 +1,18 @@
-import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
+import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Disclaimer & Disclosure",
+  description: "Regulatory information and risk disclosures as per SEBI guidelines.",
+};
 
 export default function DisclaimerPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Disclaimer & Disclosure"
         description="Regulatory information and risk disclosures as per SEBI guidelines."
@@ -51,16 +59,17 @@ export default function DisclaimerPage() {
 
         <FadeIn delay={0.7}>
           <div className="p-8 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/20 text-center">
-            <p className="text-amber-700 dark:text-amber-400 font-bold text-xl uppercase tracking-wide">
+            <h2 className="text-amber-700 dark:text-amber-400 font-bold text-xl uppercase tracking-wide">
               💡 Final Statement
-            </p>
+            </h2>
             <p className="text-gray-700 dark:text-gray-300 mt-2 text-lg italic">
               "Trade responsibly. Understand the risks before participating in the market."
             </p>
           </div>
         </FadeIn>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

@@ -18,7 +18,8 @@ export default function WorkshopsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#001428] text-sky-100 relative overflow-hidden font-sans">
+    <>
+    <main id="main-content" className="min-h-screen bg-[#001428] text-sky-100 relative overflow-hidden font-sans">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1200px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-900/20 via-transparent to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-4 py-24 relative z-10">
@@ -87,7 +88,8 @@ export default function WorkshopsPage() {
         </div>
       </div>
       <DisclaimerStrip />
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

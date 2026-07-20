@@ -7,7 +7,8 @@ import { Calculator, Percent, BarChart2, Activity } from "lucide-react";
 
 export default function ToolsPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <>
+    <main id="main-content" className="min-h-screen bg-background">
       <PageHeader
         title="Traders Toolbox"
         description="Essential calculators and scanners to sharpen your trading edge."
@@ -40,16 +41,17 @@ export default function ToolsPage() {
             <FadeIn key={i} delay={i * 0.1}>
               <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group h-full">
                 <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                  <tool.icon className="w-6 h-6" />
+                  <tool.icon className="w-6 h-6" aria-hidden="true" />
                 </div>
                 <h3 className="font-bold text-lg mb-2">{tool.title}</h3>
-                <p className="text-sm text-gray-500">{tool.desc}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{tool.desc}</p>
               </div>
             </FadeIn>
           ))}
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

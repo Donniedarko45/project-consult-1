@@ -1,15 +1,23 @@
-import { Footer } from "@/components/layout/footer";
 import { FAQSection } from "@/components/sections/faq-section";
+import { Footer } from "@/components/layout/footer";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Frequently Asked Questions",
+  description: "Answers to common questions about our research services.",
+};
 
 export default function FAQPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <div className="bg-primary text-secondary py-16">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
+      <div className="bg-primary dark:bg-blue-900 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-4">
             Frequently Asked Questions
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-white/90 max-w-2xl mx-auto">
             Answers to common queries about our services, subscription, and
             compliance.
           </p>
@@ -59,8 +67,9 @@ export default function FAQPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
     
   );
 }

@@ -91,13 +91,13 @@ export function ServicesSection() {
       <div className="container mx-auto px-6">
         <FadeIn className="text-center max-w-3xl mx-auto mb-16 lg:mb-24 space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 dark:bg-primary/10 border border-primary/20 text-primary dark:text-blue-400 rounded-full text-xs font-black uppercase tracking-widest">
-            <span className="w-2 h-2 rounded-full bg-primary" />
+            <span aria-hidden="true" className="w-2 h-2 rounded-full bg-primary" />
             Advisory Services
           </div>
           <h2 className="text-4xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tight">
             Our Core <span className="text-primary italic">Research Services</span>
           </h2>
-          <p className="text-xl text-gray-500 font-medium leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
             Choose your segment. Trade with clarity. Grow with confidence.
           </p>
         </FadeIn>
@@ -115,9 +115,9 @@ export function ServicesSection() {
                 <div className="space-y-5">
                   <div className="flex items-center gap-3">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${service.highlight ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
-                      <service.icon className="w-6 h-6" />
+                      <service.icon aria-hidden="true" className="w-6 h-6" />
                     </div>
-                    <span className={`text-xs font-black uppercase tracking-widest ${service.highlight ? "text-white/60" : "text-primary/60"}`}>
+                    <span className={`text-xs font-black uppercase tracking-widest ${service.highlight ? "text-white/80" : "text-primary"}`}>
                       {service.num}
                     </span>
                   </div>
@@ -140,7 +140,7 @@ export function ServicesSection() {
                     ))}
                   </ul>
 
-                  <p className={`text-xs italic leading-relaxed ${service.highlight ? "text-white/60" : "text-gray-400"}`}>
+                  <p className={`text-xs italic leading-relaxed ${service.highlight ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
                     👉 {service.note}
                   </p>
 
@@ -155,12 +155,14 @@ export function ServicesSection() {
                       suppressHydrationWarning
                     >
                       Explore Service Details
-                      <ArrowRight className="w-3 h-3" />
+                      <ArrowRight aria-hidden="true" className="w-3 h-3" />
                     </Link>
 
                     <Link
                       href={service.telegramLink}
                       target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Join the ${service.title} Telegram channel (opens in a new tab)`}
                       className={`inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl font-black text-sm transition-all hover:scale-[1.02] shadow-lg ${
                         service.highlight
                           ? "bg-white text-primary hover:bg-gray-50 shadow-white/10"
@@ -168,7 +170,7 @@ export function ServicesSection() {
                       }`}
                       suppressHydrationWarning
                     >
-                      <Send className="w-4 h-4 transition-transform group-hover/btn:rotate-12" />
+                      <Send aria-hidden="true" className="w-4 h-4 transition-transform group-hover/btn:rotate-12" />
                       Join The Telegram Channel
                     </Link>
                   </div>
@@ -184,7 +186,7 @@ export function ServicesSection() {
             className="inline-flex items-center gap-3 px-10 py-5 bg-primary text-secondary font-black rounded-2xl hover:bg-primary/90 transition-all hover:scale-105 shadow-xl hover:shadow-primary/20 text-lg"
             suppressHydrationWarning
           >
-            View Pricing Plans <ArrowRight className="w-6 h-6" />
+            View Pricing Plans <ArrowRight aria-hidden="true" className="w-6 h-6" />
           </Link>
         </FadeIn>
       </div>

@@ -40,8 +40,8 @@ export function PricingCard({
         
         {/* Popularity Badge */}
         {isPopular && (
-          <div className="absolute top-6 right-8 flex items-center gap-1.5 px-4 py-1.5 bg-yellow-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg z-30">
-            <Star className="w-3 h-3 fill-white" />
+          <div className="absolute top-6 right-8 flex items-center gap-1.5 px-4 py-1.5 bg-yellow-500 text-yellow-950 text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg z-30">
+            <Star aria-hidden="true" className="w-3 h-3 fill-current" />
             Featured
           </div>
         )}
@@ -50,7 +50,7 @@ export function PricingCard({
           {/* Header */}
           <div className="mb-10">
             <div className={`inline-block px-5 py-1.5 rounded-full text-[11px] font-black uppercase tracking-[0.25em] mb-6 ${
-              isPopular ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20" : "bg-primary/10 text-primary border border-primary/20"
+              isPopular ? "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/20" : "bg-primary/10 text-primary border border-primary/20"
             }`}>
               {duration} Access
             </div>
@@ -58,8 +58,8 @@ export function PricingCard({
               {planName}
             </h3>
             <div className="flex items-center gap-3">
-              <div className="h-1 w-12 bg-primary/30 rounded-full" />
-              <p className="text-gray-400 text-[11px] font-black uppercase tracking-[0.2em] opacity-80">
+              <div aria-hidden="true" className="h-1 w-12 bg-primary/30 rounded-full" />
+              <p className="text-gray-600 dark:text-gray-400 text-[11px] font-black uppercase tracking-[0.2em]">
                 Institutional Research
               </p>
             </div>
@@ -69,21 +69,21 @@ export function PricingCard({
           <div className="mb-12">
             {originalPrice && (
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-gray-400 line-through text-xl font-bold opacity-40">{originalPrice}</span>
+                <span className="text-gray-600 dark:text-gray-400 line-through text-xl font-bold">{originalPrice}</span>
                 {discount && (
-                  <span className="px-3 py-1 bg-green-500 text-white text-[10px] font-black rounded-lg uppercase tracking-wider shadow-lg shadow-green-500/20">
+                  <span className="px-3 py-1 bg-green-700 text-white text-[10px] font-black rounded-lg uppercase tracking-wider shadow-lg shadow-green-500/20">
                     SAVE {discount}
                   </span>
                 )}
               </div>
             )}
             <div className="flex items-baseline gap-2">
-              <span className={`text-7xl lg:text-8xl font-black tracking-tighter ${isPopular ? "text-yellow-600 dark:text-yellow-400" : "text-foreground"}`}>
+              <span className={`text-7xl lg:text-8xl font-black tracking-tighter ${isPopular ? "text-yellow-700 dark:text-yellow-400" : "text-foreground"}`}>
                 {price}
               </span>
               <div className="flex flex-col mb-2">
-                <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest opacity-60">Inclusive of</span>
-                <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest opacity-60">GST & Fees</span>
+                <span className="text-gray-600 dark:text-gray-400 text-[10px] font-black uppercase tracking-widest">Inclusive of</span>
+                <span className="text-gray-600 dark:text-gray-400 text-[10px] font-black uppercase tracking-widest">GST & Fees</span>
               </div>
             </div>
           </div>
@@ -98,9 +98,9 @@ export function PricingCard({
               {servicesIncluded.map((service, index) => (
                 <li key={index} className="flex items-start group/item">
                   <div className={`mt-1 h-6 w-6 rounded-xl flex items-center justify-center shrink-0 mr-5 transition-all duration-500 group-hover/item:scale-110 ${
-                    isPopular ? "bg-yellow-500/20 text-yellow-600 shadow-lg shadow-yellow-500/10" : "bg-primary/20 text-primary shadow-lg shadow-primary/10"
+                    isPopular ? "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 shadow-lg shadow-yellow-500/10" : "bg-primary/20 text-primary shadow-lg shadow-primary/10"
                   }`}>
-                    <Check className="w-3.5 h-3.5 stroke-[4px]" />
+                    <Check aria-hidden="true" className="w-3.5 h-3.5 stroke-[4px]" />
                   </div>
                   <span className="text-base lg:text-lg font-bold text-gray-600 dark:text-gray-300 group-hover/item:text-foreground transition-colors leading-relaxed">
                     {service}
@@ -115,10 +115,10 @@ export function PricingCard({
             <div className="p-6 bg-gray-50/50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10 backdrop-blur-sm">
               <div className="flex items-center gap-5">
                 <div className="p-3 bg-white dark:bg-white/10 rounded-xl shadow-sm border border-black/5 dark:border-white/10">
-                  <ShieldCheck className={`w-5 h-5 ${isPopular ? "text-yellow-500" : "text-primary"}`} />
+                  <ShieldCheck aria-hidden="true" className={`w-5 h-5 ${isPopular ? "text-yellow-700 dark:text-yellow-400" : "text-primary"}`} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Deployment Channel</span>
+                  <span className="text-[10px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-1">Deployment Channel</span>
                   <span className="text-xs font-black text-foreground uppercase tracking-widest">{deliveryMode}</span>
                 </div>
               </div>
@@ -126,21 +126,22 @@ export function PricingCard({
 
             <Link
               href={`/payment?plan=${encodeURIComponent(planName)}&price=${encodeURIComponent(price)}&planId=${encodeURIComponent(planId || "")}`}
+              aria-label={`Access Research - ${planName} plan`}
               className={`relative flex items-center justify-center w-full px-10 py-6 text-xl font-black rounded-[2rem] transition-all duration-500 group/btn overflow-hidden ${
                 isPopular 
-                  ? "bg-yellow-500 text-white shadow-[0_15px_30px_-5px_rgba(234,179,8,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(234,179,8,0.6)] hover:-translate-y-1.5" 
+                  ? "bg-yellow-500 text-yellow-950 shadow-[0_15px_30px_-5px_rgba(234,179,8,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(234,179,8,0.6)] hover:-translate-y-1.5" 
                   : "bg-primary text-secondary shadow-[0_15px_30px_-5px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_20px_40px_-5px_rgba(var(--primary-rgb),0.5)] hover:-translate-y-1.5"
               }`}
             >
               <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_2s_infinite]" />
               <span className="relative z-10 flex items-center">
                 Access Research
-                <ArrowRight className="w-6 h-6 ml-4 transition-transform group-hover/btn:translate-x-2" />
+                <ArrowRight aria-hidden="true" className="w-6 h-6 ml-4 transition-transform group-hover/btn:translate-x-2" />
               </span>
             </Link>
             
             <div className="bg-orange-50/30 dark:bg-orange-950/20 p-5 rounded-2xl border border-orange-100/50 dark:border-orange-900/20">
-              <p className="text-[11px] text-orange-800/70 dark:text-orange-400/70 text-center leading-relaxed font-bold">
+              <p className="text-[11px] text-orange-800 dark:text-orange-300 text-center leading-relaxed font-bold">
                 ⚠️ {riskDisclaimer}
               </p>
             </div>

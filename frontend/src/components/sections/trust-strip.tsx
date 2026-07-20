@@ -38,13 +38,13 @@ export function TrustStrip() {
                 className="flex flex-col items-center text-center space-y-3 group cursor-default"
               >
                 <div className="p-3 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-blue-400 transition-transform duration-300 group-hover:scale-110 group-hover:bg-primary/20">
-                  <point.icon className="w-6 h-6" />
+                  <point.icon aria-hidden="true" className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">
                     {point.title}
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {point.description}
                   </p>
                 </div>

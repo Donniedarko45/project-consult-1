@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ashwini SD",
+  title: {
+    default: "Ashwini SD Research — SEBI Registered Research Analyst",
+    template: "%s | Ashwini SD Research",
+  },
   description: "Professional trading and research services",
 };
 
@@ -41,6 +44,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
             <Navbar />
             {children}
             <WhatsAppButton />

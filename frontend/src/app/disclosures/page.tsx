@@ -1,10 +1,18 @@
-import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
+import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Regulatory Disclosures",
+  description: "Compliance information as per SEBI (Research Analyst) Regulations, 2014.",
+};
 
 export default function DisclosuresPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Regulatory Disclosures"
         description="Compliance information as per SEBI (Research Analyst) Regulations, 2014."
@@ -73,9 +81,9 @@ export default function DisclosuresPage() {
 
         <FadeIn delay={0.5}>
           <div className="p-6 bg-amber-50 dark:bg-amber-900/10 rounded-xl text-sm mt-8 border border-amber-100 dark:border-amber-900/20 text-amber-900 dark:text-amber-100">
-            <p className="font-bold mb-2 uppercase tracking-wide">
+            <h2 className="font-bold mb-2 uppercase tracking-wide">
               Standard Warning:
-            </p>
+            </h2>
             <p>
               Investment in securities market are subject to market risks. Read
               all the related documents carefully before investing. Registration
@@ -86,8 +94,9 @@ export default function DisclosuresPage() {
           </div>
         </FadeIn>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
     
   );
 }

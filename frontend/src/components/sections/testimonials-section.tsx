@@ -65,12 +65,12 @@ export function TestimonialsSection() {
                 className="bg-white dark:bg-gray-900 p-8 rounded-[32px] border border-gray-100 dark:border-gray-800 shadow-xl shadow-gray-200/50 dark:shadow-none h-full flex flex-col relative group"
               >
                 <div className="absolute top-6 right-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Quote className="w-10 h-10 text-primary" />
+                  <Quote aria-hidden="true" className="w-10 h-10 text-primary" />
                 </div>
                 
-                <div className="flex gap-1 mb-6">
+                <div className="flex gap-1 mb-6" role="img" aria-label={`Rated ${t.rating} out of 5`}>
                   {[...Array(t.rating)].map((_, index) => (
-                    <Star key={index} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={index} aria-hidden="true" className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
 
@@ -83,8 +83,8 @@ export function TestimonialsSection() {
                     {t.name.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="font-black text-foreground uppercase tracking-tight">{t.name}</h4>
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t.platform}</p>
+                    <h3 className="font-black text-foreground uppercase tracking-tight">{t.name}</h3>
+                    <p className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest">{t.platform}</p>
                   </div>
                 </div>
               </motion.div>
@@ -95,15 +95,15 @@ export function TestimonialsSection() {
         <FadeIn delay={0.5}>
           <div className="mt-16 text-center">
             <div className="inline-flex flex-col items-center gap-3">
-              <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
+              <div className="flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-400">
                 <span className="flex items-center gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} aria-hidden="true" className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   ))}
                 </span>
                 Average 4.9/5 based on 500+ Google Reviews
               </div>
-              <p className="text-[10px] text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold">
+              <p className="text-[10px] text-gray-600 dark:text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold">
                 * Disclaimer: Testimonials reflect individual experiences and do not guarantee future performance. Investments in securities market are subject to market risks.
               </p>
             </div>

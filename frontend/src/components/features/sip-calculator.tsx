@@ -49,10 +49,10 @@ export function SipCalculator() {
     <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
       <div className="p-8 border-b border-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-3 mb-2">
-          <Calculator className="w-6 h-6 text-primary" />
+          <Calculator aria-hidden="true" className="w-6 h-6 text-primary" />
           <h3 className="text-2xl font-bold">SIP Calculator</h3>
         </div>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-600 dark:text-gray-400 text-sm">
           Calculate the future value of your monthly investments.
         </p>
       </div>
@@ -63,7 +63,7 @@ export function SipCalculator() {
           {/* Monthly Investment */}
           <div>
             <div className="flex justify-between mb-4">
-              <label className="font-bold text-gray-700 dark:text-gray-300">
+              <label htmlFor="sip-monthly-investment" className="font-bold text-gray-700 dark:text-gray-300">
                 Monthly Investment
               </label>
               <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg font-bold">
@@ -71,15 +71,17 @@ export function SipCalculator() {
               </span>
             </div>
             <input
+              id="sip-monthly-investment"
               type="range"
               min="500"
               max="100000"
               step="500"
               value={investment}
+              aria-valuetext={`${investment} rupees per month`}
               onChange={(e) => setInvestment(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
             />
-            <div className="flex justify-between text-xs text-gray-400 mt-2">
+            <div aria-hidden="true" className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
               <span>₹500</span>
               <span>₹1L</span>
             </div>
@@ -88,7 +90,7 @@ export function SipCalculator() {
           {/* Expected Return Rate */}
           <div>
             <div className="flex justify-between mb-4">
-              <label className="font-bold text-gray-700 dark:text-gray-300">
+              <label htmlFor="sip-return-rate" className="font-bold text-gray-700 dark:text-gray-300">
                 Expected Return Rate (p.a)
               </label>
               <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg font-bold">
@@ -96,15 +98,17 @@ export function SipCalculator() {
               </span>
             </div>
             <input
+              id="sip-return-rate"
               type="range"
               min="1"
               max="30"
               step="0.5"
               value={rate}
+              aria-valuetext={`${rate} percent per annum`}
               onChange={(e) => setRate(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
             />
-            <div className="flex justify-between text-xs text-gray-400 mt-2">
+            <div aria-hidden="true" className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
               <span>1%</span>
               <span>30%</span>
             </div>
@@ -113,7 +117,7 @@ export function SipCalculator() {
           {/* Time Period */}
           <div>
             <div className="flex justify-between mb-4">
-              <label className="font-bold text-gray-700 dark:text-gray-300">
+              <label htmlFor="sip-time-period" className="font-bold text-gray-700 dark:text-gray-300">
                 Time Period
               </label>
               <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg font-bold">
@@ -121,15 +125,17 @@ export function SipCalculator() {
               </span>
             </div>
             <input
+              id="sip-time-period"
               type="range"
               min="1"
               max="40"
               step="1"
               value={years}
+              aria-valuetext={`${years} years`}
               onChange={(e) => setYears(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
             />
-            <div className="flex justify-between text-xs text-gray-400 mt-2">
+            <div aria-hidden="true" className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
               <span>1 Yr</span>
               <span>40 Yrs</span>
             </div>
@@ -137,14 +143,14 @@ export function SipCalculator() {
         </div>
 
         {/* Results Section */}
-        <div className="p-8 lg:w-1/2 bg-gray-50 dark:bg-gray-800/50 flex flex-col justify-center">
+        <div role="status" aria-live="polite" className="p-8 lg:w-1/2 bg-gray-50 dark:bg-gray-800/50 flex flex-col justify-center">
           <div className="space-y-6">
             <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 rounded-xl shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600">
-                  <IndianRupee className="w-5 h-5" />
+                  <IndianRupee aria-hidden="true" className="w-5 h-5" />
                 </div>
-                <span className="text-sm font-medium text-gray-500">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Invested Amount
                 </span>
               </div>
@@ -156,19 +162,19 @@ export function SipCalculator() {
             <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 rounded-xl shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600">
-                  <TrendingUp className="w-5 h-5" />
+                  <TrendingUp aria-hidden="true" className="w-5 h-5" />
                 </div>
-                <span className="text-sm font-medium text-gray-500">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Est. Returns
                 </span>
               </div>
-              <span className="font-bold text-lg text-green-600">
+              <span className="font-bold text-lg text-green-700 dark:text-green-400">
                 {formatCurrency(results.returns)}
               </span>
             </div>
 
             <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
-              <span className="block text-sm font-semibold text-gray-500 uppercase tracking-widest mb-2">
+              <span className="block text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-2">
                 Total Value
               </span>
               <span className="block text-4xl lg:text-5xl font-black text-primary animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -176,7 +182,7 @@ export function SipCalculator() {
               </span>
             </div>
 
-            <button className="w-full mt-6 bg-primary text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-primary/25">
+            <button type="button" className="w-full mt-6 bg-primary dark:bg-blue-800 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-primary/25">
               Start SIP Investment
             </button>
           </div>

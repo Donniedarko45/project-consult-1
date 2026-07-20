@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, Send, Home, Info, Briefcase, CreditCard, ShieldCheck, Phone, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { UserMenu } from "@/components/ui/user-menu";
@@ -17,6 +17,47 @@ export function Navbar() {
   const [hoveredServices, setHoveredServices] = useState(false);
   const [hoveredPlans, setHoveredPlans] = useState(false);
   const { isAuthenticated } = useAuth();
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
+
+  // While the drawer is open it is a modal dialog: move focus into it, keep Tab
+  // inside it, and return focus to the toggle on close (SC 2.1.2, 2.4.3).
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const FOCUSABLE =
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const getFocusable = () =>
+      Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => el.offsetParent !== null || el === document.activeElement,
+      );
+
+    getFocusable()[0]?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    drawer.addEventListener("keydown", onKeyDown);
+    return () => {
+      drawer.removeEventListener("keydown", onKeyDown);
+      menuToggleRef.current?.focus();
+    };
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { href: "/", label: "Home", icon: Home },
@@ -39,7 +80,7 @@ export function Navbar() {
             >
               <Image
                 src="/images/Ashwini SD.png"
-                alt="Ashwini SD Logo"
+                alt=""
                 width={40}
                 height={40}
                 className="w-10 h-10 object-contain"
@@ -48,7 +89,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav aria-label="Primary" className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               const Icon = link.icon;
@@ -58,19 +99,31 @@ export function Navbar() {
                     <div
                       onMouseEnter={() => setHoveredServices(true)}
                       onMouseLeave={() => setHoveredServices(false)}
+                      onFocus={() => setHoveredServices(true)}
+                      onBlur={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                          setHoveredServices(false);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") setHoveredServices(false);
+                      }}
                       className="relative"
                     >
                       <Link
                         href={link.href}
+                        aria-haspopup="true"
+                        aria-expanded={hoveredServices}
+                        aria-controls="navbar-services-menu"
                         className={`px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
                           isActive || hoveredServices
                             ? "text-primary dark:text-white"
                             : "text-gray-600 dark:text-gray-400"
                         }`}
                       >
-                        <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                        <Icon aria-hidden="true" className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                         {link.label}
-                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${hoveredServices ? "rotate-180" : ""}`} />
+                        <ChevronDown aria-hidden="true" className={`w-3.5 h-3.5 transition-transform duration-300 ${hoveredServices ? "rotate-180" : ""}`} />
                       </Link>
 
                       {/* Mega Menu Dropdown */}
@@ -81,6 +134,8 @@ export function Navbar() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
                             transition={{ duration: 0.2, ease: "easeOut" }}
+                            id="navbar-services-menu"
+                            aria-label="Services"
                             className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800/80 rounded-2xl shadow-2xl p-4 grid grid-cols-1 gap-1.5 z-50 overflow-hidden backdrop-blur-xl"
                           >
                             {[
@@ -112,19 +167,31 @@ export function Navbar() {
                     <div
                       onMouseEnter={() => setHoveredPlans(true)}
                       onMouseLeave={() => setHoveredPlans(false)}
+                      onFocus={() => setHoveredPlans(true)}
+                      onBlur={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                          setHoveredPlans(false);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") setHoveredPlans(false);
+                      }}
                       className="relative"
                     >
                       <Link
                         href={link.href}
+                        aria-haspopup="true"
+                        aria-expanded={hoveredPlans}
+                        aria-controls="navbar-plans-menu"
                         className={`px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
                           isActive || hoveredPlans
                             ? "text-primary dark:text-white"
                             : "text-gray-600 dark:text-gray-400"
                         }`}
                       >
-                        <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                        <Icon aria-hidden="true" className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                         {link.label}
-                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${hoveredPlans ? "rotate-180" : ""}`} />
+                        <ChevronDown aria-hidden="true" className={`w-3.5 h-3.5 transition-transform duration-300 ${hoveredPlans ? "rotate-180" : ""}`} />
                       </Link>
 
                       {/* Plans Dropdown */}
@@ -135,6 +202,8 @@ export function Navbar() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
                             transition={{ duration: 0.2, ease: "easeOut" }}
+                            id="navbar-plans-menu"
+                            aria-label="Plans"
                             className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800/80 rounded-2xl shadow-2xl p-4 grid grid-cols-1 gap-1.5 z-50 overflow-hidden backdrop-blur-xl"
                           >
                             {[
@@ -168,7 +237,7 @@ export function Navbar() {
                           : "text-gray-600 dark:text-gray-400"
                       }`}
                     >
-                      <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                      <Icon aria-hidden="true" className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                       {link.label}
                       {isActive && (
                         <motion.div
@@ -208,9 +277,11 @@ export function Navbar() {
                   <Link
                     href="https://t.me/tradewithashwinisd6"
                     target="_blank"
-                    className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-blue-500 hover:text-blue-600 transition-colors"
+                    rel="noopener noreferrer"
+                    aria-label="Free Channel on Telegram (opens in a new tab)"
+                    className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
                   >
-                    <Send className="w-3.5 h-3.5" />
+                    <Send aria-hidden="true" className="w-3.5 h-3.5" />
                     Free Channel
                   </Link>
                   <Link
@@ -221,7 +292,8 @@ export function Navbar() {
                   </Link>
                   <Link
                     href="/signup"
-                    className="relative text-xs font-medium bg-primary text-white px-5 py-2.5 rounded-xl overflow-hidden group hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
+                    aria-label="Get started - sign up"
+                    className="relative text-xs font-medium bg-primary dark:bg-blue-800 text-white px-5 py-2.5 rounded-xl overflow-hidden group hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
                   >
                     <span className="relative z-10">Get Started</span>
                     <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -232,13 +304,18 @@ export function Navbar() {
 
             {/* Mobile Menu Toggle */}
             <button
+              ref={menuToggleRef}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              type="button"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation-drawer"
               className="xl:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X aria-hidden="true" className="w-6 h-6" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu aria-hidden="true" className="w-6 h-6" />
               )}
             </button>
           </div>
@@ -255,6 +332,7 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
+              aria-hidden="true"
               className="xl:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
             />
 
@@ -264,6 +342,14 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              ref={drawerRef}
+              id="mobile-navigation-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site navigation"
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setIsMobileMenuOpen(false);
+              }}
               className="xl:hidden fixed top-0 left-0 bottom-0 w-3/4 max-w-xs bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 shadow-2xl z-50 overflow-y-auto p-6 flex flex-col gap-4"
             >
               <div className="flex items-center justify-between mb-4">
@@ -274,7 +360,7 @@ export function Navbar() {
                 >
                   <Image
                     src="/images/Ashwini SD.png"
-                    alt="Ashwini SD Logo"
+                    alt=""
                     width={32}
                     height={32}
                     className="w-8 h-8 object-contain"
@@ -283,9 +369,11 @@ export function Navbar() {
                 </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
+                  type="button"
+                  aria-label="Close navigation menu"
                   className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
-                  <X className="w-5 h-5 text-gray-500" />
+                  <X aria-hidden="true" className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
 
@@ -296,7 +384,7 @@ export function Navbar() {
                 </div>
               )}
 
-              <nav className="flex flex-col gap-2">
+              <nav aria-label="Mobile primary" className="flex flex-col gap-2">
                 {navLinks.map((link) => {
                   const Icon = link.icon;
                   const isActive = pathname === link.href;
@@ -312,7 +400,7 @@ export function Navbar() {
                       }`}
                     >
                       <div className={`p-2 rounded-lg ${isActive ? "bg-white/20" : "bg-gray-100 dark:bg-white/5"}`}>
-                        <Icon className="w-5 h-5" />
+                        <Icon aria-hidden="true" className="w-5 h-5" />
                       </div>
                       {link.label}
                     </Link>
@@ -325,9 +413,11 @@ export function Navbar() {
               <a
                 href="https://t.me/tradewithashwinisd6"
                 target="_blank"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold bg-blue-500 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition-colors"
+                rel="noopener noreferrer"
+                aria-label="Join Free Telegram (opens in a new tab)"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-colors"
               >
-                <Send className="w-5 h-5" />
+                <Send aria-hidden="true" className="w-5 h-5" />
                 Join Free Telegram
               </a>
 
@@ -343,7 +433,8 @@ export function Navbar() {
                   <Link
                     href="/signup"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="px-4 py-3 rounded-xl text-sm font-bold text-center bg-primary text-white shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors"
+                    aria-label="Get started - sign up"
+                    className="px-4 py-3 rounded-xl text-sm font-bold text-center bg-primary dark:bg-blue-800 text-white shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors"
                   >
                     Get Started
                   </Link>

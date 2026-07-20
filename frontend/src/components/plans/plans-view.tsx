@@ -108,13 +108,13 @@ export function PlansView({ segmentSlug }: { segmentSlug?: string }) {
   return (
     <div className="container mx-auto px-6 py-24 lg:py-32 relative z-10">
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-40">
+        <div role="status" aria-live="polite" className="flex flex-col items-center justify-center py-40">
           <div className="relative w-20 h-20">
             <div className="absolute inset-0 border-4 border-primary/20 rounded-full" />
             <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
-          <p className="mt-8 text-gray-400 font-black uppercase tracking-[0.3em] text-xs animate-pulse">
-            Hydrating Backend Data...
+          <p className="mt-8 text-gray-700 dark:text-gray-300 font-black uppercase tracking-[0.3em] text-xs">
+            Loading plans…
           </p>
         </div>
       ) : plans.length > 0 ? (
@@ -126,10 +126,11 @@ export function PlansView({ segmentSlug }: { segmentSlug?: string }) {
                   <Link
                     key={segment}
                     href={segment === "All" ? "/plans" : `/plans/${slugify(segment)}`}
+                    aria-current={activeSegment === segment ? "page" : undefined}
                     className={`px-6 py-3 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-[0.15em] transition-all duration-500 border ${
                       activeSegment === segment
-                        ? "bg-primary text-secondary border-primary shadow-[0_15px_30px_-10px_rgba(var(--primary-rgb),0.5)] scale-105"
-                        : "bg-white/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-white/10 hover:border-primary/40 hover:text-foreground backdrop-blur-md"
+                        ? "bg-primary text-secondary dark:bg-blue-300 dark:text-slate-950 border-primary dark:border-blue-300 shadow-[0_15px_30px_-10px_rgba(var(--primary-rgb),0.5)] scale-105"
+                        : "bg-white/5 dark:bg-white/5 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-white/10 hover:border-primary/40 hover:text-foreground backdrop-blur-md"
                     }`}
                     suppressHydrationWarning
                   >
@@ -140,7 +141,7 @@ export function PlansView({ segmentSlug }: { segmentSlug?: string }) {
             )}
 
             {!segmentSlug && (
-              <div className="h-px w-32 bg-linear-to-r from-transparent via-primary/30 to-transparent" />
+              <div aria-hidden="true" className="h-px w-32 bg-linear-to-r from-transparent via-primary/30 to-transparent" />
             )}
 
             <div className="flex justify-center overflow-x-auto scrollbar-hide w-full">
@@ -148,11 +149,13 @@ export function PlansView({ segmentSlug }: { segmentSlug?: string }) {
                 {durations.map((month) => (
                   <button
                     key={month}
+                    type="button"
+                    aria-pressed={activeTab === month}
                     onClick={() => setActiveTab(month)}
                     className={`px-10 py-5 md:px-14 md:py-6 rounded-[2.2rem] text-xs md:text-sm font-black transition-all duration-700 whitespace-nowrap relative overflow-hidden group/tab ${
                       activeTab === month
-                        ? "bg-primary text-secondary shadow-2xl shadow-primary/40 scale-105 z-10"
-                        : "text-gray-500 hover:text-foreground hover:bg-white/5"
+                        ? "bg-primary text-secondary dark:bg-blue-300 dark:text-slate-950 shadow-2xl shadow-primary/40 scale-105 z-10"
+                        : "text-gray-600 dark:text-gray-400 hover:text-foreground hover:bg-white/5"
                     }`}
                   >
                     <span className="relative z-10">
@@ -173,10 +176,10 @@ export function PlansView({ segmentSlug }: { segmentSlug?: string }) {
               ))
             ) : (
               <div className="col-span-full flex flex-col items-center justify-center py-32 glass rounded-[3rem] border-dashed border-2 border-primary/20">
-                <p className="text-gray-400 font-black uppercase tracking-widest text-sm">No plans matching this criteria</p>
+                <p className="text-gray-600 dark:text-gray-400 font-black uppercase tracking-widest text-sm">No plans matching this criteria</p>
                 <Link 
                   href="/plans"
-                  className="mt-6 px-6 py-2 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
+                  className="mt-6 px-6 py-2 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-primary dark:bg-blue-800 hover:text-white transition-all"
                   suppressHydrationWarning
                 >
                   Reset Results
@@ -188,7 +191,7 @@ export function PlansView({ segmentSlug }: { segmentSlug?: string }) {
       ) : (
         <div className="flex flex-col items-center justify-center py-40 glass rounded-[4rem] text-center max-w-2xl mx-auto">
           <h3 className="text-2xl font-black mb-4">No Plans Found</h3>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-xs leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-400 font-bold uppercase tracking-widest text-xs leading-relaxed">
             We couldn't retrieve any active plans from the server at this moment. 
           </p>
         </div>

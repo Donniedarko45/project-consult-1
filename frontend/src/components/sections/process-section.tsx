@@ -38,13 +38,13 @@ export function ProcessSection() {
       <div className="container mx-auto px-6 max-w-7xl">
         <FadeIn className="text-center max-w-3xl mx-auto mb-16 lg:mb-24">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 text-primary rounded-full text-xs font-black uppercase tracking-widest mb-6 border border-primary/20">
-            <span className="w-2 h-2 rounded-full bg-primary" />
+            <span aria-hidden="true" className="w-2 h-2 rounded-full bg-primary" />
             Our Research Process
           </div>
           <h2 className="text-4xl lg:text-5xl font-black text-foreground mb-8">
             How We Help You <span className="text-primary italic">Succeed</span>
           </h2>
-          <p className="text-xl text-gray-500 leading-relaxed font-medium">
+          <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
             From scanning to execution, we follow a disciplined methodology to ensure 
             institutional-grade research for every trader.
           </p>
@@ -62,7 +62,7 @@ export function ProcessSection() {
                   {/* Step Number & Icon Container */}
                   <div className="relative shrink-0 pt-4">
                     {/* Step Label - Centered above the box */}
-                    <div className="absolute -top-1 left-0 right-0 text-center text-[10px] font-black tracking-widest uppercase text-primary/40 transition-colors group-hover:text-primary/60">
+                    <div className="absolute -top-1 left-0 right-0 text-center text-[10px] font-black tracking-widest uppercase text-primary/80 transition-colors group-hover:text-primary">
                       Step {index + 1}
                     </div>
                     
@@ -70,7 +70,7 @@ export function ProcessSection() {
                     <div className="relative z-10 w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-white dark:bg-gray-950 border-2 border-gray-100 dark:border-white/5 flex items-center justify-center text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:scale-105 group-hover:-translate-y-1 shadow-2xl-strong">
                       {/* Floating Glow on Hover */}
                       <div className="absolute inset-0 bg-primary/20 blur-[20px] opacity-0 group-hover:opacity-100 transition-all rounded-full scale-50 group-hover:scale-125" />
-                      <step.icon className="w-8 h-8 lg:w-10 lg:h-10 relative z-10" />
+                      <step.icon aria-hidden="true" className="w-8 h-8 lg:w-10 lg:h-10 relative z-10" />
                     </div>
                   </div>
 
@@ -79,7 +79,7 @@ export function ProcessSection() {
                     <h3 className="text-2xl lg:text-3xl font-black text-foreground mb-4 group-hover:text-primary transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-lg text-gray-500 dark:text-gray-400 font-medium leading-[1.8] max-w-xl">
+                    <p className="text-lg text-gray-600 dark:text-gray-400 font-medium leading-[1.8] max-w-xl">
                       {step.description}
                     </p>
                   </div>
@@ -100,10 +100,10 @@ export function ProcessSection() {
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-80 z-20" />
               <div className="absolute inset-0 p-12 flex flex-col justify-end z-30">
                 <div className="space-y-4">
-                  <div className="w-16 h-1 w-primary bg-primary rounded-full shadow-lg shadow-primary/40" />
+                  <div aria-hidden="true" className="w-16 h-1 w-primary bg-primary rounded-full shadow-lg shadow-primary/40" />
                   <p className="text-3xl lg:text-4xl font-black text-white leading-[1.1]">
                     &quot;Discipline is the bridge <br/>
-                    <span className="text-primary italic">between goals and success.&quot;</span>
+                    <span className="text-blue-400 italic">between goals and success.&quot;</span>
                   </p>
                   <p className="text-gray-400 font-bold uppercase tracking-widest text-sm">
                     Rigorous Market Analysis

@@ -45,6 +45,67 @@ body {
 }
 
 @layer base {
+  /* Skip link: visually hidden until focused, then pinned top-left. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    background: #ffffff;
+    color: #1e40af;
+    font-weight: 700;
+    border: 2px solid #1e40af;
+    border-radius: 0 0 0.5rem 0;
+    text-decoration: underline;
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+
+  .dark .skip-link {
+    background: #0a0a0a;
+    color: #93c5fd;
+    border-color: #93c5fd;
+  }
+
+  /* Ensure every interactive element has a visible focus indicator (SC 2.4.7). */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid #1e40af;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  .dark a:focus-visible,
+  .dark button:focus-visible,
+  .dark input:focus-visible,
+  .dark select:focus-visible,
+  .dark textarea:focus-visible,
+  .dark summary:focus-visible,
+  .dark [tabindex]:focus-visible {
+    outline-color: #93c5fd;
+  }
+
+  /* Respect a reduced-motion preference: the site uses framer-motion plus
+     pulse/bounce/shimmer loops that would otherwise never stop (SC 2.2.2, 2.3.3). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   :root:not(.dark) section {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     border-top: 1px solid rgba(0, 0, 0, 0.02);

@@ -57,7 +57,7 @@ export function AboutSection() {
           <FadeIn className="lg:w-1/2 space-y-10" direction="right">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 dark:bg-primary/10 border border-primary/20 text-primary dark:text-blue-400 rounded-full text-xs font-black uppercase tracking-widest whitespace-nowrap">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <div aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-primary" />
                 Your Trusted Partner
               </div>
               <h2 className="text-4xl lg:text-5xl font-black text-foreground leading-[1.1] tracking-tight">
@@ -70,7 +70,7 @@ export function AboutSection() {
               <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
                 Every trader starts with confusion, fear, and uncertainty. We are here to change that.
               </p>
-              <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
                 With a strong foundation of research, discipline, and real market experience, Ashwini SD Research
                 empowers you to move from doubt to confidence. Whether you&apos;re taking your first step or scaling
                 your trading journey, we guide you with clarity, structure, and purpose.
@@ -79,10 +79,14 @@ export function AboutSection() {
 
             <button
               onClick={() => setShowSteps(!showSteps)}
+              type="button"
+              aria-expanded={showSteps}
+              aria-controls="about-steps-panel"
               className="group inline-flex items-center gap-3 px-8 py-4 bg-primary text-secondary font-black rounded-2xl hover:bg-primary/90 transition-all hover:scale-105 shadow-xl hover:shadow-primary/20"
             >
               See how we help traders succeed
               <ChevronDown
+                aria-hidden="true"
                 className={`w-5 h-5 transition-transform duration-300 ${showSteps ? "rotate-180" : ""}`}
               />
             </button>
@@ -95,13 +99,14 @@ export function AboutSection() {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.4, ease: "easeInOut" }}
+                  id="about-steps-panel"
                   className="overflow-hidden"
                 >
                   <div className="space-y-6 pt-2">
                     <h3 className="text-2xl font-black text-foreground">
                       How We Help Traders Succeed
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                       Success in the stock market is not luck — it&apos;s the result of the right system, guidance, and discipline. At Ashwini SD Research, we don&apos;t just give calls — we build confident, independent traders.
                     </p>
                     <div className="space-y-5">
@@ -111,14 +116,14 @@ export function AboutSection() {
                           className="flex items-start gap-4 p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 hover:border-primary/20 transition-all"
                         >
                           <div className="shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                            <step.icon className="w-5 h-5" />
+                            <step.icon aria-hidden="true" className="w-5 h-5" />
                           </div>
                           <div>
                             <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">
                               Step {step.num}
                             </p>
                             <h4 className="font-black text-foreground mb-1">{step.title}</h4>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                               {step.description}
                             </p>
                           </div>

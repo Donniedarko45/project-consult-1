@@ -105,7 +105,7 @@ export default function ProfilePage() {
   // Show loading state
   if (authLoading) {
     return (
-      <main className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
+      <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </main>
     );
@@ -114,7 +114,7 @@ export default function ProfilePage() {
   // Show profile completion form for new users
   if (isNewUser) {
     return (
-      <main className="min-h-screen bg-gray-50 dark:bg-black py-12">
+      <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
             <FadeIn>
@@ -146,13 +146,13 @@ export default function ProfilePage() {
                       Full Name <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                       <input
                         id="name"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                         placeholder="John Doe"
                         required
                         disabled={isSubmitting}
@@ -168,18 +168,18 @@ export default function ProfilePage() {
                       Email Address
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                       <input
                         id="email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                         placeholder="you@example.com"
                         disabled={isSubmitting}
                       />
                     </div>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
                       Optional, for important updates
                     </p>
                   </div>
@@ -187,7 +187,7 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isSubmitting || !name.trim()}
-                    className="w-full py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3 bg-primary dark:bg-blue-800 hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>
@@ -210,7 +210,7 @@ export default function ProfilePage() {
 
   // Regular profile page for existing users
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-black py-8">
+    <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black py-8">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
@@ -237,10 +237,10 @@ export default function ProfilePage() {
                   <h2 className="font-bold text-foreground">
                     {user?.name || "User"}
                   </h2>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
                     {user?.hasAccess ? "Premium Member" : "Free Member"}
                   </p>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                     +91 {user?.phone}
                   </p>
                 </div>
@@ -318,12 +318,12 @@ export default function ProfilePage() {
                           Full Name <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                           <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                             placeholder="Your name"
                             required
                             disabled={isSubmitting}
@@ -336,12 +336,12 @@ export default function ProfilePage() {
                           Email Address
                         </label>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                           <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                             placeholder="you@example.com"
                             disabled={isSubmitting}
                           />
@@ -356,7 +356,7 @@ export default function ProfilePage() {
                           type="text"
                           value={user?.phone ? `+91 ${user.phone}` : ""}
                           readOnly
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-500 cursor-not-allowed"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 cursor-not-allowed"
                         />
                       </div>
 
@@ -371,7 +371,7 @@ export default function ProfilePage() {
                           )}
                         </label>
                         <div className="relative">
-                          <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                          <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                           <input
                             type="text"
                             value={pan}
@@ -379,7 +379,7 @@ export default function ProfilePage() {
                             className={`w-full pl-10 pr-4 py-3 rounded-xl border transition-all uppercase placeholder:normal-case ${
                               user?.kycStatus === "VERIFIED"
                                 ? "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950/20 text-gray-600 dark:text-gray-300 cursor-not-allowed"
-                                : "border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                                : "border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                             }`}
                             placeholder="ABCDE1234F"
                             maxLength={10}
@@ -407,7 +407,7 @@ export default function ProfilePage() {
                               e.target.value.replace(/\D/g, "").slice(0, 12),
                             )
                           }
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                           placeholder="1234 5678 9012"
                           maxLength={12}
                           disabled={isSubmitting}
@@ -424,10 +424,10 @@ export default function ProfilePage() {
                             type="date"
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                             disabled={isSubmitting}
                           />
-                          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400 pointer-events-none" />
                         </div>
                       </div>
 
@@ -439,7 +439,7 @@ export default function ProfilePage() {
                         <select
                           value={gender}
                           onChange={(e) => setGender(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none"
                           disabled={isSubmitting}
                         >
                           <option value="">Select Gender</option>
@@ -454,7 +454,7 @@ export default function ProfilePage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-6 py-2 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center gap-2 hover:bg-primary/80 disabled:opacity-50"
+                        className="px-6 py-2 bg-primary dark:bg-blue-800 hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center gap-2 hover:bg-primary/80 disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <>
@@ -482,7 +482,7 @@ export default function ProfilePage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="font-bold text-foreground">eKYC Verification</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           {user?.kycStatus === "VERIFIED"
                             ? "Your identity has been verified"
                             : "Required for advisory services"}
@@ -495,7 +495,7 @@ export default function ProfilePage() {
                       ) : (
                         <Link
                           href="/my-subscription"
-                          className="inline-flex items-center gap-1.5 bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-all"
+                          className="inline-flex items-center gap-1.5 bg-primary dark:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-all"
                         >
                           <Shield className="w-3.5 h-3.5" /> Verify Now
                         </Link>
@@ -506,7 +506,7 @@ export default function ProfilePage() {
                     <div className="p-6 bg-green-50/50 dark:bg-green-950/10">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 text-sm">
-                          <span className="text-gray-500 dark:text-gray-400">PAN:</span>
+                          <span className="text-gray-600 dark:text-gray-400">PAN:</span>
                           <span className="font-mono font-bold text-foreground">{user.pan}</span>
                         </div>
                         <span className="text-xs text-green-600 dark:text-green-400 font-medium">✓ Verified via Digio</span>
@@ -568,7 +568,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="space-y-4">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Risk Assessment</span>
+                        <span className="text-gray-600 dark:text-gray-400">Risk Assessment</span>
                         <span className="font-medium text-foreground">
                           Moderate
                         </span>
@@ -576,7 +576,7 @@ export default function ProfilePage() {
                       <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
                         <div className="bg-green-500 w-3/5 h-2 rounded-full" />
                       </div>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-gray-600 dark:text-gray-400">
                         Based on your last assessment. Update your profile to
                         get personalized suggestions.
                       </p>

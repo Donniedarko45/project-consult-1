@@ -27,18 +27,20 @@ export function CTASection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               href="/plans"
-              className="group px-10 py-5 bg-primary hover:bg-primary/90 text-white font-black rounded-2xl text-lg transition-all hover:scale-105 shadow-xl shadow-primary/20 flex items-center justify-center gap-3"
+              className="group px-10 py-5 bg-primary dark:bg-blue-800 hover:bg-primary/90 text-white font-black rounded-2xl text-lg transition-all hover:scale-105 shadow-xl shadow-primary/20 flex items-center justify-center gap-3"
               suppressHydrationWarning
             >
-              Our Trading Plans <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              Our Trading Plans <ArrowRight aria-hidden="true" className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="https://t.me/tradewithashwinisd6"
               target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Telegram (opens in a new tab)"
               className="group px-10 py-5 border-2 border-primary/30 text-primary dark:text-blue-400 hover:bg-primary/5 font-black rounded-2xl text-lg transition-all flex items-center justify-center gap-3"
               suppressHydrationWarning
             >
-              <Send className="w-5 h-5" /> Join Telegram
+              <Send aria-hidden="true" className="w-5 h-5" /> Join Telegram
             </Link>
           </div>
 
@@ -47,24 +49,28 @@ export function CTASection() {
             <Link
               href="https://t.me/tradewithashwinisd6"
               target="_blank"
-              className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors"
+              rel="noopener noreferrer"
+              aria-label="Telegram Channel (opens in a new tab)"
+              className="flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
               suppressHydrationWarning
             >
-              <Send className="w-4 h-4" /> Telegram Channel
+              <Send aria-hidden="true" className="w-4 h-4" /> Telegram Channel
             </Link>
-            <span className="text-gray-300 dark:text-gray-700">|</span>
+            <span aria-hidden="true" className="text-gray-300 dark:text-gray-700">|</span>
             <Link
               href="https://www.instagram.com/ashwinisd_researchanalyst?igsh=NjJhNTUyMHpxYjF0"
               target="_blank"
-              className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors"
+              rel="noopener noreferrer"
+              aria-label="Instagram (opens in a new tab)"
+              className="flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
               suppressHydrationWarning
             >
-              <Instagram className="w-4 h-4" /> Instagram
+              <Instagram aria-hidden="true" className="w-4 h-4" /> Instagram
             </Link>
           </div>
 
           {/* Disclaimer */}
-          <p className="text-xs text-gray-400 mt-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-10 max-w-2xl mx-auto leading-relaxed">
             ⚠️ Investments in the securities market are subject to market risks. We do not guarantee any fixed returns. All recommendations are based on analysis and are for educational purposes only. SEBI Reg: INH000024453
           </p>
         </FadeIn>

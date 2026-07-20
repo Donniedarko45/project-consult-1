@@ -42,7 +42,7 @@ export function HeroSection() {
                   animationComplete ? "mx-auto scale-110" : ""
                 }`}
               >
-                <div className="w-2 h-2 rounded-full bg-primary animate-ping" />
+                <div aria-hidden="true" className="w-2 h-2 rounded-full bg-primary animate-ping" />
                 SEBI Registered Research Analyst
               </div>
             </FadeIn>
@@ -75,10 +75,12 @@ export function HeroSection() {
                 <Link
                   href="https://t.me/tradewithashwinisd6"
                   target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Start Your Journey on Telegram (opens in a new tab)"
                   className="group relative w-full sm:w-auto px-10 py-5 rounded-2xl bg-primary text-secondary font-black transition-all hover:scale-105 flex items-center justify-center gap-3 shadow-[0_20px_40px_-15px_rgba(30,64,175,0.3)] hover:shadow-[0_25px_50px_-12px_rgba(30,64,175,0.4)] text-lg overflow-hidden"
                   suppressHydrationWarning
                 >
-                  <Send className="w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  <Send aria-hidden="true" className="w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   <span>Start Your Journey</span>
                   <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 </Link>
@@ -88,7 +90,7 @@ export function HeroSection() {
                   suppressHydrationWarning
                 >
                   <span>View Our Services</span>
-                  <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight aria-hidden="true" className="w-6 h-6 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </FadeIn>

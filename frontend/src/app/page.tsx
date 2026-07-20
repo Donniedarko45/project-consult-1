@@ -1,4 +1,5 @@
 import { TelegramPromo } from "@/components/sections/telegram-promo";
+import { Footer } from "@/components/layout/footer";
 import { AboutSection } from "@/components/sections/about-section";
 import { PhotoGallery } from "@/components/sections/photo-gallery";
 import { CoursesPreview } from "@/components/sections/courses-preview";
@@ -9,7 +10,6 @@ import { WhyChooseUs } from "@/components/sections/why-choose-us";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { CTASection } from "@/components/sections/cta-section";
-import { Footer } from "@/components/layout/footer";
 import { UrgencyStrip } from "@/components/sections/urgency-strip";
 import { FloatingIcons } from "@/components/ui/floating-icons";
 import { WorkshopsSection } from "@/components/sections/workshops-section";
@@ -17,7 +17,8 @@ import { TrustStrip } from "@/components/sections/trust-strip";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground relative overflow-hidden">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <FloatingIcons />
       <HeroSection />
       <UrgencyStrip />
@@ -35,7 +36,8 @@ export default function Home() {
       <FAQSection />
       
       <CTASection />
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

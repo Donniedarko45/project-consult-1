@@ -26,7 +26,8 @@ export default function BlogPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background">
+    <>
+    <main id="main-content" className="min-h-screen bg-background">
       <PageHeader
         title="Market Insights"
         description="Deep dives into market trends, technical analysis case studies, and trading psychology."
@@ -50,14 +51,14 @@ export default function BlogPage() {
                       <span className="text-primary">
                         {post.tag || "General"}
                       </span>
-                      <span className="text-gray-400">
+                      <span className="text-gray-600 dark:text-gray-400">
                         {post.date || new Date().toLocaleDateString()}
                       </span>
                     </div>
                     <h3 className="text-xl font-bold mb-3 hover:text-primary transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-gray-500 mb-6 flex-1 text-sm leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-400 mb-6 flex-1 text-sm leading-relaxed">
                       {post.desc ||
                         post.description ||
                         post.content?.substring(0, 100) + "..."}
@@ -72,7 +73,8 @@ export default function BlogPage() {
           )}
         </div>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

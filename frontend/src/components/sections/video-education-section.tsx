@@ -44,8 +44,9 @@ export function VideoEducationSection() {
             <FadeIn key={index} delay={index * 0.1}>
               <a
                 href="https://www.instagram.com/ashwinisd_researchanalyst?igsh=NjJhNTUyMHpxYjF0"
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${video.title} - watch on Instagram (opens in a new tab)`}
                 className="block group relative rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 cursor-pointer"
               >
                 {/* Thumbnail */}
@@ -53,12 +54,13 @@ export function VideoEducationSection() {
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors z-10" />
                   <Image
                     src={video.thumbnail}
-                    alt={video.title}
+                    alt=""
+                    aria-hidden="true"
                     fill
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <PlayCircle className="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-md" />
+                    <PlayCircle aria-hidden="true" className="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-md" />
                   </div>
                   <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded z-20">
                     {video.duration}
@@ -84,6 +86,7 @@ export function VideoEducationSection() {
             href="https://www.youtube.com"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Watch More On YouTube (opens in a new tab)"
             className="inline-block px-8 py-3 rounded-full border border-primary text-primary dark:text-blue-400 font-semibold hover:bg-primary/5 dark:hover:bg-blue-400/10 transition-colors"
           >
             Watch More On YouTube

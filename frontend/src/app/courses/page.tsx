@@ -18,7 +18,8 @@ export default function CoursesPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-200 relative overflow-hidden font-sans">
+    <>
+    <main id="main-content" className="min-h-screen bg-slate-950 text-slate-200 relative overflow-hidden font-sans">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-4 py-24 relative z-10">
@@ -30,15 +31,16 @@ export default function CoursesPage() {
             <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight text-white">
               Master the Markets with <span className="text-indigo-400">Strict Discipline.</span>
             </h1>
-            <p className="text-xl text-slate-400 leading-relaxed mb-10">
+            <p className="text-xl text-slate-300 leading-relaxed mb-10">
               Our educational programs are structured to take you from a curious beginner to a highly skilled, independent market participant. Stop gambling, start analyzing.
             </p>
-            <Link 
-              href="/signup" 
+            <Link
+              href="/signup"
+              aria-label="Get started - sign up"
               className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 rounded-full font-bold transition-all shadow-[0_10px_30px_rgba(79,70,229,0.3)] hover:-translate-y-1"
             >
               Enroll in Flagship Program
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </FadeIn>
         </div>
@@ -66,7 +68,7 @@ export default function CoursesPage() {
                 </div>
                 <div>
                   <h4 className="text-lg font-bold text-slate-100 mb-2">{item.title}</h4>
-                  <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-slate-300 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -98,7 +100,8 @@ export default function CoursesPage() {
       </div>
 
       <DisclaimerStrip />
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

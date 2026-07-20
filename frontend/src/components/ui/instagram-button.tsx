@@ -9,10 +9,12 @@ export function InstagramButton() {
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-[10.5rem] right-6 z-50 flex items-center justify-center w-14 h-14 text-white rounded-full shadow-2xl transition-transform hover:scale-110 animate-bounce-slow bg-[linear-gradient(45deg,#f09433_0%,#e6683c_25%,#dc2743_50%,#cc2366_75%,#bc1888_100%)]"
-      aria-label="Follow us on Instagram"
+      aria-label="Follow us on Instagram (opens in a new tab)"
       suppressHydrationWarning
     >
       <svg
+        aria-hidden="true"
+        focusable="false"
         viewBox="0 0 24 24"
         width="30"
         height="30"

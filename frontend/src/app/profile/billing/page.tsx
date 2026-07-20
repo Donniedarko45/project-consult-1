@@ -64,7 +64,7 @@ export default function BillingPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-black py-8">
+    <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black py-8">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
@@ -131,7 +131,7 @@ export default function BillingPage() {
                       <span className="text-4xl font-bold text-foreground">
                         {plan.price}
                       </span>
-                      <span className="text-gray-500">/{plan.period}</span>
+                      <span className="text-gray-600 dark:text-gray-400">/{plan.period}</span>
                     </div>
                     <ul className="space-y-3 mb-6">
                       {plan.features.map((feature) => (
@@ -146,7 +146,7 @@ export default function BillingPage() {
                     </ul>
                     <button
                       className={`w-full py-3 rounded-xl font-bold transition-all ${plan.current
-                          ? "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
+                          ? "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 cursor-not-allowed"
                           : "bg-primary text-white hover:bg-primary/90"
                         }`}
                       disabled={plan.current}
@@ -174,7 +174,7 @@ export default function BillingPage() {
                     <p className="font-medium text-foreground">
                       •••• •••• •••• 4242
                     </p>
-                    <p className="text-sm text-gray-500">Expires 12/25</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Expires 12/25</p>
                   </div>
                 </div>
                 <button className="text-primary hover:underline text-sm font-medium">

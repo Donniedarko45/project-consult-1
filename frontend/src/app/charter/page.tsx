@@ -1,5 +1,5 @@
-import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
+import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
 import { 
   Eye, 
@@ -18,9 +18,17 @@ import {
   ListFilter
 } from "lucide-react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Investor Charter",
+  description: "Investor charter and rights as per SEBI Research Analyst regulations.",
+};
+
 export default function InvestmentCharterPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Investment Charter"
         description="Empowering investors with transparency, disciplined research, and informed decision-making."
@@ -32,7 +40,7 @@ export default function InvestmentCharterPage() {
           <FadeIn>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm h-full hover:border-primary/30 transition-colors">
               <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                <Eye className="text-primary h-8 w-8" />
+                <Eye className="text-primary h-8 w-8" aria-hidden="true" />
                 Vision
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
@@ -44,7 +52,7 @@ export default function InvestmentCharterPage() {
           <FadeIn delay={0.1}>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm h-full hover:border-primary/30 transition-colors">
               <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                <Target className="text-primary h-8 w-8" />
+                <Target className="text-primary h-8 w-8" aria-hidden="true" />
                 Mission
               </h2>
               <ul className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed space-y-3 list-disc list-inside">
@@ -61,7 +69,7 @@ export default function InvestmentCharterPage() {
         <FadeIn delay={0.2}>
           <div className="bg-white dark:bg-gray-900 p-8 md:p-10 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:border-primary/30 transition-colors">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-foreground flex items-center gap-3">
-              <Layers className="text-primary h-8 w-8" />
+              <Layers className="text-primary h-8 w-8" aria-hidden="true" />
               Our Services
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
@@ -76,7 +84,7 @@ export default function InvestmentCharterPage() {
                 { icon: ListFilter, title: "Watchlists & Key Levels Identification" }
               ].map((service, i) => (
                 <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50">
-                   <service.icon className="h-6 w-6 text-primary shrink-0 mt-1" />
+                   <service.icon className="h-6 w-6 text-primary shrink-0 mt-1" aria-hidden="true" />
                    <span className="font-semibold text-gray-800 dark:text-gray-200">{service.title}</span>
                 </div>
               ))}
@@ -94,7 +102,7 @@ export default function InvestmentCharterPage() {
           <FadeIn delay={0.3}>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm h-full hover:border-primary/30 transition-colors">
               <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                <Scale className="text-primary h-8 w-8" />
+                <Scale className="text-primary h-8 w-8" aria-hidden="true" />
                 Investor Rights
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">As a client, you have the right to:</p>
@@ -107,7 +115,7 @@ export default function InvestmentCharterPage() {
                   "Raise queries and receive appropriate support"
                 ].map((item, i) => (
                   <li key={i} className="flex gap-3 items-start">
-                    <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
+                    <CheckCircle className="h-6 w-6 text-green-500 shrink-0" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -118,7 +126,7 @@ export default function InvestmentCharterPage() {
           <FadeIn delay={0.4}>
             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm h-full hover:border-primary/30 transition-colors">
               <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
-                <ClipboardCheck className="text-primary h-8 w-8" />
+                <ClipboardCheck className="text-primary h-8 w-8" aria-hidden="true" />
                 Investor Responsibilities
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">As a client, you are expected to:</p>
@@ -131,7 +139,7 @@ export default function InvestmentCharterPage() {
                   "Maintain discipline and avoid emotional trading"
                 ].map((item, i) => (
                   <li key={i} className="flex gap-3 items-start">
-                    <CheckCircle className="h-6 w-6 text-blue-500 shrink-0" />
+                    <CheckCircle className="h-6 w-6 text-blue-500 shrink-0" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -144,7 +152,7 @@ export default function InvestmentCharterPage() {
         <div className="grid md:grid-cols-3 gap-6">
           <FadeIn delay={0.5}>
              <div className="bg-red-50 dark:bg-red-900/10 p-6 rounded-2xl border border-red-100 dark:border-red-900/30 h-full">
-                <AlertTriangle className="text-red-500 h-8 w-8 mb-4" />
+                <AlertTriangle className="text-red-500 h-8 w-8 mb-4" aria-hidden="true" />
                 <h3 className="text-xl font-bold mb-3 text-foreground">Risk Disclosure</h3>
                 <ul className="text-gray-600 dark:text-gray-400 space-y-2 list-disc list-inside">
                   <li>Investments are subject to market risks</li>
@@ -157,7 +165,7 @@ export default function InvestmentCharterPage() {
 
           <FadeIn delay={0.6}>
              <div className="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-2xl border border-blue-100 dark:border-blue-900/30 h-full">
-                <Search className="text-blue-500 h-8 w-8 mb-4" />
+                <Search className="text-blue-500 h-8 w-8 mb-4" aria-hidden="true" />
                 <h3 className="text-xl font-bold mb-3 text-foreground">Transparency</h3>
                 <ul className="text-gray-600 dark:text-gray-400 space-y-2 list-disc list-inside">
                   <li>Complete transparency in our research approach</li>
@@ -169,7 +177,7 @@ export default function InvestmentCharterPage() {
 
           <FadeIn delay={0.7}>
              <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 h-full">
-                <PhoneCall className="text-primary h-8 w-8 mb-4" />
+                <PhoneCall className="text-primary h-8 w-8 mb-4" aria-hidden="true" />
                 <h3 className="text-xl font-bold mb-3 text-foreground">Grievance Redressal</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
                   If you have complaints or concerns, reach us at:
@@ -199,7 +207,8 @@ export default function InvestmentCharterPage() {
         </FadeIn>
 
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

@@ -437,7 +437,7 @@ export default function MySubscriptionPage() {
     // Loading
     if (authLoading || pageState === "loading") {
         return (
-            <main className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
+            <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto mb-4" />
                     <p className="text-gray-600 dark:text-gray-400">
@@ -449,7 +449,7 @@ export default function MySubscriptionPage() {
     }
 
     return (
-        <main className="min-h-screen bg-gray-50 dark:bg-black py-8">
+        <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black py-8">
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
                     {/* Page Header */}
@@ -486,7 +486,7 @@ export default function MySubscriptionPage() {
                                 </p>
                                 <Link
                                     href="/plans"
-                                    className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                                    className="inline-flex items-center gap-2 bg-primary dark:bg-blue-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
                                 >
                                     View Plans <ArrowRight className="w-4 h-4" />
                                 </Link>
@@ -597,7 +597,7 @@ export default function MySubscriptionPage() {
                                             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                                                 getStepStatus("payment") === "completed"
                                                     ? "bg-green-500 text-white"
-                                                    : "bg-gray-200 dark:bg-gray-700 text-gray-500"
+                                                    : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
                                             }`}>
                                                 {getStepStatus("payment") === "completed" ? (
                                                     <CheckCircle className="w-5 h-5" />
@@ -616,7 +616,7 @@ export default function MySubscriptionPage() {
                                                 getStepStatus("kyc") === "completed"
                                                     ? "bg-green-500 text-white"
                                                     : getStepStatus("kyc") === "locked"
-                                                        ? "bg-gray-100 dark:bg-gray-800 text-gray-400"
+                                                        ? "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
                                                         : "bg-amber-100 dark:bg-amber-900/30 text-amber-600"
                                             }`}>
                                                 {getStepStatus("kyc") === "completed" ? (
@@ -636,7 +636,7 @@ export default function MySubscriptionPage() {
                                                 getStepStatus("sign") === "completed"
                                                     ? "bg-green-500 text-white"
                                                     : getStepStatus("sign") === "locked"
-                                                        ? "bg-gray-100 dark:bg-gray-800 text-gray-400"
+                                                        ? "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
                                                         : "bg-blue-100 dark:bg-blue-900/30 text-blue-600"
                                             }`}>
                                                 {getStepStatus("sign") === "completed" ? (
@@ -665,7 +665,7 @@ export default function MySubscriptionPage() {
                                                 <h3 className="font-bold text-foreground">
                                                     eKYC Verification
                                                 </h3>
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                <p className="text-sm text-gray-600 dark:text-gray-400">
                                                     {kycVerified
                                                         ? "Your identity has been verified"
                                                         : "Required to activate advisory services"}
@@ -719,14 +719,14 @@ export default function MySubscriptionPage() {
                                                         <span className="text-red-500">*</span>
                                                     </label>
                                                     <div className="relative">
-                                                        <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                                        <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                                                         <input
                                                             type="text"
                                                             value={panInput}
                                                             onChange={(e) =>
                                                                 setPanInput(e.target.value.toUpperCase())
                                                             }
-                                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all uppercase placeholder:normal-case text-foreground"
+                                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all uppercase placeholder:normal-case text-foreground"
                                                             placeholder="ABCDE1234F"
                                                             maxLength={10}
                                                             disabled={
@@ -744,14 +744,14 @@ export default function MySubscriptionPage() {
                                                         <span className="text-red-500">*</span>
                                                     </label>
                                                     <div className="relative">
-                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                                                         <input
                                                             type="text"
                                                             value={nameInput}
                                                             onChange={(e) =>
                                                                 setNameInput(e.target.value)
                                                             }
-                                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
+                                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                                                             placeholder="John Doe"
                                                             disabled={
                                                                 kycState === "loading" ||
@@ -768,14 +768,14 @@ export default function MySubscriptionPage() {
                                                         <span className="text-red-500">*</span>
                                                     </label>
                                                     <div className="relative">
-                                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
                                                         <input
                                                             type="date"
                                                             value={dobInput}
                                                             onChange={(e) =>
                                                                 setDobInput(e.target.value)
                                                             }
-                                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
+                                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                                                             disabled={
                                                                 kycState === "loading" ||
                                                                 kycState === "processing"
@@ -804,7 +804,7 @@ export default function MySubscriptionPage() {
                                                         !nameInput.trim() ||
                                                         !dobInput.trim()
                                                     }
-                                                    className="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                                    className="w-full py-3 bg-primary dark:bg-blue-800 text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                                 >
                                                     {kycState === "loading" ? (
                                                         <>
@@ -829,7 +829,7 @@ export default function MySubscriptionPage() {
                                                     )}
                                                 </button>
 
-                                                <p className="text-xs text-gray-400 text-center">
+                                                <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
                                                     Powered by Digio • SEBI compliant verification
                                                 </p>
                                             </div>
@@ -857,7 +857,7 @@ export default function MySubscriptionPage() {
                                                     <h3 className="font-bold text-foreground">
                                                         Sign Agreement
                                                     </h3>
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400">
                                                         {isSigned
                                                             ? "Your agreement has been digitally signed"
                                                             : "Digitally sign the advisory agreement"}
@@ -955,7 +955,7 @@ export default function MySubscriptionPage() {
                                                         )}
                                                     </button>
 
-                                                    <p className="text-xs text-gray-400 text-center">
+                                                    <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
                                                         Powered by Digio • Legally valid e-signature
                                                     </p>
                                                 </div>

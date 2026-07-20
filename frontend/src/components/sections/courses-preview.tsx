@@ -79,35 +79,39 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
     <FadeIn delay={index * 0.15}>
       <div className="group relative bg-white dark:bg-gray-950 rounded-[2.5rem] border border-gray-100 dark:border-white/10 hover:shadow-2xl transition-all duration-500 flex flex-col h-full hover:-translate-y-2 overflow-hidden">
         {course.badge && (
-          <div className="absolute top-8 right-8 px-4 py-1.5 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg z-20">
+          <div className="absolute top-8 right-8 px-4 py-1.5 bg-primary dark:bg-blue-800 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg z-20">
             {course.badge}
           </div>
         )}
 
         <div className="p-10 flex flex-col flex-1 space-y-6">
           <div className="w-16 h-16 bg-primary/5 dark:bg-primary/20 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-            <course.icon className="w-8 h-8" />
+            <course.icon aria-hidden="true" className="w-8 h-8" />
           </div>
 
           <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{course.level}</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 dark:text-gray-400">{course.level}</p>
             <p className="text-[10px] font-bold text-primary uppercase tracking-wider">{course.tagline}</p>
             <h3 className="text-2xl font-black text-foreground leading-tight group-hover:text-primary transition-colors">
               {course.title}
             </h3>
           </div>
 
-          <p className="text-base text-gray-500 dark:text-gray-400 font-medium leading-relaxed flex-1">
+          <p className="text-base text-gray-600 dark:text-gray-400 font-medium leading-relaxed flex-1">
             {course.description}
           </p>
 
           {/* Learn More Toggle */}
           <button
             onClick={() => setOpen(!open)}
+            type="button"
+            aria-expanded={open}
+            aria-controls={`course-details-${index}`}
+            aria-label={`Learn more about ${course.title}`}
             className="flex items-center gap-2 text-sm font-black text-primary hover:text-primary/80 transition-colors"
           >
             Learn More
-            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+            <ChevronDown aria-hidden="true" className={`w-4 h-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
           </button>
 
           <AnimatePresence initial={false}>
@@ -117,15 +121,16 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
+                id={`course-details-${index}`}
                 className="overflow-hidden"
               >
                 <div className="pt-4 space-y-4 border-t border-gray-100 dark:border-white/5">
                   <div>
-                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">What You&apos;ll Learn</p>
+                    <p className="text-xs font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-2">What You&apos;ll Learn</p>
                     <ul className="space-y-1.5">
                       {course.details.whatYouLearn.map((item, i) => (
                         <li key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 font-medium">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                           {item}
                         </li>
                       ))}
@@ -142,21 +147,22 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
 
           <div className="pt-6 flex items-center justify-between border-t border-gray-100 dark:border-white/10 mt-auto">
             <div className="space-y-0.5">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Course Fee</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 dark:text-gray-400">Course Fee</p>
               <p className="text-2xl font-black text-foreground tracking-tighter">{course.price}</p>
               {course.priceNote && (
-                <p className="text-[10px] text-gray-400">{course.priceNote}</p>
+                <p className="text-[10px] text-gray-600 dark:text-gray-400">{course.priceNote}</p>
               )}
             </div>
             <Link
               href="https://www.ashwinitradingacademy.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-black rounded-xl hover:bg-primary/90 transition-all gap-2 text-sm"
+              aria-label={`Enroll now in ${course.title} at Ashwini Trading Academy (opens in a new tab)`}
+              className="inline-flex items-center justify-center px-6 py-3 bg-primary dark:bg-blue-800 text-white font-black rounded-xl hover:bg-primary/90 transition-all gap-2 text-sm"
               suppressHydrationWarning
             >
               Enroll Now
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight aria-hidden="true" className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -174,24 +180,26 @@ export function CoursesPreview() {
         <FadeIn className="flex flex-col md:flex-row justify-between items-end mb-16 lg:mb-24 gap-8">
           <div className="max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-cta/10 text-cta rounded-full text-xs font-black uppercase tracking-widest border border-cta/20">
-              <span className="w-2 h-2 rounded-full bg-cta" />
+              <span aria-hidden="true" className="w-2 h-2 rounded-full bg-cta" />
               Education First
             </div>
             <h2 className="text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">
               Understand Before <br />
               <span className="text-primary italic">You Invest</span>
             </h2>
-            <p className="text-xl text-gray-500 font-medium leading-relaxed">
+            <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
               We believe learning the stock market is essential — not just to trade, but to understand whether the decisions you take or the services you follow are right or wrong. At the end of the day, it is your hard-earned money.
             </p>
           </div>
           <Link
             href="https://www.ashwinitradingacademy.com"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Explore Academy at Ashwini Trading Academy (opens in a new tab)"
             className="group px-10 py-5 bg-primary text-secondary font-black rounded-2xl hover:bg-primary/90 transition-all hover:scale-105 shadow-xl hover:shadow-primary/20 flex items-center justify-center gap-3 whitespace-nowrap"
             suppressHydrationWarning
           >
-            Explore Academy <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+            Explore Academy <ArrowRight aria-hidden="true" className="w-6 h-6 transition-transform group-hover:translate-x-1" />
           </Link>
         </FadeIn>
 

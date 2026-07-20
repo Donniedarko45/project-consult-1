@@ -144,7 +144,7 @@ function LoginPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <main id="main-content" className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
@@ -158,15 +158,15 @@ function LoginPageContent() {
             <div className="bg-slate-50/50 dark:bg-slate-900/50 p-6 md:p-8 text-center border-b border-slate-100 dark:border-slate-800 backdrop-blur-sm">
               <Link
                 href="/"
-                className="inline-flex items-center text-sm text-slate-500 hover:text-primary transition-colors gap-1.5 mb-6"
+                className="inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors gap-1.5 mb-6"
               >
-                <ArrowLeft className="w-4 h-4" /> Back to Home
+                <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Back to Home
               </Link>
 
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
                 {step === "phone" ? "Welcome Back" : "Verify OTP"}
               </h1>
-              <p className="text-slate-500 dark:text-slate-400">
+              <p className="text-slate-600 dark:text-slate-400">
                 {step === "phone" ? (
                   "Enter your mobile number to continue"
                 ) : (
@@ -184,107 +184,144 @@ function LoginPageContent() {
               {/* Error Message */}
               {error && (
                 <FadeIn>
-                  <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 text-red-600 dark:text-red-400 text-sm flex items-start gap-3">
-                    <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" />
-                    {error}
+                  <div
+                    id="auth-error"
+                    role="alert"
+                    className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm flex items-start gap-3"
+                  >
+                    <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
+                    <span>
+                      <span className="sr-only">Error: </span>
+                      {error}
+                    </span>
                   </div>
                 </FadeIn>
               )}
 
               {step === "phone" ? (
                 /* Phone Input Step */
-                <form className="space-y-6" onSubmit={handleSendOTP}>
+                <form
+                  className="space-y-6"
+                  onSubmit={handleSendOTP}
+                  aria-label="Sign in with your mobile number"
+                >
                   <div className="space-y-2">
                     <label
                       htmlFor="phone"
                       className="block text-sm font-semibold text-slate-700 dark:text-slate-300"
                     >
-                      Phone Number
+                      Phone Number<span className="sr-only"> (required)</span>
                     </label>
                     <div className="relative group">
-                      <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 text-slate-400 border-r border-slate-200 dark:border-slate-700 pr-2">
-                        <Phone className="w-4 h-4" />
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 text-slate-600 dark:text-slate-400 border-r border-slate-400 dark:border-slate-700 pr-2">
+                        <Phone className="w-4 h-4" aria-hidden="true" />
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
                           +91
                         </span>
                       </div>
                       <input
                         id="phone"
+                        name="phone"
                         type="tel"
+                        autoComplete="tel-national"
+                        inputMode="numeric"
                         value={phone}
                         onChange={handlePhoneChange}
-                        className="w-full pl-22 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-medium placeholder:text-slate-400"
+                        aria-required="true"
+                        aria-invalid={error ? true : undefined}
+                        aria-describedby={
+                          error ? "auth-error phone-hint" : "phone-hint"
+                        }
+                        className="w-full pl-22 pr-4 py-3.5 rounded-xl border border-slate-400 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-medium placeholder:text-slate-600 dark:placeholder:text-slate-400"
                         placeholder="98765 43210"
                         required
                         disabled={isSubmitting}
                       />
+                      <span id="phone-hint" className="sr-only">
+                        Enter your 10-digit Indian mobile number, for example
+                        98765 43210.
+                      </span>
                     </div>
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting || phone.length < 10}
-                    className="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                    aria-busy={isSubmitting}
+                    className="w-full py-3.5 bg-primary dark:bg-blue-800 hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" /> Sending
+                        <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" /> Sending
                         Code...
                       </>
                     ) : (
                       <>
-                        Get OTP <LogIn className="w-4 h-4" />
+                        Get OTP <LogIn className="w-4 h-4" aria-hidden="true" />
                       </>
                     )}
                   </button>
 
-                  <p className="text-xs text-center text-slate-400 px-4">
+                  <p className="text-xs text-center text-slate-600 dark:text-slate-400 px-4">
                     By clicking &quot;Get OTP&quot;, you agree to our Terms and
                     Privacy Policy.
                   </p>
                 </form>
               ) : (
                 /* OTP Verification Step */
-                <form className="space-y-6" onSubmit={handleVerifyOTP}>
+                <form
+                  className="space-y-6"
+                  onSubmit={handleVerifyOTP}
+                  aria-label="Verify the one-time code sent to your phone"
+                >
                   <div className="space-y-2">
                     <label
                       htmlFor="otp"
                       className="block text-sm font-semibold text-slate-700 dark:text-slate-300"
                     >
-                      Enter 6-digit Code
+                      Enter 6-digit Code<span className="sr-only"> (required)</span>
                     </label>
                     <div className="relative">
-                      <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                      <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 dark:text-slate-400" aria-hidden="true" />
                       <input
                         id="otp"
+                        name="otp"
                         type="text"
+                        autoComplete="one-time-code"
                         inputMode="numeric"
                         pattern="[0-9]*"
                         value={otp}
                         onChange={handleOtpChange}
-                        className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-center text-2xl font-mono tracking-[0.5em] text-slate-900 dark:text-white placeholder:tracking-normal placeholder:font-sans placeholder:text-base placeholder:text-slate-400"
+                        aria-required="true"
+                        aria-invalid={error ? true : undefined}
+                        aria-describedby={error ? "auth-error otp-hint" : "otp-hint"}
+                        className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-400 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-center text-2xl font-mono tracking-[0.5em] text-slate-900 dark:text-white placeholder:tracking-normal placeholder:font-sans placeholder:text-base placeholder:text-slate-600 dark:placeholder:text-slate-400"
                         placeholder="• • • • • •"
                         maxLength={6}
                         required
                         disabled={isSubmitting}
                         autoFocus
                       />
+                      <span id="otp-hint" className="sr-only">
+                        Enter the 6-digit one-time code sent by SMS.
+                      </span>
                     </div>
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting || otp.length !== 6}
-                    className="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                    aria-busy={isSubmitting}
+                    className="w-full py-3.5 bg-primary dark:bg-blue-800 hover:bg-primary/90 text-white font-bold rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />{" "}
+                        <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />{" "}
                         Verifying...
                       </>
                     ) : (
                       <>
-                        Verify & Sign In <LogIn className="w-4 h-4" />
+                        Verify &amp; Sign In <LogIn className="w-4 h-4" aria-hidden="true" />
                       </>
                     )}
                   </button>
@@ -293,7 +330,7 @@ function LoginPageContent() {
                     <button
                       type="button"
                       onClick={handleBackToPhone}
-                      className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+                      className="text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
                     >
                       Change Number
                     </button>
@@ -301,9 +338,10 @@ function LoginPageContent() {
                       type="button"
                       onClick={handleResendOTP}
                       disabled={resendCooldown > 0 || isSubmitting}
-                      className="flex items-center gap-1.5 text-primary font-medium hover:text-primary/80 transition-colors disabled:text-slate-400 disabled:cursor-not-allowed"
+                      className="flex items-center gap-1.5 text-primary font-medium hover:text-primary/80 transition-colors disabled:text-slate-600 dark:disabled:text-slate-400 disabled:cursor-not-allowed"
                     >
                       <RefreshCw
+                        aria-hidden="true"
                         className={`w-3.5 h-3.5 ${isSubmitting ? "animate-spin" : ""}`}
                       />
                       {resendCooldown > 0
@@ -318,11 +356,11 @@ function LoginPageContent() {
         </FadeIn>
 
         {/* Footer */}
-        <p className="text-center text-xs text-slate-400 mt-8 relative z-10">
+        <p className="text-center text-xs text-slate-600 dark:text-slate-400 mt-8 relative z-10">
           © {new Date().getFullYear()} SEBI Research Analyst. Secure Login.
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -330,9 +368,10 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
-          <Loader2 className="w-8 h-8 text-primary animate-spin" />
-        </div>
+        <main id="main-content" className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-primary animate-spin" aria-hidden="true" />
+          <span className="sr-only" role="status">Loading the login page…</span>
+        </main>
       }
     >
       <LoginPageContent />

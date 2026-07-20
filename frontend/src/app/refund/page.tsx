@@ -1,10 +1,18 @@
-import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
+import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Refund Policy",
+  description: "Our policy on subscription fees and refunds.",
+};
 
 export default function RefundPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Refund Policy"
         description="All subscription fees paid for our services are non-refundable under any circumstances."
@@ -43,16 +51,17 @@ export default function RefundPage() {
 
         <FadeIn delay={0.5}>
           <div className="p-8 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-100 dark:border-red-900/20 text-center">
-            <p className="text-red-600 dark:text-red-400 font-bold text-xl uppercase tracking-wide">
+            <h2 className="text-red-600 dark:text-red-400 font-bold text-xl uppercase tracking-wide">
               📢 Final Note
-            </p>
+            </h2>
             <p className="text-gray-700 dark:text-gray-300 mt-2 text-lg">
               By subscribing, you acknowledge and agree to this refund policy.
             </p>
           </div>
         </FadeIn>
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

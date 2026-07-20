@@ -33,7 +33,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-black py-8">
+    <main id="main-content" className="min-h-screen bg-gray-50 dark:bg-black py-8">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <FadeIn>
@@ -64,13 +64,13 @@ export default function SettingsPage() {
                   <h2 className="text-xl font-bold text-foreground">
                     Profile Information
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Update your personal details
                   </p>
                 </div>
               </div>
 
-              <form onSubmit={handleProfileUpdate} className="space-y-4">
+              <form onSubmit={handleProfileUpdate} className="space-y-4" aria-label="Profile information">
                 <div>
                   <label
                     htmlFor="name"
@@ -81,9 +81,11 @@ export default function SettingsPage() {
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    autoComplete="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     placeholder="John Doe"
                   />
                 </div>
@@ -98,18 +100,20 @@ export default function SettingsPage() {
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     placeholder="john@example.com"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-primary dark:bg-blue-800 text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
                 >
-                  <Save className="w-5 h-5" />
+                  <Save className="w-5 h-5" aria-hidden="true" />
                   Save Changes
                 </button>
               </form>
@@ -127,13 +131,13 @@ export default function SettingsPage() {
                   <h2 className="text-xl font-bold text-foreground">
                     Change Password
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Update your password regularly for security
                   </p>
                 </div>
               </div>
 
-              <form onSubmit={handlePasswordChange} className="space-y-4">
+              <form onSubmit={handlePasswordChange} className="space-y-4" aria-label="Change password">
                 <div>
                   <label
                     htmlFor="current-password"
@@ -144,9 +148,11 @@ export default function SettingsPage() {
                   <input
                     type="password"
                     id="current-password"
+                    name="currentPassword"
+                    autoComplete="current-password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     placeholder="••••••••"
                   />
                 </div>
@@ -161,12 +167,15 @@ export default function SettingsPage() {
                   <input
                     type="password"
                     id="new-password"
+                    name="newPassword"
+                    autoComplete="new-password"
+                    aria-describedby="new-password-hint"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     placeholder="••••••••"
                   />
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p id="new-password-hint" className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                     Must be at least 8 characters long
                   </p>
                 </div>
@@ -181,16 +190,18 @@ export default function SettingsPage() {
                   <input
                     type="password"
                     id="confirm-password"
+                    name="confirmPassword"
+                    autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-500 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     placeholder="••••••••"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors"
+                  className="w-full bg-primary dark:bg-blue-800 text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors"
                 >
                   Update Password
                 </button>
@@ -209,7 +220,7 @@ export default function SettingsPage() {
                   <h2 className="text-xl font-bold text-foreground">
                     Security
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Enhance your account security
                   </p>
                 </div>
@@ -220,18 +231,19 @@ export default function SettingsPage() {
                   <p className="font-medium text-foreground">
                     Two-Factor Authentication
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Add an extra layer of security to your account
                   </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
+                    aria-label="Enable two-factor authentication"
                     checked={twoFactorEnabled}
                     onChange={(e) => setTwoFactorEnabled(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-gray-200 border border-gray-500 dark:border-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                 </label>
               </div>
             </div>
@@ -248,7 +260,7 @@ export default function SettingsPage() {
                   <h2 className="text-xl font-bold text-red-600 dark:text-red-400">
                     Danger Zone
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Irreversible and destructive actions
                   </p>
                 </div>

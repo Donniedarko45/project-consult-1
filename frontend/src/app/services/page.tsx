@@ -146,7 +146,7 @@ const setups = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden">
+    <main id="main-content" className="min-h-screen bg-background relative overflow-hidden">
       <FloatingIcons />
       <PageHeader
         title="Research-Driven Market Opportunities"
@@ -166,16 +166,16 @@ export default function ServicesPage() {
                   <div className="p-8 flex flex-col grow relative z-10">
                     <div className="flex justify-between items-start mb-6">
                       <div className="w-14 h-14 bg-primary/10 dark:bg-primary/20 rounded-2xl flex items-center justify-center text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-white shadow-inner">
-                        <Icon className="w-7 h-7" />
+                        <Icon className="w-7 h-7" aria-hidden="true" />
                       </div>
-                      <span className="text-4xl font-black text-gray-100 dark:text-gray-800 tracking-tighter">
+                      <span className="text-4xl font-black text-gray-500 dark:text-gray-500 tracking-tighter">
                         {setup.id}
                       </span>
                     </div>
 
-                    <h3 className="text-2xl font-black text-foreground group-hover:text-primary transition-colors leading-tight mb-3">
+                    <h2 className="text-2xl font-black text-foreground group-hover:text-primary transition-colors leading-tight mb-3">
                       {setup.title}
-                    </h3>
+                    </h2>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                       {setup.description}
                     </p>
@@ -184,7 +184,7 @@ export default function ServicesPage() {
                       {setup.features.map((feature, idx) => (
                         <div key={idx} className="flex items-start gap-3">
                           <div className="mt-1 w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                            <Check className="w-2.5 h-2.5 text-primary" />
+                            <Check className="w-2.5 h-2.5 text-primary" aria-hidden="true" />
                           </div>
                           <span className="text-sm font-medium text-gray-700 dark:text-gray-300 leading-snug">
                             {feature}
@@ -194,18 +194,19 @@ export default function ServicesPage() {
                     </div>
 
                     <div className="pt-6 border-t border-gray-100 dark:border-white/5 mt-auto space-y-4">
-                      <div className="flex gap-3 p-4 bg-primary/5 dark:bg-primary/10 rounded-2xl text-[12px] text-primary/80 dark:text-primary/90 items-start border border-primary/10 dark:border-primary/20 group-hover:border-primary/30 transition-all">
-                        <ChevronRight className="w-4 h-4 shrink-0 mt-0.5 text-primary" />
+                      <div className="flex gap-3 p-4 bg-primary/5 dark:bg-primary/10 rounded-2xl text-[12px] text-primary dark:text-blue-300 items-start border border-primary/10 dark:border-primary/20 group-hover:border-primary/30 transition-all">
+                        <ChevronRight className="w-4 h-4 shrink-0 mt-0.5 text-primary" aria-hidden="true" />
                         <p className="font-bold leading-relaxed">{setup.idealFor}</p>
                       </div>
                       
                       <Link 
                         href={setup.href}
+                        aria-label={`Explore ${setup.title}`}
                         className="flex items-center justify-between w-full p-4 rounded-2xl bg-gray-50 dark:bg-white/5 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-primary hover:text-white transition-all group/link"
                         suppressHydrationWarning
                       >
                         Explore Dedicated Page
-                        <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" aria-hidden="true" />
                       </Link>
                     </div>
                   </div>
@@ -217,9 +218,9 @@ export default function ServicesPage() {
       </div>
 
       <div className="container mx-auto px-4 py-8 relative z-10 border-t border-gray-200 dark:border-gray-800">
-        <div className="grid md:grid-cols-2 gap-12 items-center mt-8">
+        <section aria-labelledby="why-choose-us-heading" className="grid md:grid-cols-2 gap-12 items-center mt-8">
           <FadeIn direction="right">
-            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6">
+            <h2 id="why-choose-us-heading" className="text-3xl md:text-4xl font-black text-foreground mb-6">
               Why Choose Us <span className="text-primary">🔥</span>
             </h2>
             <div className="space-y-4">
@@ -233,7 +234,7 @@ export default function ServicesPage() {
                 return (
                   <div key={idx} className="flex items-center gap-4 bg-white dark:bg-gray-900 p-4 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow">
                     <div className="w-10 h-10 rounded-full bg-green-500/10 text-green-500 flex items-center justify-center shrink-0">
-                      <Check className="w-5 h-5" />
+                      <Check className="w-5 h-5" aria-hidden="true" />
                     </div>
                     <span className="text-base font-bold text-gray-800 dark:text-gray-200">{item.text}</span>
                   </div>
@@ -242,21 +243,22 @@ export default function ServicesPage() {
             </div>
           </FadeIn>
           
-          <FadeIn direction="left" className="relative z-10 bg-primary hover:bg-primary/90 transition-colors p-8 md:p-12 rounded-3xl text-white text-center shadow-2xl overflow-hidden group">
+          <FadeIn direction="left" className="relative z-10 bg-primary dark:bg-blue-800 hover:bg-primary/90 transition-colors p-8 md:p-12 rounded-3xl text-white text-center shadow-2xl overflow-hidden group">
             <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             <h3 className="relative z-10 text-3xl md:text-4xl font-black mb-4">🚀 Take the Next Step</h3>
             <p className="relative z-10 text-lg text-white/90 mb-8 font-medium">
               Join now and experience research-driven trading with clarity and confidence
             </p>
-            <Link 
-              href="/signup" 
+            <Link
+              href="/signup"
+              aria-label="Get started - sign up"
               className="relative z-10 inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-full font-black text-lg hover:bg-gray-50 transition-all shadow-xl hover:scale-105 active:scale-95"
             >
               Get Started Today
-              <ArrowRight className="ml-2 w-5 h-5 pointer-events-none" />
+              <ArrowRight className="ml-2 w-5 h-5 pointer-events-none" aria-hidden="true" />
             </Link>
           </FadeIn>
-        </div>
+        </section>
       </div>
 
       <div className="container mx-auto px-4 pb-16 text-center relative z-10 pt-16">
@@ -266,7 +268,7 @@ export default function ServicesPage() {
               <span className="text-2xl">⚠️</span>
               <h4 className="text-lg font-black text-orange-800 dark:text-orange-400">Important Note</h4>
             </div>
-            <p className="text-orange-700/80 dark:text-orange-300/80 font-medium">
+            <p className="text-orange-800 dark:text-orange-300 font-medium">
               All services are provided strictly for educational and research purposes only.
               We do not provide guaranteed returns or personalized investment advice.
             </p>

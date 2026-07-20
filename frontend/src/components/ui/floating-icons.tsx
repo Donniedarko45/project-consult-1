@@ -21,7 +21,7 @@ export function FloatingIcons() {
   ];
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div aria-hidden="true" className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {icons.map(({ Icon, delay, x, y }, index) => (
         <motion.div
           key={index}

@@ -1,10 +1,18 @@
-import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/layout/page-header";
+import { Footer } from "@/components/layout/footer";
 import { FadeIn } from "@/components/ui/fade-in";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "How we collect, use and protect your personal information.",
+};
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
+    <main id="main-content" className="min-h-screen bg-background text-foreground">
       <PageHeader
         title="Privacy Policy"
         description="We are committed to protecting your personal information and ensuring transparency in how your data is used."
@@ -53,7 +61,8 @@ export default function PrivacyPage() {
           </FadeIn>
         ))}
       </div>
-      <Footer />
     </main>
+    <Footer />
+    </>
   );
 }

@@ -44,7 +44,7 @@ export function FAQSection() {
           <h2 className="text-4xl lg:text-6xl font-black text-foreground tracking-tight leading-tight">
             Common <span className="text-primary italic">Questions</span>
           </h2>
-          <p className="text-xl text-gray-400 font-medium max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 font-medium max-w-2xl mx-auto">
             Everything you need to know about our research methodology and subscription services.
           </p>
         </FadeIn>
@@ -62,6 +62,10 @@ export function FAQSection() {
                   }`}
                 >
                   <button
+                    type="button"
+                    id={`faq-trigger-${index}`}
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-panel-${index}`}
                     className="w-full flex justify-between items-center p-8 lg:p-10 text-left transition-colors"
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                   >
@@ -69,7 +73,7 @@ export function FAQSection() {
                       {faq.question}
                     </span>
                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 ${isOpen ? "bg-primary text-secondary rotate-180" : "bg-primary/5 text-primary group-hover:bg-primary/10"}`}>
-                      <ChevronDown className="w-6 h-6" />
+                      <ChevronDown aria-hidden="true" className="w-6 h-6" />
                     </div>
                   </button>
                   
@@ -80,11 +84,14 @@ export function FAQSection() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
+                        id={`faq-panel-${index}`}
+                        role="region"
+                        aria-labelledby={`faq-trigger-${index}`}
                         className="overflow-hidden"
                       >
                         <div className="px-8 lg:px-10 pb-10">
                           <div className="w-full h-px bg-gray-100 dark:bg-white/5 mb-8" />
-                          <p className="text-lg text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+                          <p className="text-lg text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
                             {faq.answer}
                           </p>
                         </div>

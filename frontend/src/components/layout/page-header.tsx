@@ -9,9 +9,9 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, description }: PageHeaderProps) {
   return (
-    <div className="relative bg-primary py-12 md:py-20 z-10 overflow-hidden">
+    <div className="relative bg-primary dark:bg-blue-900 py-12 md:py-20 z-10 overflow-hidden">
       {/* Background Gradients/Effects */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-900 opacity-90" />
+      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-primary dark:from-blue-900 to-blue-900 opacity-90" />
       <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
 
