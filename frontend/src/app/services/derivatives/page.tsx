@@ -101,7 +101,6 @@ export default function DerivativesPage() {
         <div className="text-center">
           <Link
             href="/signup"
-            aria-label="Get started - sign up"
             className="inline-flex items-center gap-3 bg-fuchsia-600 hover:bg-fuchsia-500 text-white px-12 py-5 rounded-full font-black text-xl transition-all shadow-[0_0_50px_rgba(217,70,239,0.3)] hover:scale-105"
           >
             Access F&O Research

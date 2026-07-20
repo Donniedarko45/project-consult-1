@@ -114,7 +114,7 @@ export function Navbar() {
                         href={link.href}
                         aria-haspopup="true"
                         aria-expanded={hoveredServices}
-                        aria-controls="navbar-services-menu"
+                        aria-controls={hoveredServices ? "navbar-services-menu" : undefined}
                         className={`px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
                           isActive || hoveredServices
                             ? "text-primary dark:text-white"
@@ -182,7 +182,7 @@ export function Navbar() {
                         href={link.href}
                         aria-haspopup="true"
                         aria-expanded={hoveredPlans}
-                        aria-controls="navbar-plans-menu"
+                        aria-controls={hoveredPlans ? "navbar-plans-menu" : undefined}
                         className={`px-4 py-2 text-[13px] font-semibold transition-all hover:text-primary dark:hover:text-white flex items-center gap-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-white/5 ${
                           isActive || hoveredPlans
                             ? "text-primary dark:text-white"
@@ -292,7 +292,6 @@ export function Navbar() {
                   </Link>
                   <Link
                     href="/signup"
-                    aria-label="Get started - sign up"
                     className="relative text-xs font-medium bg-primary dark:bg-blue-800 text-white px-5 py-2.5 rounded-xl overflow-hidden group hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
                   >
                     <span className="relative z-10">Get Started</span>
@@ -309,7 +308,7 @@ export function Navbar() {
               type="button"
               aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-navigation-drawer"
+              aria-controls={isMobileMenuOpen ? "mobile-navigation-drawer" : undefined}
               className="xl:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             >
               {isMobileMenuOpen ? (
@@ -433,7 +432,6 @@ export function Navbar() {
                   <Link
                     href="/signup"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    aria-label="Get started - sign up"
                     className="px-4 py-3 rounded-xl text-sm font-bold text-center bg-primary dark:bg-blue-800 text-white shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors"
                   >
                     Get Started

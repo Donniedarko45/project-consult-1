@@ -110,7 +110,6 @@ export default function SwingPage() {
         <div className="mt-32 text-center">
           <Link
             href="/signup"
-            aria-label="Get started - sign up"
             className="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-[#07130F] px-12 py-5 rounded-full font-black text-xl transition-all hover:scale-105 shadow-[0_0_40px_rgba(16,185,129,0.3)]"
           >
             Start Swing Trading

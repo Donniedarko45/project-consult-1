@@ -141,7 +141,8 @@ export function AboutSection() {
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl group aspect-square lg:aspect-auto lg:h-[600px] ring-1 ring-gray-200/50 dark:ring-white/10">
               <Image
                 src="/images/trading_office_team.png"
-                alt="Our Trading Floor"
+                alt=""
+                  aria-hidden="true"
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-110"
               />

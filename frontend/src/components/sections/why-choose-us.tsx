@@ -73,7 +73,8 @@ export function WhyChooseUs() {
               <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10 pointer-events-none" />
               <Image
                 src="/images/dashboard.png"
-                alt="Analytics Dashboard"
+                alt=""
+                  aria-hidden="true"
                 fill
                 className="object-cover transform group-hover:scale-105 transition-transform duration-700"
               />

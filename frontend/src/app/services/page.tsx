@@ -251,7 +251,6 @@ export default function ServicesPage() {
             </p>
             <Link
               href="/signup"
-              aria-label="Get started - sign up"
               className="relative z-10 inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-full font-black text-lg hover:bg-gray-50 transition-all shadow-xl hover:scale-105 active:scale-95"
             >
               Get Started Today

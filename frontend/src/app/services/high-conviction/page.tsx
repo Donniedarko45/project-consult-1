@@ -79,7 +79,6 @@ export default function HighConvictionPage() {
           <p className="text-gray-400 mb-10 max-w-xl mx-auto relative z-10">Stop overtrading. Start waiting for the perfect pitch. Upgrade your access to view highly filtered setups.</p>
           <Link
             href="/signup"
-            aria-label="Get started - sign up"
             className="relative z-10 inline-flex items-center gap-3 bg-gradient-to-r from-yellow-700 to-amber-800 hover:from-yellow-600 hover:to-amber-700 text-white px-12 py-5 rounded-full font-black text-xl transition-all shadow-[0_0_40px_rgba(217,119,6,0.3)] hover:scale-105"
           >
             Unlock Premium Access

@@ -31,7 +31,6 @@ export default function MarketDirectionPage() {
               <div>
                 <Link
                   href="/signup"
-                  aria-label="Get started - sign up"
                   className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_30px_rgba(37,99,235,0.3)] hover:-translate-y-1"
                 >
                   Get Daily Levels
@@ -43,7 +42,8 @@ export default function MarketDirectionPage() {
             <div className="relative w-full aspect-video md:aspect-square rounded-3xl overflow-hidden border border-slate-700/50 shadow-2xl">
                <Image
                   src="/images/market_direction_hero.png"
-                  alt="Market Direction Analysis"
+                  alt=""
+                  aria-hidden="true"
                   fill
                   className="object-cover"
                 />

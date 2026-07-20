@@ -36,7 +36,6 @@ export default function CoursesPage() {
             </p>
             <Link
               href="/signup"
-              aria-label="Get started - sign up"
               className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 rounded-full font-bold transition-all shadow-[0_10px_30px_rgba(79,70,229,0.3)] hover:-translate-y-1"
             >
               Enroll in Flagship Program

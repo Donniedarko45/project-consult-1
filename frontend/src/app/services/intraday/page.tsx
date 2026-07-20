@@ -113,7 +113,6 @@ export default function IntradayPage() {
         <div className="mt-20 text-center">
           <Link
             href="/signup"
-            aria-label="Get started - sign up"
             className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-full font-black text-lg transition-all shadow-[0_10px_40px_rgba(59,130,246,0.4)] hover:-translate-y-1"
           >
             Access Intraday Setups Now

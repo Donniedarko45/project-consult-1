@@ -29,7 +29,6 @@ export default function CashIntradayPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/signup"
-                aria-label="Get started - sign up"
                 className="inline-flex items-center justify-center gap-3 bg-rose-600 hover:bg-rose-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-rose-600/20"
               >
                 View Cash Setups
@@ -42,7 +41,8 @@ export default function CashIntradayPage() {
              <div className="relative w-full aspect-square md:aspect-[4/3] rounded-[32px] overflow-hidden border border-stone-800 shadow-2xl bg-stone-900/50">
                <Image
                   src="/images/cash_intraday_hero.png"
-                  alt="Cash Market Equity Trading"
+                  alt=""
+                  aria-hidden="true"
                   fill
                   className="object-cover"
                 />

@@ -33,31 +33,34 @@ export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div className="bg-primary dark:bg-blue-800 text-white py-2 relative overflow-hidden group">
-        <div className="absolute inset-0 bg-linear-to-r from-orange-600 via-primary to-orange-600 opacity-50 group-hover:animate-pulse" />
         <div className="w-full px-10 relative z-10 flex items-center justify-between ">
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-[9px] font-black uppercase tracking-widest whitespace-nowrap animate-pulse">
-              <AlertCircle aria-hidden="true" className="w-3 h-3 text-orange-200" />
+            <div className="flex items-center gap-1 px-2 py-0.5 bg-black/30 rounded-full border border-white/30 text-[9px] font-black uppercase tracking-widest whitespace-nowrap">
+              <AlertCircle aria-hidden="true" className="w-3 h-3 text-orange-100" />
               Limited Slots
             </div>
-            <p className="text-[11px] font-black tracking-tighter opacity-95 hidden sm:block">
+            <p className="text-[11px] font-black tracking-tighter hidden sm:block">
               Next batch closing soon!{" "}
-              <Link href="/signup" aria-label="Get started - sign up" className="text-yellow-200 italic underline hover:text-white transition-colors cursor-pointer">
-                Join Today.
+              <Link href="/signup" className="text-yellow-200 italic underline hover:text-white transition-colors cursor-pointer">
+                Get Started
               </Link>
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full border border-white/10">
+          <div className="flex items-center gap-2 bg-black/40 px-3 py-1 rounded-full border border-white/30">
             <Timer aria-hidden="true" className="w-3.5 h-3.5 text-yellow-300" />
-            <div className="flex items-center gap-1 font-mono text-xs font-black">
+            <div
+              className="flex items-center gap-1 font-mono text-xs font-black"
+              role="timer"
+              aria-label={`${timeLeft.hours} hours ${timeLeft.minutes} minutes remaining`}
+            >
               <span>{formatTime(timeLeft.hours)}</span>
-              <span className="opacity-50">:</span>
+              <span aria-hidden="true" className="text-white/70">:</span>
               <span>{formatTime(timeLeft.minutes)}</span>
-              <span className="opacity-50">:</span>
+              <span aria-hidden="true" className="text-white/70">:</span>
               <span className="text-yellow-300">{formatTime(timeLeft.seconds)}</span>
             </div>
-            <span className="text-[8px] font-bold uppercase tracking-widest opacity-90">Left</span>
+            <span className="text-[8px] font-bold uppercase tracking-widest">Left</span>
           </div>
         </div>
       </div>
@@ -66,13 +69,10 @@ export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className="bg-orange-700 text-white py-4 relative overflow-hidden group">
-      {/* Animated Background Ticker Effect */}
-      <div className="absolute inset-0 bg-linear-to-r from-orange-800 via-orange-700 to-orange-800 opacity-50 group-hover:animate-pulse" />
-      
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 lg:gap-12">
           {/* Urgency Badge */}
-          <div className="flex items-center gap-2 px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30 animate-bounce">
+          <div className="flex items-center gap-2 px-4 py-1.5 bg-black/30 rounded-full border border-white/30">
             <AlertCircle aria-hidden="true" className="w-4 h-4 fill-white text-orange-700" />
             <span className="text-xs font-black uppercase tracking-widest whitespace-nowrap">
               Limited Slots Available
@@ -81,22 +81,26 @@ export function UrgencyStrip({ compact = false }: { compact?: boolean }) {
 
           <p className="text-lg lg:text-xl font-black tracking-tight text-center">
             Next Research Batch Closing Soon!{" "}
-            <Link href="/signup" aria-label="Get started - sign up" className="text-yellow-200 italic underline hover:text-white transition-colors cursor-pointer hover:scale-105 inline-block">
-              Join Today.
+            <Link href="/signup" className="text-yellow-100 italic underline hover:text-white transition-colors cursor-pointer hover:scale-105 inline-block">
+              Get Started
             </Link>
           </p>
 
           {/* Countdown Timer */}
-          <div className="flex items-center gap-3 bg-black/20 px-6 py-2 rounded-2xl border border-white/10 backdrop-blur-sm">
+          <div className="flex items-center gap-3 bg-black/40 px-6 py-2 rounded-2xl border border-white/30">
             <Timer aria-hidden="true" className="w-5 h-5 text-yellow-300" />
-            <div className="flex items-center gap-1.5 font-mono text-xl lg:text-2xl font-black tracking-tighter">
+            <div
+              className="flex items-center gap-1.5 font-mono text-xl lg:text-2xl font-black tracking-tighter"
+              role="timer"
+              aria-label={`${timeLeft.hours} hours ${timeLeft.minutes} minutes remaining`}
+            >
               <span className="w-8 lg:w-10 text-center">{formatTime(timeLeft.hours)}</span>
-              <span className="opacity-50">:</span>
+              <span aria-hidden="true" className="text-white/70">:</span>
               <span className="w-8 lg:w-10 text-center">{formatTime(timeLeft.minutes)}</span>
-              <span className="opacity-50">:</span>
+              <span aria-hidden="true" className="text-white/70">:</span>
               <span className="w-8 lg:w-10 text-center text-yellow-300">{formatTime(timeLeft.seconds)}</span>
             </div>
-            <span className="text-[10px] font-black uppercase tracking-widest opacity-90 pl-2">Left</span>
+            <span className="text-[10px] font-black uppercase tracking-widest pl-2">Left</span>
           </div>
         </div>
       </div>

@@ -44,7 +44,6 @@ export default function BTSTPage() {
 
             <Link
               href="/signup"
-              aria-label="Get started - sign up"
               className="inline-flex items-center gap-3 bg-cyan-500 hover:bg-cyan-400 text-[#050B14] px-8 py-4 rounded-xl font-black text-lg transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)]"
             >
               Get Started

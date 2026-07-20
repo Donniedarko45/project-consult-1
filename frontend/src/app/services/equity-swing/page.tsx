@@ -46,10 +46,9 @@ export default function EquitySwingPage() {
               <div className="mt-12">
                 <Link
                   href="/signup"
-                  aria-label="Get started - sign up"
                   className="inline-block bg-orange-700 hover:bg-orange-800 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg"
                 >
-                  Join The Swing Setups
+                  Get Started
                 </Link>
               </div>
            </FadeIn>
